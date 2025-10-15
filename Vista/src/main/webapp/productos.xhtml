@@ -312,6 +312,15 @@
             margin-right: 8px;
             font-size: 16px;
         }
+
+        .ui-confirmdialog {
+            z-index: 1100 !important;
+        }
+
+        .ui-widget-overlay {
+            z-index: 1000 !important;
+        }
+
     </style>
 </h:head>
 
@@ -401,7 +410,7 @@
                                      type="button"/>
 
                     <p:commandButton value="Baja de Producto" icon="pi pi-trash" styleClass="btn-baja"
-                                     type="button"/>
+                                     onclick="PF('dlgEliminarProducto').show();" type="button"/>
 
                 </div>
 
@@ -427,6 +436,59 @@
     </div>
 
     <!-- dialogs -->
+    <!-- baja de clases -->
+    <!-- Diálogo de eliminación -->
+    <h:form id="formEliminarProducto">
+        <p:dialog header="Eliminar Producto" widgetVar="dlgEliminarProducto"
+                  modal="true" resizable="false" closable="true"
+                  draggable="false" width="360">
+
+            <!-- Mensajes del backend -->
+            <p:messages id="msgsEliminarProducto" showDetail="true" closable="true"/>
+
+            <div class="form-group">
+                <h:outputLabel for="idEliminarProducto" value="ID del Producto"/>
+                <p:inputText id="idEliminarProducto"
+                             value="#{bajaProductoBeanUI.idProducto}"
+                             placeholder="ID del producto a eliminar"
+                             required="true"
+                             requiredMessage="El campo ID es obligatorio"/>
+            </div>
+
+            <!-- Botón que abre el modal de confirmación -->
+            <p:commandButton id="abrirConfirmarProductoBtn" value="Eliminar Producto"
+                             icon="pi pi-times-circle"
+                             styleClass="btn-baja"
+                             onclick="PF('dlgConfirmar').show(); return false;"
+                             type="button"/>
+
+            <!-- Diálogo de confirmación -->
+            <p:confirmDialog id="confirmDialog"
+                             widgetVar="dlgConfirmar"
+                             header="Confirmar Eliminación"
+                             message="¿Seguro que deseas eliminar este producto?"
+                             icon="pi pi-exclamation-triangle"
+                             closable="false" modal="true">
+
+                <!-- Botón SÍ -->
+                <p:commandButton value="Sí, eliminar"
+                                 icon="pi pi-check"
+                                 action="#{bajaProductoBeanUI.eliminarProducto}"
+                                 process="@form"
+                                 update="msgsEliminarProducto :formProductos:tablaProductos"
+                                 oncomplete="PF('dlgConfirmar').hide();"
+                                 style="background:#007bff !important; color:#fff !important; border:none !important;"/>
+
+                <!-- Botón CANCELAR -->
+                <p:commandButton value="Cancelar"
+                                 icon="pi pi-times"
+                                 onclick="PF('dlgConfirmar').hide(); return false;"
+                                 type="button"
+                                 style="background:#007bff !important; color:#fff !important; border:none !important;"/>
+            </p:confirmDialog>
+        </p:dialog>
+    </h:form>
+
 
 </h:body>
 </html>
