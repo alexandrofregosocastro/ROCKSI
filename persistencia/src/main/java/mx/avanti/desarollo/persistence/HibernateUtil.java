@@ -12,11 +12,11 @@ public class HibernateUtil {
     private static final EntityManagerFactory ENTITY_MANAGER_FACTORY = buildEntityManagerFactory();
 
     /**
-     * Crea la instancia de EntityManagerFactory a partir del archivo persistencexml.
+     * Crea la instancia de EntityManagerFactory a partir del archivo persistence.xml.
      */
     private static EntityManagerFactory buildEntityManagerFactory() {
         try {
-            return Persistence.createEntityManagerFactory("ROCKSIPU");
+            return Persistence.createEntityManagerFactory("persistencePU");
         } catch (Throwable ex) {
             System.err.println("Error creando EntityManagerFactory: " + ex);
             throw new ExceptionInInitializerError(ex);
