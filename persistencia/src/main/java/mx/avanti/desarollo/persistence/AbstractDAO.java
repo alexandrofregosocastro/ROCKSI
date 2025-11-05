@@ -56,10 +56,11 @@ public abstract class AbstractDAO<T> {
 
     // Find all
     public List<T> findAll() {
-        return execute(em ->
-                em.createQuery("SELECT e FROM " + entityClass.getSimpleName() + " e", entityClass)
-                        .getResultList()
-        );
+        return execute(em -> {
+            em.clear(); //limpia la caché del contexto antes de la consulta
+            return em.createQuery("SELECT e FROM " + entityClass.getSimpleName() + " e", entityClass)
+                    .getResultList();
+        });
     }
 
     public T saveOrUpdate(T entity) {

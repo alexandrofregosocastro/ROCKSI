@@ -1,12 +1,14 @@
 package mx.desarollo.integration;
 
+import mx.desarollo.facade.ClaseFacade;
 import mx.desarollo.facade.ClienteFacade;
-import mx.desarollo.facade.FacadeUsuario;
+import mx.desarollo.facade.ProductoFacade;
 
 public class ServiceFacadeLocator {
 
     private static ClienteFacade ClienteFacade;
-    private static FacadeUsuario facadeUsuario;
+    private static ClaseFacade ClaseFacade;
+    private static ProductoFacade ProductoFacade;
 
     public static ClienteFacade getInstanceClienteFacade() {
         if (ClienteFacade == null) {
@@ -16,13 +18,23 @@ public class ServiceFacadeLocator {
             return ClienteFacade;
         }
     }
-
-    public static FacadeUsuario getInstanceFacadeUsuario() {
-        if (facadeUsuario == null) {
-            facadeUsuario = new FacadeUsuario();
-            return facadeUsuario;
-        } else {
-            return facadeUsuario;
+    public static ClaseFacade getInstanceClaseFacade() {
+        if(ClaseFacade == null){
+            ClaseFacade = new ClaseFacade();
+            return ClaseFacade;
+        }
+        else{
+            return ClaseFacade;
         }
     }
+    public static ProductoFacade getInstanceProductoFacade() {
+        if(ProductoFacade == null){
+            ProductoFacade = new ProductoFacade();
+            return ProductoFacade;
+        }
+        else{
+            return ProductoFacade;
+        }
+    }
+
 }

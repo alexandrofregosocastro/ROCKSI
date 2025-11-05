@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:p="http://xmlns.jcp.org/xml/ns/persistence/orm">
+<h:head>
+    <title>Rock On - Dashboard</title>
+    <meta charset="UTF-8"/>
+    <style>
+
+        body {
+            margin: 0;
+            font-family: "Poppins", Arial, sans-serif;
+            background-color: #f8f9fb;
+        }
+
+        /* BARRA LATERAL */
+        .sidebar {
+            width: 220px;
+            height: 100vh;
+            background: #007bcb;
+            color: white;
+            position: fixed;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        /* Menú principal dentro de la barra lateral */
+        .sidebar .menu {
+            width: 100%;
+            padding-top: 30px;
+        }
+
+        /* Enlaces del menú  */
+        .sidebar a,
+        .sidebar h\:commandLink {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: white !important;
+            text-decoration: none !important;
+            padding: 10px 20px;
+            font-size: 15px;
+            transition: background 0.3s, transform 0.2s;
+            margin-bottom: 10px;
+        }
+
+        /* Hover y estado activo */
+        .sidebar a:hover,
+        .sidebar h\:commandLink:hover,
+        .sidebar .active {
+            background: #0061a6 !important;
+            border-radius: 6px;
+        }
+
+        /* Ícono dentro del menú */
+        .menu-icon {
+            width: 22px;
+            height: 22px;
+            filter: brightness(0) invert(1); /* blanco */
+            transition: transform 0.2s ease;
+        }
+
+        /* Animación de ícono al pasar el mouse */
+        .sidebar h\:commandLink:hover .menu-icon {
+            transform: scale(1.15);
+        }
+
+        /* Logo inferior */
+        .sidebar .logo-bottom {
+            padding: 25px 0;
+        }
+
+        .sidebar .logo-bottom img {
+            width: 130px;
+            border-radius: 50%;
+        }
+
+
+        /* CONTENIDO PRINCIPAL */
+
+        .main-content {
+            margin-left: 220px;
+            padding: 10px 10px 10px;
+            margin-bottom: 100px;
+        }
+
+        /* Encabezado superior */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #007bcb;
+        }
+
+        .header img {
+            height: 60px;
+        }
+
+
+        /* TARJETAS (CONTAINER DE TABLAS) */
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px 30px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+        }
+
+        .card h2 {
+            margin: 0;
+            font-size: 22px;
+            color: #111;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Botón "Registrar Ingreso" */
+        .register-btn {
+            background: #007bcb;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 8px 18px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .register-btn:hover {
+            background: #0056b3;
+        }
+
+        /* TABLAS */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th {
+            text-align: left;
+            padding: 10px;
+            font-weight: 600;
+            font-size: 15px;
+            border-bottom: 2px solid #ddd;
+        }
+
+        td {
+            padding: 10px;
+            font-size: 14px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .negative {
+            color: red;
+            font-weight: 600;
+        }
+
+        .positive {
+            color: #111;
+        }
+    </style>
+    <f:metadata>
+        <f:viewAction action="#{homeBeanUI.init}" />
+    </f:metadata>
+</h:head>
+
+<h:body>
+
+    <!-- Barra lateral -->
+    <div class="sidebar">
+        <div class="menu">
+            <h:form>
+                <!-- HOME -->
+                <h:commandLink action="home.xhtml?faces-redirect=true"
+                               actionListener="#{menuBeanUI.setActivePage('home')}"
+                               styleClass="#{menuBeanUI.activePage eq 'home' ? 'active' : ''}">
+                    <img src="resources-20250903T164359Z-1-001/resources/home.png" alt="Home Icon" class="menu-icon"/>
+                    <span>Home</span>
+                </h:commandLink>
+
+                <!-- CLIENTES -->
+                <h:commandLink action="clientes.xhtml?faces-redirect=true"
+                               actionListener="#{menuBeanUI.setActivePage('clientes')}"
+                               styleClass="#{menuBeanUI.activePage eq 'clientes' ? 'active' : ''}">
+                    <img src="resources-20250903T164359Z-1-001/resources/clientes.png" alt="Clientes Icon" class="menu-icon"/>
+                    <span>Clientes</span>
+                </h:commandLink>
+
+                <!-- TIENDA -->
+                <h:commandLink action="tienda.xhtml?faces-redirect=true"
+                               actionListener="#{menuBeanUI.setActivePage('tienda')}"
+                               styleClass="#{menuBeanUI.activePage eq 'tienda' ? 'active' : ''}">
+                    <img src="resources-20250903T164359Z-1-001/resources/tienda.png" alt="Tienda Icon" class="menu-icon"/>
+                    <span>Tienda</span>
+                </h:commandLink>
+
+                <!-- CLASES -->
+                <h:commandLink action="clases.xhtml?faces-redirect=true"
+                               actionListener="#{menuBeanUI.setActivePage('clases')}"
+                               styleClass="#{menuBeanUI.activePage eq 'clases' ? 'active' : ''}">
+                    <img src="resources-20250903T164359Z-1-001/resources/clases.png" alt="Clases Icon" class="menu-icon"/>
+                    <span>Clases</span>
+                </h:commandLink>
+
+                <!-- PAGOS -->
+                <h:commandLink action="pagos.xhtml?faces-redirect=true"
+                               actionListener="#{menuBeanUI.setActivePage('pagos')}"
+                               styleClass="#{menuBeanUI.activePage eq 'pagos' ? 'active' : ''}">
+                    <img src="resources-20250903T164359Z-1-001/resources/pagos.png" alt="Pagos Icon" class="menu-icon"/>
+                    <span>Pagos</span>
+                </h:commandLink>
+            </h:form>
+        </div>
+
+        <!-- Logo inferior -->
+        <div class="logo-bottom">
+            <img src="resources-20250903T164359Z-1-001/resources/rockon-icon.png" alt="Rock On Logo"/>
+        </div>
+    </div>
+
+
+    <!-- Contenido principal -->
+    <div class="main-content">
+        <div class="header">
+            <img src="resources-20250903T164359Z-1-001/resources/Rock_on_text_logo.png" alt="Rock On Title"/>
+        </div>
+
+        <!-- Tabla de Clientes Ingresados -->
+        <div class="card">
+            <h2>Clientes Ingresados
+                <button class="register-btn"> Registrar Ingreso</button>
+            </h2>
+            <table>
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Membresía</th>
+                    <th>Crédito</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>CLI1</td>
+                    <td>Sebastian</td>
+                    <td>Activa</td>
+                    <td class="positive">$100</td>
+                </tr>
+                <tr>
+                    <td>CLI2</td>
+                    <td>Sebastian</td>
+                    <td>Activa</td>
+                    <td class="negative">-$100</td>
+                </tr>
+                <tr>
+                    <td>CLI3</td>
+                    <td>Sebastian</td>
+                    <td>Activa</td>
+                    <td class="positive">$100</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- esto sirve para precargar la bd y no tenga que haber una "primera interaccion tardada" -->
+        <h:form>
+            <p:dataTable value="#{homeBeanUI.listaClientes}" var="cli"
+                         paginator="true" rows="5"
+                         emptyMessage="No hay clientes registrados">
+                <p:column headerText="ID">
+                    <h:outputText value="#{cli.idCliente}" />
+                </p:column>
+                <p:column headerText="Nombre">
+                    <h:outputText value="#{cli.nombreCompleto}" />
+                </p:column>
+            </p:dataTable>
+        </h:form>
+
+        <!-- Tabla de Clases de hoy -->
+        <div class="card">
+            <h2>Clases de hoy</h2>
+            <table>
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Horario</th>
+                    <th>Maestro</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>CLA1</td>
+                    <td>Calistenia</td>
+                    <td>11:00–12:00</td>
+                    <td>Sebastian Charles</td>
+                </tr>
+                <tr>
+                    <td>CLA2</td>
+                    <td>Calistenia</td>
+                    <td>11:00–12:00</td>
+                    <td>Sebastian Charles</td>
+                </tr>
+                <tr>
+                    <td>CLA3</td>
+                    <td>Calistenia</td>
+                    <td>11:00–12:00</td>
+                    <td>Sebastian Charles</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</h:body>
+</html>

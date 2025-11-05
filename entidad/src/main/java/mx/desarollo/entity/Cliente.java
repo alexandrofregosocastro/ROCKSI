@@ -8,10 +8,11 @@ import java.util.*;
 @Table(name = "cliente")
 public class Cliente {
 
+    private static int contador = 1000;
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID_Cliente")
-    private int idCliente;
+    @Column(name = "ID_Cliente", length = 45)
+    private String idCliente;
 
     @Column(name = "nombreCompleto", nullable = false, length = 100)
     private String nombreCompleto;
@@ -23,37 +24,65 @@ public class Cliente {
     @Column(name = "fechaRegistro")
     private Date fechaRegistro;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ID_Membresia")
-    private Membresia idMembresia;
+     /*
+     @OneToMany(mappedBy = "cliente", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    private List<Pago> historialPagos = new ArrayList<>();
+     */
 
-    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Pago> historialCompras;
-
-    @ManyToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
-    private List<Clase> clases;
+    @ManyToMany
+    @JoinTable( //Aqui se hace un join para realizar la tabla puente de estainscrito dentro de la BD
+            name = "estainscrito",
+            joinColumns = @JoinColumn(name = "ID_Cliente"),
+            inverseJoinColumns = @JoinColumn(name = "ID_Clase")
+    )
+    private List<Clase> clases = new ArrayList<>();
 
     @Column(name = "credito")
     private double credito;
 
-    //constructores
-    public Cliente() {}
+    @Column(name = "sexo")
+    private String sexo;
 
-    public Cliente(String nombreCompleto, String telefono, Date fechaRegistro,
-                   Membresia idMembresia, double credito) {
+    @Column(name = "segundoTelefono")
+    private String segundoTelefono;
+
+    @Column(name = "cantidadDineroMensual")
+    private double cantidadDineroMensual;
+
+    //constructores
+
+    public Cliente() { }
+
+
+    public Cliente(String nombreCompleto, String telefono, double credito, String sexo, String segundoTelefono) {
+        this.idCliente = generarNuevoId();
         this.nombreCompleto = nombreCompleto;
         this.telefono = telefono;
-        this.fechaRegistro = fechaRegistro;
-        this.idMembresia = idMembresia;
+        this.fechaRegistro = new Date();
         this.credito = credito;
+        this.sexo = sexo;
+        this.segundoTelefono = segundoTelefono;
+        this.cantidadDineroMensual = 0;
+    }
+
+    // metodo para creacion de ID
+    public static synchronized String generarNuevoId() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("CLI").append(contador++);
+        return sb.toString();
+    }
+
+    // permite al DAO actualizar el contador
+    public static void setContador(int nuevoValor) {
+        contador = nuevoValor;
     }
 
     //getters y setters
-    public int getIdCliente() {
+    public String getIdCliente() {
         return idCliente;
     }
 
-    public void setIdCliente(int idCliente) {
+    public void setIdCliente(String idCliente) {
         this.idCliente = idCliente;
     }
 
@@ -81,20 +110,20 @@ public class Cliente {
         this.fechaRegistro = fechaRegistro;
     }
 
-    public Membresia getIdMembresia() {
-        return idMembresia;
+    public double getCredito() {
+        return credito;
     }
 
-    public void setIdMembresia(Membresia idMembresia) {
-        this.idMembresia = idMembresia;
+    public void setCredito(double credito) {
+        this.credito = credito;
     }
 
-    public List<Compra> getHistorialCompras() {
-        return historialCompras;
-    }
-
-    public void setHistorialCompras(List<Compra> historialCompras) {
-        this.historialCompras = historialCompras;
+    @Transient
+    public String getApellido() {
+        if(nombreCompleto != null && nombreCompleto.contains(" ")) {
+            return nombreCompleto.substring(nombreCompleto.indexOf(' ') + 1);
+        }
+        return "";
     }
 
     public List<Clase> getClases() {
@@ -105,11 +134,17 @@ public class Cliente {
         this.clases = clases;
     }
 
-    public double getCredito() {
-        return credito;
-    }
+    public String getSegundoTelefono() {return segundoTelefono;}
 
-    public void setCredito(double credito) {
-        this.credito = credito;
-    }
+    public void setSegundoTelefono(String segundoTelefono) {this.segundoTelefono = segundoTelefono;}
+
+    public String getSexo() {return sexo;}
+
+    public void setSexo(String sexo) {this.sexo = sexo;}
+
+    public double getCantidadDineroMensual() {return cantidadDineroMensual;}
+
+    public void setCantidadDineroMensual(double cantidadDineroMensual) {this.cantidadDineroMensual = cantidadDineroMensual;}
+
+
 }
