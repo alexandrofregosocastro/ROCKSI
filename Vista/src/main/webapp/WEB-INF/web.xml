@@ -28,6 +28,6 @@
     </session-timeout>
   </session-config>
   <welcome-file-list>
-    <welcome-file>PBI-GPA-US1.xhtml</welcome-file>
+    <welcome-file>home.xhtml</welcome-file>
   </welcome-file-list>
 </web-app>
