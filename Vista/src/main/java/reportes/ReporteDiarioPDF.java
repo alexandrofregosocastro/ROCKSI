@@ -115,7 +115,7 @@ public class ReporteDiarioPDF {
         //Caja
         crearSeccionEncabezado(doc, "Caja");
 
-        CajaReporteDTO caja = datos.getCaja(); // Obtenemos el DTO de la caja
+        CajaReporteDTO caja = datos.getCaja();
 
         doc.add(new Paragraph("Dinero con el que inició caja").setBold());
         doc.add(new Paragraph(caja.getDineroInicial() + "\n"));
