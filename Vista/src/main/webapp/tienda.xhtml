@@ -700,7 +700,8 @@
 
                         <p:commandButton value="Cobrar"
                                          icon="pi pi-check"
-                                         onclick="PF('dlgAskId1').show();"
+                                         actionListener="#{tiendaBeanUI.validarCarrito}"
+                                         oncomplete="if (!args.validationFailed) { PF('dlgMetodoPago1').show(); }"
                                          update="tablaCarrito totalBox msgs"
                                          styleClass="btn-cobrar" />
                     </div>
@@ -970,57 +971,6 @@
     </p:dialog>
 
     <h:form id="formPrincipal">
-        <p:dialog header="Identifícate" widgetVar="dlgAskId1" modal="true"
-                  resizable="false" closable="true" draggable="false" width="360">
-            <h:panelGrid columns="1" style="width:100%; text-align:center;">
-                <p:messages id="msgsId1" showDetail="true" closable="true"/>
-                <div class="form-group">
-                    <h:outputLabel for="searchId1" value="ID Usuario Recepcionista"/>
-                    <p:inputText id="searchId1"
-                                 value="#{tiendaBeanUI.idUR}"
-                                 placeholder="Ej. UR0001"
-                                 styleClass="form-control"
-                                 required="true"
-                                 requiredMessage="El ID es obligatorio"/>
-                </div>
-
-                <p:commandButton value="Siguiente"
-                                 icon="pi pi-search"
-                                 action="#{tiendaBeanUI.verificarUsuario}"
-                                 update="msgsId1"
-                                 process="@this searchId1"
-                                 oncomplete="if (!args.validationFailed) { PF('dlgAskId1').hide(); PF('dlgAskPass1').show(); }"
-                                 styleClass="ui-button"
-                                 style="background:#007bff !important; color:#fff !important; border:none !important;"/>
-
-            </h:panelGrid>
-        </p:dialog>
-
-        <p:dialog header="Ingresa tu contraseña" widgetVar="dlgAskPass1" modal="true"
-                  resizable="false" closable="true" draggable="false" width="360">
-            <h:panelGrid columns="1" style="width:100%; text-align:center;">
-                <p:messages id="msgsPass1" showDetail="true" closable="true"/>
-                <div class="form-group">
-                    <h:outputLabel for="pass1" value="Contraseña del Recepcionista"/>
-                    <p:password id="pass1"
-                                value="#{tiendaBeanUI.contrasenaUR}"
-                                feedback="false"
-                                styleClass="form-control"
-                                required="true"
-                                requiredMessage="Debe ingresar la contraseña"/>
-                </div>
-
-                <p:commandButton value="Validar"
-                                 icon="pi pi-lock"
-                                 action="#{tiendaBeanUI.validarContrasena}"
-                                 update="msgsPass1"
-                                 process="@this pass1"
-                                 oncomplete="if (!args.validationFailed) { PF('dlgAskPass1').hide(); PF('dlgMetodoPago1').show(); }"
-                                 styleClass="ui-button"
-                                 style="background:#007bff !important; color:#fff !important; border:none !important;"/>
-            </h:panelGrid>
-        </p:dialog>
-
         <p:dialog header="Seleccionar Método de Pago" widgetVar="dlgMetodoPago1"
                   modal="true" resizable="false" closable="true" draggable="false" width="360">
             <h:panelGrid id="panelMetodoPago1" columns="1" style="width:100%; text-align:center;">

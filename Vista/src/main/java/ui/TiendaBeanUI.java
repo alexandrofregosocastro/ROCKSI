@@ -4,6 +4,7 @@ import helper.*;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
+import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import mx.desarollo.entity.*;
 import org.primefaces.PrimeFaces;
@@ -21,6 +22,9 @@ import java.util.Optional;
 public class TiendaBeanUI implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    @Inject
+    private LoginBeanUI loginBeanUI;
 
     private List<ItemCarrito> carrito;
     private double total;
@@ -176,7 +180,7 @@ public class TiendaBeanUI implements Serializable {
     }
 
     // Esta funcion verifica si el ID del recepcionista es valido o existente
-    public void verificarUsuario() {
+    /**public void verificarUsuario() {
         FacesContext fc = FacesContext.getCurrentInstance();
         try {
             // Si el ID se deja vacio
@@ -186,7 +190,7 @@ public class TiendaBeanUI implements Serializable {
             // Si se ingreso algo en campo de ID en el xhtml entonces obtiene al usuario con su ID
             usuarioRecepcionista = usuarioHelper.obtenerUsuarioR(idUR.trim());
             // Si el usuario es null quiere decir que no se encontro un usuario con ese ID
-            if (usuarioRecepcionista == null)
+            /**if (usuarioRecepcionista == null)
                 throw new Exception("No se encontró un usuario con ese ID.");
 
             // Si se ecuentra un usuario entonces devuelve el mensaje Usuario verificado...
@@ -197,7 +201,7 @@ public class TiendaBeanUI implements Serializable {
             fc.validationFailed();
             fc.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al verificar usuario", e.getMessage()));
         }
-    }
+    }**/
 
     /**
      * Metodo para verificar al usuario primeramente el ID del UR que llamara a la instancia de usuarioHelper
@@ -205,7 +209,7 @@ public class TiendaBeanUI implements Serializable {
      * @Params ninguno
      * @return void
      */
-    public void validarContrasena() {
+    /**public void validarContrasena() {
         FacesContext fc = FacesContext.getCurrentInstance();
         try {
             // Si el usuario es nulo quiere decir que primeramte no se ah encontrado el usuarioRecepcionista y que se debe enontrar para poder ingresar su contraseña
@@ -228,7 +232,7 @@ public class TiendaBeanUI implements Serializable {
             // Si no, entonces muestra el siguiente mensaje
             fc.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error de autenticación", e.getMessage()));
         }
-    }
+    }*/
 
     /**
      * Metodo para realizar un pago en efectivo de carrito
@@ -240,8 +244,8 @@ public class TiendaBeanUI implements Serializable {
         FacesContext fc = FacesContext.getCurrentInstance();
         try {
             // Valida recepcionista
-            if (usuarioRecepcionista == null)
-                throw new Exception("Debe validar un recepcionista antes de realizar el pago.");
+            /*if (usuarioRecepcionista == null)
+                throw new Exception("Debe validar un recepcionista antes de realizar el pago.");*/
 
             // Valida productos en el carrito
             if (carrito == null || carrito.isEmpty()) {
@@ -293,7 +297,7 @@ public class TiendaBeanUI implements Serializable {
 
             for (ItemCarrito item : carrito) {
                 Paga pagaItem = new Paga();
-                pagaItem.setIdUsuariorecep(usuarioRecepcionista.getIdUsuariorecep());
+                pagaItem.setIdUsuariorecep(loginBeanUI.getIdUsuario());// Toma el id del Usuario que haya iniciado sesion
                 pagaItem.setFecha(LocalDate.now());
                 pagaItem.setIdCliente(cliente);
 
@@ -341,8 +345,8 @@ public class TiendaBeanUI implements Serializable {
         FacesContext fc = FacesContext.getCurrentInstance();
         try {
             // Valida recepcionista
-            if (usuarioRecepcionista == null)
-                throw new Exception("Debe validar un recepcionista antes de realizar el pago.");
+            /*if (usuarioRecepcionista == null)
+                throw new Exception("Debe validar un recepcionista antes de realizar el pago.");*/
 
             // Valida cliente
             if (cliente == null)
@@ -377,7 +381,7 @@ public class TiendaBeanUI implements Serializable {
 
             for (ItemCarrito item : carrito) {
                 Paga pagaItem = new Paga();
-                pagaItem.setIdUsuariorecep(usuarioRecepcionista.getIdUsuariorecep());
+                pagaItem.setIdUsuariorecep(loginBeanUI.getIdUsuario());// Toma el id del Usuario que haya iniciado sesion
                 pagaItem.setFecha(LocalDate.now());
                 pagaItem.setIdCliente(cliente);
 
@@ -423,8 +427,8 @@ public class TiendaBeanUI implements Serializable {
         FacesContext fc = FacesContext.getCurrentInstance();
         try {
             // Valida recepcionista
-            if (usuarioRecepcionista == null)
-                throw new Exception("Debe validar un recepcionista antes de realizar el pago.");
+            /*if (usuarioRecepcionista == null)
+                throw new Exception("Debe validar un recepcionista antes de realizar el pago.");*/
 
             // Valida cliente
             if (cliente == null)
@@ -459,7 +463,7 @@ public class TiendaBeanUI implements Serializable {
 
             for (ItemCarrito item : carrito) {
                 Paga pagaItem = new Paga();
-                pagaItem.setIdUsuariorecep(usuarioRecepcionista.getIdUsuariorecep());
+                pagaItem.setIdUsuariorecep(loginBeanUI.getIdUsuario()); // Toma el id del Usuario que haya iniciado sesion
                 pagaItem.setFecha(LocalDate.now());
                 pagaItem.setIdCliente(cliente);
 
@@ -682,6 +686,14 @@ public class TiendaBeanUI implements Serializable {
         } else {
             montoFaltante = 0.0;
             montoCambio = montoIngresado - montoTotal;
+        }
+    }
+
+    public void validarCarrito() { //Esta funcion evita que se pueda entrar a cobrar sin productos en el carrito.
+        FacesContext fc = FacesContext.getCurrentInstance();
+        if (carrito == null || carrito.isEmpty()) {
+            fc.validationFailed(); // Esto le avisa a primefaces que la validación fallo
+            fc.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Carrito vacío", "Agrega al menos un producto antes de cobrar."));
         }
     }
 
