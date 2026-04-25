@@ -5,22 +5,19 @@ import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.NoResultException;
 import mx.avanti.desarollo.persistence.AbstractDAO;
 import mx.desarollo.entity.Cliente;
+import mx.desarollo.entity.Membresia;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
 public class ClienteDAO extends AbstractDAO<Cliente> {
 
     private final EntityManager entityManager;
-    private static boolean contadorInicializado = false;
 
     public ClienteDAO(EntityManager em) {
         super(Cliente.class);
         this.entityManager = em;
-        if (!contadorInicializado) {
-            sincronizarContador();
-            contadorInicializado = true;
-        }
     }
 
     public EntityManager getEntityManager() {
@@ -33,7 +30,7 @@ public class ClienteDAO extends AbstractDAO<Cliente> {
             cliente.setEstatus(1);
 
             if (cliente.getIdCliente() == null || cliente.getIdCliente().isEmpty()) {
-                cliente.setIdCliente(Cliente.generarNuevoId());
+                cliente.setIdCliente(generarSiguienteIdCliente());
             }
 
             tx = entityManager.getTransaction();
@@ -55,47 +52,66 @@ public class ClienteDAO extends AbstractDAO<Cliente> {
     /*
     En esta funcion se inicializa el contador para su respectivo ID que empieza con CLI
      */
-    private void sincronizarContador() {
+    public String generarSiguienteIdCliente() {
         try {
-            String ultimoId = entityManager
-                    .createQuery("SELECT c.idCliente FROM Cliente c WHERE c.idCliente LIKE 'CLI%' ORDER BY c.idCliente DESC", String.class)
-                    .setMaxResults(1)
-                    .getSingleResult();
+            // Consulta nativa que corta "CLI", convierte el resto a número y busca el máximo absoluto
+            String sql = "SELECT MAX(CAST(SUBSTRING(ID_Cliente, 4) AS UNSIGNED)) FROM cliente";
+            Object resultado = entityManager.createNativeQuery(sql).getSingleResult();
 
-            if (ultimoId != null && ultimoId.startsWith("CLI")) {
-                int numero = Integer.parseInt(ultimoId.substring(3));
-                Cliente.setContador(numero + 1);
-                System.out.println("Contador sincronizado con base de datos: siguiente CLI" + (numero + 1));
+            if (resultado != null) {
+                int maxNumero = ((Number) resultado).intValue();
+                return "CLI" + (maxNumero + 1);
+            } else {
+                return "CLI1000"; // Si la tabla está vacía inicia aquí
             }
-        } catch (NoResultException e) {
-            Cliente.setContador(1000);
-            System.out.println("No hay clientes registrados. Contador iniciado en CLI1000");
         } catch (Exception e) {
-            Cliente.setContador(1000);
-            System.err.println("Error sincronizando contador, se mantiene en CLI1000: " + e.getMessage());
+            System.err.println("Error al generar ID de Cliente: " + e.getMessage());
+            return "CLI" + System.currentTimeMillis(); // Fallback de emergencia
         }
     }
 
-    //Metodo para eliminar el cliente
     public boolean eliminarCliente(String idCliente) {
         EntityTransaction et = null;
         boolean eliminado = false;
 
         try {
-            et = entityManager.getTransaction();//Aqui se abre la transaccion necesaria hacia la BD
+            et = entityManager.getTransaction();
             et.begin();
 
-            Cliente cliente = entityManager.find(Cliente.class, idCliente);//Encuentra el id del cliente
+            Cliente cliente = entityManager.find(Cliente.class, idCliente);
 
             if (cliente != null) {
-                cliente.setEstatus(0); //0, es decir, eliminado
-                entityManager.merge(cliente); //Se guarda el cambio
+                // 1. Soft Delete del cliente
+                cliente.setEstatus(0);
+                entityManager.merge(cliente);
+
+                // Cancelar membresía de tipo 'membresia'
+                try {
+                    // Buscamos la membresía principal ligada a este cliente
+                    Membresia membresiaPrincipal = entityManager.createQuery(
+                                    "SELECT m FROM Membresia m WHERE m.idCliente.idCliente = :idCliente AND m.tipo = 'membresia'", Membresia.class)
+                            .setParameter("idCliente", idCliente)
+                            .getSingleResult();
+
+                    if (membresiaPrincipal != null) {
+                        // Le ponemos fecha de vencimiento de ayer para invalidarla
+                        // Sin borrar el registro para mantener la integridad con el historial de pagos
+                        membresiaPrincipal.setFechaVencimiento(LocalDate.now().minusDays(1));
+                        entityManager.merge(membresiaPrincipal);
+                    }
+                } catch (Exception e) {
+
+
+
+
+                    // Si el cliente no tiene membresía activa, el flujo continúa normalmente
+                    System.out.println("No se encontró membresía de tipo 'membresia' para expirar.");
+                }
 
                 eliminado = true;
             }
 
-            et.commit();//Realiza los cambios
-            return eliminado;
+            et.commit();
         } catch (Exception e) {
             if (et != null && et.isActive()) et.rollback();
             e.printStackTrace();

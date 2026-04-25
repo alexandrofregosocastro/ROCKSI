@@ -30,24 +30,24 @@ public class AsignarClaseBeanUI implements Serializable {
                 throw new Exception("Debe ingresar un cliente válido antes de continuar.");
             }
 
-            Cliente clienteExistente = new ClienteHelper().obtenerCliente(idCliente);
+            Cliente clienteExistente = clienteHelper.obtenerCliente(idCliente);
             if (clienteExistente == null) {
                 throw new Exception("No se encontró ningún cliente con el ID: " + idCliente);
             }
 
+            // Metemos los datos del cliente y clase a la sesión
             fc.getExternalContext().getSessionMap().put("idClase", idClase);
             fc.getExternalContext().getSessionMap().put("idCliente", idCliente);
 
-            PrimeFaces.current().executeScript("PF('dlgAsignarClase').hide();");
+            // Metemos la bandera que le avisa a la otra página que abra el modal
+            fc.getExternalContext().getSessionMap().put("abrirModalPagoClase", true);
 
+            // Cerramos el modal actual y redirigimos a pagos
+            PrimeFaces.current().executeScript("PF('dlgAsignarClase').hide();");
             fc.getExternalContext().redirect("pagos.xhtml");
 
         } catch (Exception e) {
-            fc.addMessage(null, new FacesMessage(
-                    FacesMessage.SEVERITY_ERROR,
-                    "Error al asignar clase",
-                    e.getMessage()
-            ));
+            fc.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al asignar clase", e.getMessage()));
         }
     }
 

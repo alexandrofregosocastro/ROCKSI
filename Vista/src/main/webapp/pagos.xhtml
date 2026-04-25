@@ -305,11 +305,9 @@
 
 <h:body>
 
-    <!-- Barra lateral -->
     <div class="sidebar">
         <div class="menu">
             <h:form>
-                <!-- HOME -->
                 <h:commandLink action="home.xhtml?faces-redirect=true"
                                actionListener="#{menuBeanUI.setActivePage('home')}"
                                styleClass="#{menuBeanUI.activePage eq 'home' ? 'active' : ''}">
@@ -317,7 +315,6 @@
                     <span>Home</span>
                 </h:commandLink>
 
-                <!-- CLIENTES -->
                 <h:commandLink action="clientes.xhtml?faces-redirect=true"
                                actionListener="#{menuBeanUI.setActivePage('clientes')}"
                                styleClass="#{menuBeanUI.activePage eq 'clientes' ? 'active' : ''}">
@@ -325,7 +322,6 @@
                     <span>Clientes</span>
                 </h:commandLink>
 
-                <!-- TIENDA -->
                 <h:commandLink action="tienda.xhtml?faces-redirect=true"
                                actionListener="#{menuBeanUI.setActivePage('tienda')}"
                                styleClass="#{menuBeanUI.activePage eq 'tienda' ? 'active' : ''}">
@@ -333,7 +329,6 @@
                     <span>Tienda</span>
                 </h:commandLink>
 
-                <!-- CLASES -->
                 <h:commandLink action="clases.xhtml?faces-redirect=true"
                                actionListener="#{menuBeanUI.setActivePage('clases')}"
                                styleClass="#{menuBeanUI.activePage eq 'clases' ? 'active' : ''}">
@@ -341,7 +336,6 @@
                     <span>Clases</span>
                 </h:commandLink>
 
-                <!-- PAGOS -->
                 <h:commandLink action="pagos.xhtml?faces-redirect=true"
                                actionListener="#{menuBeanUI.setActivePage('pagos')}"
                                styleClass="#{menuBeanUI.activePage eq 'pagos' ? 'active' : ''}">
@@ -350,8 +344,7 @@
                 </h:commandLink>
                 <h:commandLink action="usuarios.xhtml?faces-redirect=true"
                                actionListener="#{menuBeanUI.setActivePage('usuarios')}"
-                               styleClass="#{menuBeanUI.activePage eq 'usuarios' ? 'active' : ''}" rendered="#{loginBeanUI.isAdmin()}"> <!-- Muestra si es admin -->
-                    <img src="resources-20250903T164359Z-1-001/resources/clientes.png" alt="Usuarios Icon" class="menu-icon"/>
+                               styleClass="#{menuBeanUI.activePage eq 'usuarios' ? 'active' : ''}" rendered="#{loginBeanUI.isAdmin()}"> <img src="resources-20250903T164359Z-1-001/resources/clientes.png" alt="Usuarios Icon" class="menu-icon"/>
                     <span>Usuarios</span>
                 </h:commandLink>
             </h:form>
@@ -372,7 +365,6 @@
         </div>
     </div>
 
-    <!-- Contenido principal -->
     <div class="main-content">
         <div class="card">
             <h:form id="formPagos">
@@ -395,12 +387,12 @@
 
                     <p:commandButton value="Realizar Pago clase"
                                      icon="pi pi-shopping-cart"
-                                     onclick="PF('dlgAskId2').show();"
+                                     onclick="PF('dlgMetodoPago2').show();"
                                      type="button"/>
 
                     <p:commandButton value="Realizar Pago Membresia"
                                      icon="pi pi-shopping-cart"
-                                     onclick="PF('dlgAskId1').show();"
+                                     onclick="PF('dlgMetodoPago1').show();"
                                      type="button"/>
 
                     <p:commandButton value="Cancelar pago"
@@ -446,7 +438,6 @@
 
                 </div>
 
-                <!-- TABLA DE PAGOS -->
                 <p:dataTable id="tablaPagos" value="#{pagoBeanUI.listaPagos}" var="pa"
                              paginator="true" rows="8"
                              paginatorPosition="bottom"
@@ -504,57 +495,9 @@
     </div>
     <h:form id="formPrincipal">
 
-        <!-- Dialog pago Membresia -->
-        <p:dialog header="Identifícate" widgetVar="dlgAskId1" modal="true"
-                  resizable="false" closable="true" draggable="false" width="360">
-            <h:panelGrid columns="1" style="width:100%;">
-                <p:messages id="msgsId1" showDetail="true" closable="true"/>
-                <div class="form-group">
-                    <h:outputLabel for="searchId1" value="ID Usuario Recepcionista"/>
-                    <p:inputText id="searchId1"
-                                 value="#{RealizarPagoBeanUI.idUR}"
-                                 placeholder="Ej. UR0001"
-                                 styleClass="form-control"
-                                 required="true"
-                                 requiredMessage="El ID es obligatorio"/>
-                </div>
+        <p:remoteCommand name="autoAbrirPago" action="#{RealizarPagoBeanUI.verificarAperturaAutomatica}" autoRun="true" />
 
-                <p:commandButton value="Siguiente"
-                                 icon="pi pi-search"
-                                 action="#{RealizarPagoBeanUI.verificarUsuario}"
-                                 update="msgsId1"
-                                 process="@this searchId1"
-                                 oncomplete="if (!args.validationFailed) { PF('dlgAskId1').hide(); PF('dlgAskPass1').show(); }"
-                                 styleClass="ui-button"
-                                 style="background:#007bff; color:#fff;"/>
-
-            </h:panelGrid>
-        </p:dialog>
-
-        <p:dialog header="Ingresa tu contraseña" widgetVar="dlgAskPass1" modal="true"
-                  resizable="false" closable="true" draggable="false" width="360">
-            <h:panelGrid columns="1" style="width:100%;">
-                <p:messages id="msgsPass1" showDetail="true" closable="true"/>
-                <div class="form-group">
-                    <h:outputLabel for="pass1" value="Contraseña del Recepcionista"/>
-                    <p:password id="pass1"
-                                value="#{RealizarPagoBeanUI.contrasenaUR}"
-                                feedback="false"
-                                styleClass="form-control"
-                                required="true"
-                                requiredMessage="Debe ingresar la contraseña"/>
-                </div>
-
-                <p:commandButton value="Validar"
-                                 icon="pi pi-lock"
-                                 action="#{RealizarPagoBeanUI.validarContrasena}"
-                                 update="msgsPass1"
-                                 process="@this pass1"
-                                 oncomplete="if (!args.validationFailed) { PF('dlgAskPass1').hide(); PF('dlgMetodoPago1').show(); }"
-                                 styleClass="ui-button"
-                                 style="background:#28a745; color:#fff;"/>
-            </h:panelGrid>
-        </p:dialog>
+        <p:remoteCommand name="autoAbrirPagoMembresia" action="#{RealizarPagoBeanUI.verificarAperturaAutomatica1}" autoRun="true" />
 
         <p:dialog header="Seleccionar Método de Pago" widgetVar="dlgMetodoPago1"
                   modal="true" resizable="false" closable="true" draggable="false" width="360">
@@ -575,13 +518,13 @@
 
                 <div class="form-group">
                     <h:outputLabel for="descuento1" value="Descuento (opcional)" style="font-weight:bold;"/>
-                    <p:inputText id="descuento1"
-                                 value="#{RealizarPagoBeanUI.descuento}"
-                                 maxlength="5"
-                                 onkeydown="if(event.key === 'Enter'){event.preventDefault(); return false;}"
-                                 placeholder="$200"
-                                 styleClass="form-control">
-                    </p:inputText>
+                    <p:inputNumber id="descuento1"
+                                   value="#{RealizarPagoBeanUI.descuento}"
+                                   minValue="0"
+                                   decimalPlaces="2"
+                                   placeholder="$200"
+                                   style="width: 100%;">
+                    </p:inputNumber>
                 </div>
 
                 <p:commandButton value="Pago en Efectivo"
@@ -756,13 +699,13 @@
 
                 <div class="form-group">
                     <h:outputLabel for="montoIngresado1" value="Monto ingresado"/>
-                    <p:inputText id="montoIngresado1"
-                                 value="#{RealizarPagoBeanUI.montoIngresado}"
-                                 maxlength="5"
-                                 onkeydown="if(event.key === 'Enter'){event.preventDefault(); return false;}"
-                                 style="text-align:left;">
+                    <p:inputNumber id="montoIngresado1"
+                                   value="#{RealizarPagoBeanUI.montoIngresado}"
+                                   minValue="0"
+                                   decimalPlaces="2"
+                                   style="width: 100%;">
                         <p:ajax event="keyup" update="faltante1" process="@this"/>
-                    </p:inputText>
+                    </p:inputNumber>
                 </div>
 
                 <div class="form-group">
@@ -805,58 +748,6 @@
         </p:dialog>
 
 
-        <!-- Dialog pago de clase -->
-        <p:dialog header="Identifícate" widgetVar="dlgAskId2" modal="true"
-                  resizable="false" closable="true" draggable="false" width="360">
-            <h:panelGrid columns="1" style="width:100%;">
-                <p:messages id="msgsId2" showDetail="true" closable="true"/>
-                <div class="form-group">
-                    <h:outputLabel for="searchId2" value="ID Usuario Recepcionista"/>
-                    <p:inputText id="searchId2"
-                                 value="#{RealizarPagoBeanUI.idUR}"
-                                 placeholder="Ej. UR0001"
-                                 styleClass="form-control"
-                                 required="true"
-                                 requiredMessage="El ID es obligatorio"/>
-                </div>
-
-                <p:commandButton value="Siguiente"
-                                 icon="pi pi-search"
-                                 action="#{RealizarPagoBeanUI.verificarUsuario}"
-                                 update="msgsId2"
-                                 process="@this searchId2"
-                                 oncomplete="if (!args.validationFailed) { PF('dlgAskId2').hide(); PF('dlgAskPass2').show(); }"
-                                 styleClass="ui-button"
-                                 style="background:#007bff; color:#fff;"/>
-
-            </h:panelGrid>
-        </p:dialog>
-
-        <p:dialog header="Ingresa tu contraseña" widgetVar="dlgAskPass2" modal="true"
-                  resizable="false" closable="true" draggable="false" width="360">
-            <h:panelGrid columns="1" style="width:100%;">
-                <p:messages id="msgsPass2" showDetail="true" closable="true"/>
-                <div class="form-group">
-                    <h:outputLabel for="pass2" value="Contraseña del Recepcionista"/>
-                    <p:password id="pass2"
-                                value="#{RealizarPagoBeanUI.contrasenaUR}"
-                                feedback="false"
-                                styleClass="form-control"
-                                required="true"
-                                requiredMessage="Debe ingresar la contraseña"/>
-                </div>
-
-                <p:commandButton value="Validar"
-                                 icon="pi pi-lock"
-                                 action="#{RealizarPagoBeanUI.validarContrasena}"
-                                 update="msgsPass2"
-                                 process="@this pass2"
-                                 oncomplete="if (!args.validationFailed) { PF('dlgAskPass2').hide(); PF('dlgMetodoPago2').show(); }"
-                                 styleClass="ui-button"
-                                 style="background:#28a745; color:#fff;"/>
-            </h:panelGrid>
-        </p:dialog>
-
         <p:dialog header="Seleccionar Método de Pago" widgetVar="dlgMetodoPago2"
                   modal="true" resizable="false" closable="true" draggable="false" width="360">
             <h:panelGrid id="panelMetodoPago2" columns="1" style="width:100%; text-align:center;">
@@ -876,13 +767,13 @@
 
                 <div class="form-group">
                     <h:outputLabel for="descuento2" value="Descuento (opcional)" style="font-weight:bold;"/>
-                    <p:inputText id="descuento2"
-                                 value="#{RealizarPagoBeanUI.descuento}"
-                                 maxlength="5"
-                                 onkeydown="if(event.key === 'Enter'){event.preventDefault(); return false;}"
-                                 placeholder="$200"
-                                 styleClass="form-control">
-                    </p:inputText>
+                    <p:inputNumber id="descuento2"
+                                   value="#{RealizarPagoBeanUI.descuento}"
+                                   minValue="0"
+                                   decimalPlaces="2"
+                                   placeholder="$200"
+                                   style="width: 100%;">
+                    </p:inputNumber>
                 </div>
 
                 <p:commandButton value="Pago en Efectivo"
@@ -1057,13 +948,13 @@
 
                 <div class="form-group">
                     <h:outputLabel for="montoIngresado2" value="Monto ingresado"/>
-                    <p:inputText id="montoIngresado2"
-                                 value="#{RealizarPagoBeanUI.montoIngresado}"
-                                 maxlength="5"
-                                 onkeydown="if(event.key === 'Enter'){event.preventDefault(); return false;}"
-                                 style="text-align:left;">
+                    <p:inputNumber id="montoIngresado2"
+                                   value="#{RealizarPagoBeanUI.montoIngresado}"
+                                   minValue="0"
+                                   decimalPlaces="2"
+                                   style="width: 100%;">
                         <p:ajax event="keyup" update="faltante2" process="@this"/>
-                    </p:inputText>
+                    </p:inputNumber>
                 </div>
 
                 <div class="form-group">
@@ -1105,7 +996,6 @@
             </h:panelGrid>
         </p:dialog>
 
-        <!-- dialog abrir caja -->
         <p:dialog header="Caja"
                   widgetVar="dlgCaja"
                   modal="true"
@@ -1118,14 +1008,14 @@
                 <div class="dialog-buttons">
                     <p:commandButton value="Aceptar pago por adelantado"
                                      icon="pi pi-check-circle"
-                                     onclick="PF('dlgBuscarClienteAdelanto').show(); return false;"
+                                     onclick="PF('dlgBuscarClienteAdelanto').show(); PF('dlgCaja').hide(); return false;"
                                      type="button"
                                      style="background:#007bcb; color:#fff;"/>
 
                     <p:commandButton value="Especificar con cuánto dinero inicia el corte"
                                      icon="pi pi-clock"
                                      actionListener="#{inicioCajaBeanUI.limpiar()}"
-                                     oncomplete="PF('dlgAskIdApertura').show(); PF('dlgCaja').hide();"
+                                     oncomplete="PF('dlgMontoApertura').show(); PF('dlgCaja').hide();"
                                      process="@this"
                                      update="@none"
                                      style="background:#28a745; color:#fff;"/>
@@ -1134,7 +1024,7 @@
                     <p:commandButton value="Tomar dinero de caja"
                                      icon="pi pi-dollar"
                                      actionListener="#{retirarDineroPagaBeanUI.limpiar()}"
-                                     oncomplete="PF('dlgAskIdRetiro').show(); PF('dlgCaja').hide();"
+                                     oncomplete="PF('dlgMontoRetiro').show(); PF('dlgCaja').hide();"
                                      process="@this"
                                      update="@none"
                                      style="background:#dc3545; color:#fff;"/>
@@ -1142,20 +1032,11 @@
             </h:form>
         </p:dialog>
 
-    <!-- dialog de adelantar pago -->
         <p:dialog header="Buscar Cliente" widgetVar="dlgBuscarClienteAdelanto"
                   modal="true" resizable="false" closable="true" width="380">
             <h:form id="formBuscarClienteAdelanto">
                 <p:messages id="msgsBuscarCliente" showDetail="true" closable="true"/>
                 <h:panelGrid columns="1" style="width:100%;">
-
-                    <h:outputLabel for="idRecepcionistaAdelanto" value="ID Recepcionista"/>
-                    <p:inputText id="idRecepcionistaAdelanto"
-                                 value="#{adelantarPagoBeanUI.idUsuarioRecep}"
-                                 placeholder="Ej. UR0001"
-                                 required="true"
-                                 requiredMessage="El ID de recepcionista es obligatorio"
-                                 style="width:100%; margin-bottom:10px;"/>
 
                     <h:outputLabel for="idClienteAdelanto" value="ID Cliente"/>
                     <p:inputText id="idClienteAdelanto"
@@ -1175,7 +1056,6 @@
             </h:form>
         </p:dialog>
 
-    <!-- Ingresar monto a adelantar -->
         <p:dialog header="Monto a Adelantar" widgetVar="dlgMontoAdelanto"
                   modal="true" resizable="false" closable="true" width="380">
             <h:form id="formMontoAdelanto">
@@ -1187,7 +1067,7 @@
                                    symbol="$"
                                    minValue="1"
                                    required="true" requiredMessage="El monto es obligatorio."
-                                   style="width:100%;"/>
+                                   style="width: 100%;"/>
 
                     <p:commandButton value="Registrar Adelanto"
                                      icon="pi pi-check"
@@ -1198,104 +1078,48 @@
             </h:form>
         </p:dialog>
 
-    <!-- confirmacion de pago adelantar -->
-    <p:dialog header="Confirmación" widgetVar="dlgConfirmacionAdelanto"
-              modal="true" resizable="false" closable="true" width="360">
-        <h:form>
-            <h:outputText value="El pago por adelantado se ha registrado exitosamente."
-                          style="display:block; text-align:center; margin:15px 0; font-weight:bold;"/>
-            <p:commandButton value="Aceptar"
-                             icon="pi pi-check-circle"
-                             onclick="PF('dlgConfirmacionAdelanto').hide();"
-                             type="button"
-                             style="width:100%; background:#007bcb; color:#fff;"/>
-        </h:form>
-
-    </p:dialog>
-
-        <p:dialog header="Identifícate (Retiro)" widgetVar="dlgAskIdRetiro" modal="true"
-                  resizable="false" closable="true" draggable="false" width="360"
-                  onShow="#{retirarDineroPagaBeanUI.limpiar()}">
-            <h:form id="formRetiroId">
-            <h:panelGrid columns="1" style="width:100%;">
-                <p:messages id="msgsIdRetiro" showDetail="true" closable="true"/>
-                <div class="form-group">
-                    <h:outputLabel for="searchIdRetiro" value="ID Usuario Recepcionista"/>
-                    <p:inputText id="searchIdRetiro"
-                                 value="#{retirarDineroPagaBeanUI.idUsuarioRecep}"
-                                 placeholder="Ej. UR0001"
-                                 styleClass="form-control"
-                                 required="true"
-                                 requiredMessage="El ID es obligatorio"/>
-                </div>
-
-                <p:commandButton value="Siguiente"
-                                 icon="pi pi-search"
-                                 action="#{retirarDineroPagaBeanUI.verificarUsuario}"
-                                 update="msgsIdRetiro"
-                                 process="@this searchIdRetiro"
-                                 oncomplete="if (!args.validationFailed) { PF('dlgAskIdRetiro').hide(); PF('dlgAskPassRetiro').show(); }"
-                                 styleClass="ui-button"
-                                 style="background:#007bff; color:#fff;"/>
-            </h:panelGrid>
+        <p:dialog header="Confirmación" widgetVar="dlgConfirmacionAdelanto"
+                  modal="true" resizable="false" closable="true" width="360">
+            <h:form>
+                <h:outputText value="El pago por adelantado se ha registrado exitosamente."
+                              style="display:block; text-align:center; margin:15px 0; font-weight:bold;"/>
+                <p:commandButton value="Aceptar"
+                                 icon="pi pi-check-circle"
+                                 onclick="PF('dlgConfirmacionAdelanto').hide();"
+                                 type="button"
+                                 style="width:100%; background:#007bcb; color:#fff;"/>
             </h:form>
-        </p:dialog>
 
-        <p:dialog header="Contraseña (Retiro)" widgetVar="dlgAskPassRetiro" modal="true"
-                  resizable="false" closable="true" draggable="false" width="360">
-            <h:form id="formContrasenaRetiro">
-            <h:panelGrid columns="1" style="width:100%;">
-                <p:messages id="msgsPassRetiro" showDetail="true" closable="true"/>
-                <div class="form-group">
-                    <h:outputLabel for="passRetiro" value="Contraseña del Recepcionista"/>
-                    <p:password id="passRetiro"
-                                value="#{retirarDineroPagaBeanUI.contrasenaUR}"
-                                feedback="false"
-                                styleClass="form-control"
-                                required="true"
-                                requiredMessage="Debe ingresar la contraseña"/>
-                </div>
-
-                <p:commandButton value="Validar"
-                                 icon="pi pi-lock"
-                                 action="#{retirarDineroPagaBeanUI.validarContrasena}"
-                                 update="msgsPassRetiro"
-                                 process="@this passRetiro"
-                                 oncomplete="if (!args.validationFailed) { PF('dlgAskPassRetiro').hide(); PF('dlgMontoRetiro').show(); }"
-                                 styleClass="ui-button"
-                                 style="background:#28a745; color:#fff;"/>
-            </h:panelGrid>
-            </h:form>
         </p:dialog>
 
         <p:dialog header="Monto a Retirar" widgetVar="dlgMontoRetiro"
                   modal="true" resizable="false" closable="true" width="380">
             <h:form id="formMontoRetirar">
-            <p:messages id="msgsMontoRetiro" showDetail="true" closable="true"/>
-            <h:panelGrid columns="1" style="width:100%;">
-                <h:outputLabel for="montoRetirado" value="Monto"/>
-                <p:inputNumber id="montoRetirado"
-                               value="#{retirarDineroPagaBeanUI.montoRetirar}"
-                               symbol="$"
-                               minValue="1"
-                               required="true" requiredMessage="El monto es obligatorio."
-                               style="width:100%;"/>
+                <p:messages id="msgsMontoRetiro" showDetail="true" closable="true"/>
+                <h:panelGrid columns="1" style="width:100%;">
+                    <h:outputLabel for="montoRetirado" value="Monto"/>
+                    <p:inputNumber id="montoRetirado"
+                                   value="#{retirarDineroPagaBeanUI.montoRetirar}"
+                                   symbol="$"
+                                   minValue="1"
+                                   required="true" requiredMessage="El monto es obligatorio."
+                                   style="width: 100%;"/>
 
-                <h:outputLabel for="obsRetiro" value="Observaciones" style="margin-top:10px; display:block;"/>
-                <p:inputTextarea id="obsRetiro"
-                                 value="#{retirarDineroPagaBeanUI.observaciones}"
-                                 rows="3"
-                                 placeholder="Motivo del retiro..."
-                                 style="width:100%; resize:none;"
-                                 maxlength="250"/>
+                    <h:outputLabel for="obsRetiro" value="Observaciones" style="margin-top:10px; display:block;"/>
+                    <p:inputTextarea id="obsRetiro"
+                                     value="#{retirarDineroPagaBeanUI.observaciones}"
+                                     rows="3"
+                                     placeholder="Motivo del retiro..."
+                                     style="width:100%; resize:none;"
+                                     maxlength="250"/>
 
-                <p:commandButton value="Registrar Retiro"
-                                 icon="pi pi-arrow-down"
-                                 actionListener="#{retirarDineroPagaBeanUI.registrarRetiro}"
-                                 process="@this montoRetirado obsRetiro"
-                                 update="msgsMontoRetiro :formPagos"
-                                 style="margin-top:10px; background:#dc3545; color:#fff;"/>
-            </h:panelGrid>
+                    <p:commandButton value="Registrar Retiro"
+                                     icon="pi pi-arrow-down"
+                                     actionListener="#{retirarDineroPagaBeanUI.registrarRetiro}"
+                                     process="@this montoRetirado obsRetiro"
+                                     update="msgsMontoRetiro :formPagos"
+                                     style="margin-top:10px; background:#dc3545; color:#fff;"/>
+                </h:panelGrid>
             </h:form>
         </p:dialog>
 
@@ -1310,80 +1134,6 @@
                              style="width:100%; background:#007bcb; color:#fff;"/>
         </p:dialog>
 
-        <!-- === PASO 1: IDENTIFICACIÓN DEL USUARIO === -->
-        <p:dialog header="Identifícate (Apertura de Caja)"
-                  widgetVar="dlgAskIdApertura"
-                  modal="true"
-                  resizable="false"
-                  closable="true"
-                  draggable="false"
-                  width="360"
-                  onShow="#{inicioCajaBeanUI.limpiar()}">
-
-            <h:form id="formAperturaId">
-                <h:panelGrid columns="1" style="width:100%;">
-                    <p:messages id="msgsIdApertura" showDetail="true" closable="true"/>
-
-                    <div class="form-group">
-                        <h:outputLabel for="searchIdApertura" value="ID Usuario Recepcionista"/>
-                        <p:inputText id="searchIdApertura"
-                                     value="#{inicioCajaBeanUI.idUsuarioRecep}"
-                                     placeholder="Ej. UR0001"
-                                     styleClass="form-control"
-                                     required="true"
-                                     requiredMessage="El ID es obligatorio"/>
-                    </div>
-
-                    <p:commandButton value="Siguiente"
-                                     icon="pi pi-search"
-                                     action="#{inicioCajaBeanUI.verificarUsuario}"
-                                     update="msgsIdApertura"
-                                     process="@this searchIdApertura"
-                                     oncomplete="if (!args.validationFailed) { PF('dlgAskIdApertura').hide(); PF('dlgAskPassApertura').show(); }"
-                                     style="background:#007bff; color:#fff;"/>
-                </h:panelGrid>
-            </h:form>
-        </p:dialog>
-
-
-
-        <!-- === PASO 2: VALIDAR CONTRASEÑA === -->
-        <p:dialog header="Contraseña (Apertura de Caja)"
-                  widgetVar="dlgAskPassApertura"
-                  modal="true"
-                  resizable="false"
-                  closable="true"
-                  draggable="false"
-                  width="360">
-
-            <h:form id="formContrasenaApertura">
-                <h:panelGrid columns="1" style="width:100%;">
-                    <p:messages id="msgsPassApertura" showDetail="true" closable="true"/>
-
-                    <div class="form-group">
-                        <h:outputLabel for="passApertura" value="Contraseña del Recepcionista"/>
-                        <p:password id="passApertura"
-                                    value="#{inicioCajaBeanUI.contrasenaUR}"
-                                    feedback="false"
-                                    styleClass="form-control"
-                                    required="true"
-                                    requiredMessage="Debe ingresar la contraseña"/>
-                    </div>
-
-                    <p:commandButton value="Validar"
-                                     icon="pi pi-lock"
-                                     action="#{inicioCajaBeanUI.validarContrasena}"
-                                     update="msgsPassApertura"
-                                     process="@this passApertura"
-                                     oncomplete="if (!args.validationFailed) { PF('dlgAskPassApertura').hide(); PF('dlgMontoApertura').show(); }"
-                                     style="background:#28a745; color:#fff;"/>
-                </h:panelGrid>
-            </h:form>
-        </p:dialog>
-
-
-
-        <!-- === PASO 3: MONTO DE APERTURA === -->
         <p:dialog header="Monto de Apertura de Caja"
                   widgetVar="dlgMontoApertura"
                   modal="true"

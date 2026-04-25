@@ -26,9 +26,9 @@ public class AltaClienteBeanUI implements Serializable {
 
     //Se llama a este metodo para crear el objeto de cliente y mandarselo a las otras capas
     public void altaCliente() {
+        FacesContext fc = FacesContext.getCurrentInstance();
         try {
             cliente = new Cliente();
-            this.cliente.setIdCliente(Cliente.generarNuevoId());
             this.cliente.setNombreCompleto(this.nombre + " " + this.apellido);
             this.cliente.setTelefono(this.telefono);
             this.cliente.setSexo(this.sexo);
@@ -39,6 +39,9 @@ public class AltaClienteBeanUI implements Serializable {
 
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_INFO, "Datos Cargados", "Cliente temporal creado. Continúe con el pago."));
+
+            // Metemos la bandera que le avisa a la otra página que abra el modal
+            fc.getExternalContext().getSessionMap().put("abrirModalPagoMembresia", true);
 
             FacesContext.getCurrentInstance().getExternalContext().redirect("pagos.xhtml");
 

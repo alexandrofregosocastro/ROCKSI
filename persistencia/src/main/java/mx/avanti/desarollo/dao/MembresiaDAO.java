@@ -150,17 +150,30 @@ public class MembresiaDAO extends AbstractDAO<Membresia> {
     public Membresia obtenerMembresiaPorCliente(String idCliente, String tipo) {
         EntityManager em = getEntityManager();
         try {
-            return em.createQuery(
+            System.out.println("=== DEBUG CONSULTA MEMBRESiA ===");
+            System.out.println("Buscando para Cliente ID: [" + idCliente + "] | Tipo que buscamos: [" + tipo + "]");
+
+            Membresia encontrada = em.createQuery(
                             "SELECT m FROM Membresia m " +
                                     "WHERE m.idCliente.idCliente = :idCliente " +
-                                    "AND m.tipo = :tipoMembresia " +
+                                    "AND LOWER(TRIM(m.tipo)) = LOWER(TRIM(:tipoMembresia)) " +
                                     "ORDER BY m.fechaVencimiento DESC",
                             Membresia.class)
                     .setParameter("idCliente", idCliente)
                     .setParameter("tipoMembresia", tipo)
                     .setMaxResults(1)
                     .getSingleResult();
-        } catch (NoResultException e) {
+
+            System.out.println("Si encontro una membresia");
+            System.out.println("ID del Item encontrado: " + encontrada.getIdItem());
+            System.out.println("Vence el: " + encontrada.getFechaVencimiento());
+            System.out.println("================================");
+
+            return encontrada;
+
+        } catch (jakarta.persistence.NoResultException e) {
+            System.out.println("No tiene membresia previa. Es cliente limpio.");
+            System.out.println("================================");
             return null;
         }
     }

@@ -534,11 +534,9 @@
 </h:head>
 
 <h:body>
-    <!-- Barra lateral -->
     <div class="sidebar">
         <div class="menu">
             <h:form>
-                <!-- HOME -->
                 <h:commandLink action="home.xhtml?faces-redirect=true"
                                actionListener="#{menuBeanUI.setActivePage('home')}"
                                styleClass="#{menuBeanUI.activePage eq 'home' ? 'active' : ''}">
@@ -546,7 +544,6 @@
                     <span>Home</span>
                 </h:commandLink>
 
-                <!-- CLIENTES -->
                 <h:commandLink action="clientes.xhtml?faces-redirect=true"
                                actionListener="#{menuBeanUI.setActivePage('clientes')}"
                                styleClass="#{menuBeanUI.activePage eq 'clientes' ? 'active' : ''}">
@@ -554,7 +551,6 @@
                     <span>Clientes</span>
                 </h:commandLink>
 
-                <!-- TIENDA -->
                 <h:commandLink action="tienda.xhtml?faces-redirect=true"
                                actionListener="#{menuBeanUI.setActivePage('tienda')}"
                                styleClass="#{menuBeanUI.activePage eq 'tienda' ? 'active' : ''}">
@@ -562,7 +558,6 @@
                     <span>Tienda</span>
                 </h:commandLink>
 
-                <!-- CLASES -->
                 <h:commandLink action="clases.xhtml?faces-redirect=true"
                                actionListener="#{menuBeanUI.setActivePage('clases')}"
                                styleClass="#{menuBeanUI.activePage eq 'clases' ? 'active' : ''}">
@@ -570,7 +565,6 @@
                     <span>Clases</span>
                 </h:commandLink>
 
-                <!-- PAGOS -->
                 <h:commandLink action="pagos.xhtml?faces-redirect=true"
                                actionListener="#{menuBeanUI.setActivePage('pagos')}"
                                styleClass="#{menuBeanUI.activePage eq 'pagos' ? 'active' : ''}">
@@ -579,8 +573,7 @@
                 </h:commandLink>
                 <h:commandLink action="usuarios.xhtml?faces-redirect=true"
                                actionListener="#{menuBeanUI.setActivePage('usuarios')}"
-                               styleClass="#{menuBeanUI.activePage eq 'usuarios' ? 'active' : ''}" rendered="#{loginBeanUI.isAdmin()}"> <!-- Muestra si es admin -->
-                    <img src="resources-20250903T164359Z-1-001/resources/clientes.png" alt="Usuarios Icon" class="menu-icon"/>
+                               styleClass="#{menuBeanUI.activePage eq 'usuarios' ? 'active' : ''}" rendered="#{loginBeanUI.isAdmin()}"> <img src="resources-20250903T164359Z-1-001/resources/clientes.png" alt="Usuarios Icon" class="menu-icon"/>
                     <span>Usuarios</span>
                 </h:commandLink>
             </h:form>
@@ -601,21 +594,17 @@
         </div>
     </div>
 
-    <!-- Contenido principal -->
     <div class="main-content">
         <div class="card">
             <h:form id="formProductos">
                 <h1>Productos</h1>
 
-                <!-- Tienda -->
                 <div class="tienda-container">
 
-                    <!-- Bloque de productos -->
                     <div class="tienda-box">
                         <div class="header-tienda">
                             <h2>Productos</h2>
 
-                            <!-- Campo de búsqueda -->
                             <p:inputText id="buscarProducto"
                                          value="#{productoBeanUI.filtro}"
                                          placeholder="Buscar por ID Clase"
@@ -627,10 +616,8 @@
                             </p:inputText>
                         </div>
 
-                        <!-- Mensajes -->
                         <p:growl id="msgs" showDetail="true" life="3000" />
 
-                        <!-- Tabla de productos existentes -->
                         <p:dataTable id="tablaProductosMini"
                                      value="#{productoBeanUI.listaProductos}"
                                      var="pro"
@@ -659,7 +646,6 @@
                         </p:dataTable>
                     </div>
 
-                    <!-- Bloque del carrito -->
                     <div class="tienda-box">
                         <h2>Carrito</h2>
 
@@ -709,46 +695,37 @@
                 </div>
 
 
-                <!-- INICIO - Muestra si es admin -->
-                <div class="action-buttons" style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
-                    <h:outputLabel for="txtFiltroProducto" value="ID Producto:" rendered="#{loginBeanUI.isAdmin()}"/>
+                <h:panelGroup layout="block" styleClass="action-buttons" style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;" rendered="#{loginBeanUI.isAdmin()}">
+                    <h:outputLabel for="txtFiltroProducto" value="ID Producto:"/>
                     <p:inputText id="txtFiltroProducto"
                                  value="#{productoBeanUI.filtro}"
                                  placeholder="Buscar producto"
                                  styleClass="form-control"
-                                 style="width:220px;"
-                                 rendered="#{loginBeanUI.isAdmin()}">
+                                 style="width:220px;">
                         <p:ajax event="input"
                                 listener="#{productoBeanUI.filtrarPorId}"
                                 update="tablaProductos"
                                 delay="300"/>
                     </p:inputText>
 
-                    <!-- SUBMIT real (sin type="button") -->
                     <p:commandButton value="Actualizar Tabla" icon="pi pi-refresh"
                                      action="#{productoBeanUI.recargar}"
                                      update="tablaProductos"
-                                     styleClass="btn-registrar"
-                                     rendered="#{loginBeanUI.isAdmin()}"/>
+                                     styleClass="btn-registrar"/>
 
-                    <!-- Abren diálogos -->
                     <p:commandButton value="Alta de Producto" icon="pi pi-plus"
                                      styleClass="btn-registrar"
                                      onclick="PF('dlgAgregarProducto').show(); return false;"
-                                     type="button"
-                                     rendered="#{loginBeanUI.isAdmin()}"/>
+                                     type="button"/>
 
                     <p:commandButton value="Modificar Producto" icon="pi pi-pencil" styleClass="btn-modificar"
-                                     onclick="PF('dlgBuscarProd').show(); return false;" type="button"
-                                     rendered="#{loginBeanUI.isAdmin()}"/>
+                                     onclick="PF('dlgBuscarProd').show(); return false;" type="button"/>
 
                     <p:commandButton value="Baja de Producto" icon="pi pi-trash" styleClass="btn-baja"
-                                     onclick="PF('dlgEliminarProducto').show(); return false;" type="button"
-                                     rendered="#{loginBeanUI.isAdmin()}"/>
+                                     onclick="PF('dlgEliminarProducto').show(); return false;" type="button"/>
 
-                </div>
+                </h:panelGroup>
 
-                <!--Tabla-->
                 <p:dataTable id="tablaProductos" value="#{productoBeanUI.listaProductos}" var="pro"
                              paginator="true" rows="8" emptyMessage="No hay productos registrados"
                              paginatorPosition="bottom" style="margin-top:20px;" rendered="#{loginBeanUI.isAdmin()}">
@@ -766,166 +743,147 @@
                     </p:column>
                     <p:column headerText="Proveedor" sortBy="#{pro.proveedor}">
                         <h:outputText value="#{pro.proveedor}"/>
-                    </p:column> <!--Proveedor agregado por sugerencia del cliente-->
-                </p:dataTable>
+                    </p:column> </p:dataTable>
             </h:form>
         </div>
     </div>
-    <!-- FIN - Muestra si es admin -->
-
-    <!-- dialogs -->
     <p:dialog header="Nuevo producto" widgetVar="dlgAgregarProducto" modal="true"
-              resizable="false" closable="true" draggable="false" width="360" rendered="#{loginBeanUI.isAdmin()}"> <!-- Muestra si es admin -->
+              resizable="false" closable="true" draggable="false" width="360" rendered="#{loginBeanUI.isAdmin()}"> <h:form id="formAltaProducto">
 
-        <h:form id="formAltaProducto">
+        <p:messages id="msgsAltaProducto" showDetail="true" closable="true"/>
 
-            <p:messages id="msgsAltaProducto" showDetail="true" closable="true"/>
+        <div class="form-group">
+            <h:outputLabel for="nombreProducto" value="Nombre"/>
+            <p:inputText id="nombreProducto"
+                         value="#{altaProdBeanUI.nombre}"
+                         placeholder="Nombre"
+                         required="true"
+                         requiredMessage="El campo Nombre es obligatorio"/>
+        </div>
 
-            <div class="form-group">
-                <h:outputLabel for="nombreProducto" value="Nombre"/>
-                <p:inputText id="nombreProducto"
-                             value="#{altaProdBeanUI.nombre}"
-                             placeholder="Nombre"
-                             required="true"
-                             requiredMessage="El campo Nombre es obligatorio"/>
-            </div>
+        <div class="form-group">
+            <h:outputLabel for="stockProducto" value="Stock"/>
+            <p:inputNumber id="stockProducto"
+                           value="#{altaProdBeanUI.stock}"
+                           placeholder="Existencia del producto"
+                           minValue="1" decimalPlaces="0"
+                           required="true"
+                           requiredMessage="El campo Stock es obligatorio"
+                           style="width: 100%;">
+            </p:inputNumber>
+        </div>
 
-            <div class="form-group">
-                <h:outputLabel for="stockProducto" value="Stock"/>
-                <p:inputText id="stockProducto"
-                             value="#{altaProdBeanUI.stock}"
-                             placeholder="Existencia del producto"
-                             required="true"
-                             requiredMessage="El campo Stock es obligatorio">
-                    <f:validateLongRange minimum="1"/>
-                </p:inputText>
-            </div>
+        <div class="form-group">
+            <h:outputLabel for="precioProducto" value="Precio"/>
+            <p:inputNumber id="precioProducto"
+                           value="#{altaProdBeanUI.precio}"
+                           placeholder="Precio del producto"
+                           minValue="0.01" decimalPlaces="2"
+                           required="true"
+                           requiredMessage="El campo Precio es obligatorio"
+                           style="width: 100%;">
+            </p:inputNumber>
+        </div>
 
-            <div class="form-group">
-                <h:outputLabel for="precioProducto" value="Precio"/>
-                <p:inputText id="precioProducto"
-                             value="#{altaProdBeanUI.precio}"
-                             placeholder="Precio del producto"
-                             required="true"
-                             requiredMessage="El campo Precio es obligatorio">
-                    <f:validateDoubleRange minimum="0.01"/>
-                </p:inputText>
-            </div>
-
-            <div class="form-group">
-                <h:outputLabel for="proveedorProducto" value="Proveedor"/>
-                <p:inputText id="proveedorProducto"
-                             value="#{altaProdBeanUI.proveedor}"
-                             placeholder="Ej. cocacola, nestle"
-                             required="true"
-                             requiredMessage="El campo Proveedor es obligatorio"/>
-            </div> <!--Proveedor gagregado-->
-
-            <div class="boton-registrar">
-                <p:commandButton id="registrarProductoBtn"
-                                 value="Registrar el producto"
-                                 icon="pi pi-plus-circle"
-                                 action="#{altaProdBeanUI.altaProducto}"
-                                 process="@form"
-                                 update="msgsAltaProducto formProductos:tablaProductos"
-                                 style="background:#007bff; color:#fff; border:none;"/>
-            </div>
-        </h:form>
+        <div class="form-group">
+            <h:outputLabel for="proveedorProducto" value="Proveedor"/>
+            <p:inputText id="proveedorProducto"
+                         value="#{altaProdBeanUI.proveedor}"
+                         placeholder="Ej. cocacola, nestle"
+                         required="true"
+                         requiredMessage="El campo Proveedor es obligatorio"/>
+        </div> <div class="boton-registrar">
+        <p:commandButton id="registrarProductoBtn"
+                         value="Registrar el producto"
+                         icon="pi pi-plus-circle"
+                         action="#{altaProdBeanUI.altaProducto}"
+                         process="@form"
+                         update="msgsAltaProducto formProductos:tablaProductos"
+                         style="background:#007bff; color:#fff; border:none;"/>
+    </div>
+    </h:form>
     </p:dialog>
 
-    <!-- dialogo para buscar el id del producto a modificar -->
     <p:dialog header="Buscar producto" widgetVar="dlgBuscarProd"
               modal="true" resizable="false" draggable="false" closable="true"
-              width="380" rendered="#{loginBeanUI.isAdmin()}"> <!-- Muestra si es admin -->
+              width="380" rendered="#{loginBeanUI.isAdmin()}"> <h:form id="formBuscarProd">
+        <p:messages id="msgsAsk" showDetail="true" closable="true" />
 
-        <h:form id="formBuscarProd">
-            <p:messages id="msgsAsk" showDetail="true" closable="true" />
+        <div class="form-group" style="margin-top: 10px;">
+            <h:outputLabel for="busquedaId" value="ID del producto:"/>
+            <p:inputText id="busquedaId"
+                         value="#{modificarProdBeanUI.busquedaId}"
+                         placeholder="Ejemplo: PR1001"
+                         style="width:100%" required="true"
+                         requiredMessage="Debe ingresar un ID."/>
+        </div>
 
-            <div class="form-group" style="margin-top: 10px;">
-                <h:outputLabel for="busquedaId" value="ID del producto:"/>
-                <p:inputText id="busquedaId"
-                             value="#{modificarProdBeanUI.busquedaId}"
-                             placeholder="Ejemplo: PR1001"
-                             style="width:100%" required="true"
-                             requiredMessage="Debe ingresar un ID."/>
-            </div>
-
-            <div style="text-align:center; margin-top:1em;">
-                <p:commandButton value="Buscar"
-                                 icon="pi pi-search"
-                                 action="#{modificarProdBeanUI.cargarProductoPorId}"
-                                 update="formBuscarProd:msgsAsk, formModificarProd"
-                                 oncomplete="if (args &amp;&amp; args.found){PF('dlgBuscarProd').hide();PF('dlgModificarProd').show();}"/>
-            </div>
-        </h:form>
+        <div style="text-align:center; margin-top:1em;">
+            <p:commandButton value="Buscar"
+                             icon="pi pi-search"
+                             action="#{modificarProdBeanUI.cargarProductoPorId}"
+                             update="formBuscarProd:msgsAsk, formModificarProd"
+                             oncomplete="if (args &amp;&amp; args.found){PF('dlgBuscarProd').hide();PF('dlgModificarProd').show();}"/>
+        </div>
+    </h:form>
     </p:dialog>
 
-    <!-- dialogo para modificar el producto -->
     <p:dialog header="Modificar producto" widgetVar="dlgModificarProd"
               modal="true" resizable="false" draggable="false" closable="true"
-              width="420" rendered="#{loginBeanUI.isAdmin()}"> <!-- Muestra si es admin -->
+              width="420" rendered="#{loginBeanUI.isAdmin()}"> <h:form id="formModificarProd">
+        <p:messages id="msgsModificar" showDetail="true" closable="true" />
 
-        <h:form id="formModificarProd">
-            <p:messages id="msgsModificar" showDetail="true" closable="true" />
+        <h:panelGrid columns="1" cellpadding="5" style="width:100%;">
 
-            <h:panelGrid columns="1" cellpadding="5" style="width:100%;">
+            <h:outputLabel for="nombre" value="Nombre"/>
+            <p:inputText id="nombre" value="#{modificarProdBeanUI.nombre}"
+                         placeholder="Nombre del producto" style="width:100%" required="true"
+                         requiredMessage="El nombre es obligatorio."/>
 
-                <!-- Campo Nombre -->
-                <h:outputLabel for="nombre" value="Nombre"/>
-                <p:inputText id="nombre" value="#{modificarProdBeanUI.nombre}"
-                             placeholder="Nombre del producto" style="width:100%" required="true"
-                             requiredMessage="El nombre es obligatorio."/>
+            <h:outputLabel for="stock" value="Stock"/>
+            <p:inputNumber id="stock" value="#{modificarProdBeanUI.stock}"
+                           placeholder="Existencia del producto" style="width:100%"
+                           minValue="0" required="true"
+                           requiredMessage="El stock es obligatorio."/>
 
-                <!-- Campo Stock -->
-                <h:outputLabel for="stock" value="Stock"/>
-                <p:inputNumber id="stock" value="#{modificarProdBeanUI.stock}"
-                               placeholder="Existencia del producto" style="width:100%"
-                               minValue="0" required="true"
-                               requiredMessage="El stock es obligatorio."/>
+            <h:outputLabel for="precio" value="Precio"/>
+            <p:inputNumber id="precio" value="#{modificarProdBeanUI.precio}"
+                           placeholder="Precio del producto" style="width:100%"
+                           decimalPlaces="2" minValue="0"
+                           required="true" requiredMessage="El precio es obligatorio."/>
 
-                <!-- Campo Precio -->
-                <h:outputLabel for="precio" value="Precio"/>
-                <p:inputNumber id="precio" value="#{modificarProdBeanUI.precio}"
-                               placeholder="Precio del producto" style="width:100%"
-                               decimalPlaces="2" minValue="0"
-                               required="true" requiredMessage="El precio es obligatorio."/>
+            <h:outputLabel for="proveedor" value="Proveedor"/>
+            <p:inputText id="proveedor"
+                         value="#{modificarProdBeanUI.proveedor}"
+                         placeholder="Proveedor del producto"
+                         style="width:100%"
+                         required="true"
+                         requiredMessage="El proveedor es obligatorio."/>
 
-                <h:outputLabel for="proveedor" value="Proveedor"/>
-                <p:inputText id="proveedor"
-                             value="#{modificarProdBeanUI.proveedor}"
-                             placeholder="Proveedor del producto"
-                             style="width:100%"
-                             required="true"
-                             requiredMessage="El proveedor es obligatorio."/>
+        </h:panelGrid>
 
-            </h:panelGrid>
+        <div style="text-align:center; margin-top:15px;">
+            <p:commandButton value="Guardar cambios"
+                             icon="pi pi-check"
+                             action="#{modificarProdBeanUI.modificarProducto}"
+                             update="msgsModificar formBuscarProd:msgsAsk"
+                             oncomplete="if (!args.validationFailed) { PF('dlgModificarProd').hide(); PF('dlgBuscarProd').show(); }"/>
+        </div>
 
-            <div style="text-align:center; margin-top:15px;">
-                <p:commandButton value="Guardar cambios"
-                                 icon="pi pi-check"
-                                 action="#{modificarProdBeanUI.modificarProducto}"
-                                 update="msgsModificar formBuscarProd:msgsAsk"
-                                 oncomplete="if (!args.validationFailed) { PF('dlgModificarProd').hide(); PF('dlgBuscarProd').show(); }"/>
-            </div>
+        <div style="text-align:center; margin-top:10px;">
+            <p:commandButton value="Cancelar"
+                             icon="pi pi-times"
+                             type="button"
+                             onclick="PF('dlgModificarProd').hide(); PF('dlgBuscarProd').show();"/>
+        </div>
 
-            <div style="text-align:center; margin-top:10px;">
-                <p:commandButton value="Cancelar"
-                                 icon="pi pi-times"
-                                 type="button"
-                                 onclick="PF('dlgModificarProd').hide(); PF('dlgBuscarProd').show();"/>
-            </div>
-
-        </h:form>
+    </h:form>
     </p:dialog>
 
-    <!-- Eliminar Producto -->
     <p:dialog header="Eliminar Producto" widgetVar="dlgEliminarProducto"
               modal="true" resizable="false" closable="true"
               draggable="false" width="360" rendered="#{loginBeanUI.isAdmin()}">
-        <h:form id="formEliminarProducto"> <!-- Muestra si es admin -->
-
-            <!-- Mensajes del backend -->
-            <p:messages id="msgsEliminarProducto" showDetail="true" closable="true"/>
+        <h:form id="formEliminarProducto"> <p:messages id="msgsEliminarProducto" showDetail="true" closable="true"/>
 
             <div class="form-group">
                 <h:outputLabel for="idEliminarProducto" value="ID del Producto"/>
@@ -936,14 +894,12 @@
                              requiredMessage="El campo ID es obligatorio"/>
             </div>
 
-            <!-- Botón que abre el modal de confirmación -->
             <p:commandButton id="abrirConfirmarProductoBtn" value="Eliminar Producto"
                              icon="pi pi-times-circle"
                              styleClass="btn-baja"
                              onclick="PF('dlgConfirmar').show(); return false;"
                              type="button"/>
 
-            <!-- Diálogo de confirmación -->
             <p:confirmDialog id="confirmDialog"
                              widgetVar="dlgConfirmar"
                              header="Confirmar Eliminación"
@@ -951,7 +907,6 @@
                              icon="pi pi-exclamation-triangle"
                              closable="false" modal="true">
 
-                <!-- Botón SÍ -->
                 <p:commandButton value="Sí, eliminar"
                                  icon="pi pi-check"
                                  action="#{bajaProductoBeanUI.eliminarProducto}"
@@ -960,7 +915,6 @@
                                  oncomplete="PF('dlgConfirmar').hide();"
                                  style="background:#007bff !important; color:#fff !important; border:none !important;"/>
 
-                <!-- Botón CANCELAR -->
                 <p:commandButton value="Cancelar"
                                  icon="pi pi-times"
                                  onclick="PF('dlgConfirmar').hide(); return false;"
@@ -990,13 +944,13 @@
 
                 <div class="form-group">
                     <h:outputLabel for="descuento1" value="Descuento (opcional)" style="font-weight:bold;"/>
-                    <p:inputText id="descuento1"
-                                 value="#{tiendaBeanUI.descuento}"
-                                 maxlength="5"
-                                 onkeydown="if(event.key === 'Enter'){event.preventDefault(); return false;}"
-                                 placeholder="$200"
-                                 styleClass="form-control">
-                    </p:inputText>
+                    <p:inputNumber id="descuento1"
+                                   value="#{tiendaBeanUI.descuento}"
+                                   minValue="0"
+                                   decimalPlaces="2"
+                                   placeholder="$200"
+                                   style="width: 100%;">
+                    </p:inputNumber>
                 </div>
 
                 <p:commandButton value="Pago en Efectivo"
@@ -1189,13 +1143,13 @@
 
                 <div class="form-group">
                     <h:outputLabel for="montoIngresado1" value="Monto ingresado"/>
-                    <p:inputText id="montoIngresado1"
-                                 value="#{tiendaBeanUI.montoIngresado}"
-                                 maxlength="5"
-                                 onkeydown="if(event.key === 'Enter'){event.preventDefault(); return false;}"
-                                 style="text-align:left;">
+                    <p:inputNumber id="montoIngresado1"
+                                   value="#{tiendaBeanUI.montoIngresado}"
+                                   minValue="0"
+                                   decimalPlaces="2"
+                                   style="width: 100%;">
                         <p:ajax event="keyup" update="faltante1" process="@this"/>
-                    </p:inputText>
+                    </p:inputNumber>
                 </div>
 
                 <div class="form-group">

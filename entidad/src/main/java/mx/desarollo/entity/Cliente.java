@@ -8,8 +8,6 @@ import java.util.*;
 @Table(name = "cliente")
 public class Cliente {
 
-    private static int contador = 1000;
-
     @Id
     @Column(name = "ID_Cliente", length = 45)
     private String idCliente;
@@ -53,9 +51,7 @@ public class Cliente {
 
     public Cliente() { this.estatus = 1; }
 
-
     public Cliente(String nombreCompleto, String telefono, double credito, String sexo, String segundoTelefono) {
-        this.idCliente = generarNuevoId();
         this.nombreCompleto = nombreCompleto;
         this.telefono = telefono;
         this.fechaRegistro = new Date();
@@ -64,16 +60,6 @@ public class Cliente {
         this.segundoTelefono = segundoTelefono;
         this.cantidadDineroMensual = 0;
         this.estatus = 1;
-    }
-
-    // metodo para creacion de ID
-    public static synchronized String generarNuevoId() {
-        return "CLI" + (contador++);
-    }
-
-    // permite al DAO actualizar el contador
-    public static void setContador(int nuevoValor) {
-        contador = nuevoValor;
     }
 
     //getters y setters
@@ -148,6 +134,5 @@ public class Cliente {
     public double getCantidadDineroMensual() {return cantidadDineroMensual;}
 
     public void setCantidadDineroMensual(double cantidadDineroMensual) {this.cantidadDineroMensual = cantidadDineroMensual;}
-
 
 }

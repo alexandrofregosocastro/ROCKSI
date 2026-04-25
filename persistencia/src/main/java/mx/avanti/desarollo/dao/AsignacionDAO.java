@@ -5,6 +5,9 @@ import jakarta.persistence.EntityTransaction;
 import mx.avanti.desarollo.persistence.HibernateUtil;
 import mx.desarollo.entity.Cliente;
 import mx.desarollo.entity.Clase;
+import mx.desarollo.entity.Membresia;
+
+import java.time.LocalDate;
 
 public class AsignacionDAO {
 
@@ -83,12 +86,30 @@ public class AsignacionDAO {
                 throw new Exception("El cliente no está inscrito en esta clase.");
             }
 
-            //Eliminar la relación en ambos lados
+            // 1. Eliminar la relación en ambos lados (Tabla intermedia)
             cliente.getClases().remove(clase);
             clase.getClientes().remove(cliente);
 
             em.merge(cliente);
             em.merge(clase);
+
+            // 2. Buscar y "cancelar" la membresía de tipo 'clase' en lugar de borrarla
+            try {
+                Membresia membresiaClase = em.createQuery(
+                                "SELECT m FROM Membresia m WHERE m.idCliente.idCliente = :idCliente AND m.tipo = 'clase'", Membresia.class)
+                        .setParameter("idCliente", idCliente)
+                        .getSingleResult();
+
+                if (membresiaClase != null) {
+                    // En lugar de borrarla con remove(), la vencemos asignándole la fecha de ayer
+                    membresiaClase.setFechaVencimiento(LocalDate.now().minusDays(1));
+                    em.merge(membresiaClase); // Actualizamos el registro
+
+                    System.out.println("Membresía de clase expirada (cancelada) para el cliente: " + idCliente);
+                }
+            } catch (jakarta.persistence.NoResultException nre) {
+                System.out.println("El cliente no tenía una membresía de tipo clase activa.");
+            }
 
             tx.commit();
 
