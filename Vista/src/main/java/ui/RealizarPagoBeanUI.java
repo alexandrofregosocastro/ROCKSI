@@ -475,13 +475,12 @@ public class RealizarPagoBeanUI implements Serializable {
         return tipo;
     }
 
-    // Ponlo en cualquier parte de tu RealizarPagoBeanUI (al final de los métodos, por ejemplo)
     public void verificarAperturaAutomatica() {
         FacesContext fc = FacesContext.getCurrentInstance();
         Boolean abrirModal = (Boolean) fc.getExternalContext().getSessionMap().get("abrirModalPagoClase");
 
         if (abrirModal != null && abrirModal) {
-            // Borramos la bandera para que no se vuelva a abrir al recargar la página (F5)
+            // Borramos la bandera para que no se vuelva a abrir al recargar la página
             fc.getExternalContext().getSessionMap().remove("abrirModalPagoClase");
 
             // Mandamos a abrir el diálogo de método de pago 2
@@ -489,13 +488,12 @@ public class RealizarPagoBeanUI implements Serializable {
         }
     }
 
-    // Ponlo en cualquier parte de tu RealizarPagoBeanUI (al final de los métodos, por ejemplo)
     public void verificarAperturaAutomatica1() {
         FacesContext fc = FacesContext.getCurrentInstance();
         Boolean abrirModal = (Boolean) fc.getExternalContext().getSessionMap().get("abrirModalPagoMembresia");
 
         if (abrirModal != null && abrirModal) {
-            // Borramos la bandera para que no se vuelva a abrir al recargar la página (F5)
+            // Borramos la bandera para que no se vuelva a abrir al recargar la página
             fc.getExternalContext().getSessionMap().remove("abrirModalPagoMembresia");
 
             // Mandamos a abrir el diálogo de método de pago 1

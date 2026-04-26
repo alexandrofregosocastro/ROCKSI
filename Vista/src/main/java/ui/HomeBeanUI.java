@@ -2,6 +2,7 @@ package ui;
 
 import helper.ClienteHelper;
 import helper.InventarioDiarioHelper;
+import helper.MembresiaHelper; // IMPORTANTE: Agregamos el helper
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.application.FacesMessage;
@@ -9,8 +10,10 @@ import jakarta.faces.context.FacesContext;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import mx.desarollo.entity.Cliente;
+import mx.desarollo.entity.Membresia; // IMPORTANTE: Agregamos la entidad
 
 import java.io.Serializable;
+import java.time.LocalDate; // IMPORTANTE: Agregamos LocalDate
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +27,9 @@ public class HomeBeanUI implements Serializable {
     private ClienteHelper clienteHelper;
 
     private final InventarioDiarioHelper inventarioHelper = new InventarioDiarioHelper();
+
+    // Helper de membresías para poder hacer una validación completa
+    private final MembresiaHelper membresiaHelper = new MembresiaHelper();
 
     private String idBusqueda;
     private List<Cliente> listaIngresos;
@@ -48,13 +54,29 @@ public class HomeBeanUI implements Serializable {
 
             if (clienteEncontrado != null) {
 
-
+                // Verificamos que el cliente no esté eliminado
                 if (clienteEncontrado.getEstatus() != 1) {
                     fc.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Acceso Denegado",
                             "El cliente " + clienteEncontrado.getNombreCompleto() + " se encuentra dado de baja."));
                     this.idBusqueda = "";
                     return;
                 }
+
+                // Verificamos que la membresía del cliente está activa
+                Membresia membresiaActual = membresiaHelper.obtenerMembresiaPorCliente(clienteEncontrado.getIdCliente(), "membresia");
+
+                // Bloqueamos si no tiene membresía, si la fecha es nula, o si la fecha de vencimiento ya pasó (Ayer)
+                if (membresiaActual == null ||
+                        membresiaActual.getFechaVencimiento() == null ||
+                        membresiaActual.getFechaVencimiento().isBefore(LocalDate.now())) {
+
+                    fc.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Acceso Denegado",
+                            "El cliente " + clienteEncontrado.getNombreCompleto() + " tiene su membresía vencida o inactiva. ¡Debe pasar a pagar!"));
+                    this.idBusqueda = "";
+                    return; // Cortamos el flujo para que no se registre la entrada
+                }
+
+                // Verificamos que no se haya registrado ya hoy
                 boolean yaRegistrado = listaIngresos.stream()
                         .anyMatch(c -> c.getIdCliente().equals(clienteEncontrado.getIdCliente()));
 
@@ -65,6 +87,8 @@ public class HomeBeanUI implements Serializable {
                     this.idBusqueda = "";
                     return;
                 }
+
+                // Si pasó todas las validaciones, lo dejamos entrar
                 listaIngresos.add(0, clienteEncontrado);
 
                 fc.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Bienvenido",
@@ -93,6 +117,7 @@ public class HomeBeanUI implements Serializable {
                     "Error al iniciar día", e.getMessage()));
         }
     }
+
     public String getIdBusqueda() {
         return idBusqueda;
     }
