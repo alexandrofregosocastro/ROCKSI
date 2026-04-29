@@ -15,7 +15,7 @@ public class UsuarioRFacade {
      * @return void
      */
     public void registrarUsuarioRecepcionista(Usuariorecepcionista ur) throws Exception {
-        usuarioRDelegate.registrarUsuarioRecepcionista(ur);
+        usuarioRDelegate.registrarUsuarioR(ur);
     }
 
     public Usuariorecepcionista obtenerUsuarioRPorId(String id) {

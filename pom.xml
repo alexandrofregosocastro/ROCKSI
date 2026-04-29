@@ -29,6 +29,13 @@
             <version>5.9.3</version>
             <scope>test</scope>
         </dependency>
+
+        <!-- Dependecia agregada paraencriptar contraseña de usarios (Admin y Recepcionista) -->
+        <dependency>
+            <groupId>org.mindrot</groupId>
+            <artifactId>jbcrypt</artifactId>
+            <version>0.4</version>
+        </dependency>
     </dependencies>
 
     <build>

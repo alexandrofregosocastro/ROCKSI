@@ -3,6 +3,7 @@ package mx.desarollo.delegate;
 import mx.avanti.desarollo.dao.UsuarioRDAO;
 import mx.avanti.desarollo.integration.ServiceLocator;
 import mx.desarollo.entity.Usuariorecepcionista;
+import org.mindrot.jbcrypt.BCrypt;
 
 import java.util.List;
 
@@ -19,7 +20,7 @@ public class UsuarioRDelegate {
      * @params Un objeto de tipo Usuariorecepcionista
      * @return void
      */
-    public void registrarUsuarioRecepcionista(Usuariorecepcionista ur) throws Exception {
+    public void registrarUsuarioR(Usuariorecepcionista ur) throws Exception {
         //validaciones
         if (ur.getNombreCompleto() == null || ur.getNombreCompleto().trim().isEmpty()) {
             throw new Exception("El nombre no puede estar vacio.");
@@ -36,7 +37,16 @@ public class UsuarioRDelegate {
             throw new Exception("El nombre solo puede contener letras y espacios.");
         }
 
+        // Encriptacion (Hashing)
+        // Generamos un hash a partir de la contraseña
+        String passwordPlana = ur.getContrasena();
+        String passwordHasheada = BCrypt.hashpw(passwordPlana, BCrypt.gensalt());
+
+        // Sustituimos la contraseña texto por la encriptada antes de guardar
+        ur.setContrasena(passwordHasheada);
+
         ur.setEstatus(1);
+
         UsuarioRDAO.crearUsuarioR(ur);
     }
 
@@ -54,22 +64,30 @@ public class UsuarioRDelegate {
         }
     }
 
-    public void modificarUsuarioR(Usuariorecepcionista id) throws Exception {
+    public void modificarUsuarioR(Usuariorecepcionista ur) throws Exception {
         // validaciones basicas
-        if (id == null || id.getIdUsuariorecep() == null || id.getIdUsuariorecep().trim().isEmpty()) {
+        if (ur == null || ur.getIdUsuariorecep() == null || ur.getIdUsuariorecep().trim().isEmpty()) {
             throw new Exception("No se puede modificar un usuario sin identificación válida.");
         }
-        if (id.getNombreCompleto() == null || id.getNombreCompleto().trim().isEmpty()) {
+        if (ur.getNombreCompleto() == null || ur.getNombreCompleto().trim().isEmpty()) {
             throw new Exception("El nombre completo es obligatorio.");
         }
-        if (id.getCorreo() == null || !id.getCorreo().contains("@")) {
+        if (ur.getCorreo() == null || !ur.getCorreo().contains("@")) {
             throw new Exception("Ingrese un correo válido.");
         }
-        if (id.getContrasena() == null || id.getContrasena().trim().isEmpty()) {
+        if (ur.getContrasena() == null || ur.getContrasena().trim().isEmpty()) {
             throw new Exception("La contraseña no puede estar vacía.");
         }
 
-        UsuarioRDAO.actualizar(id);
+        // Encriptacion (Hashing)
+        // Generamos un hash a partir de la contraseña
+        String passwordPlana = ur.getContrasena();
+        String passwordHasheada = BCrypt.hashpw(passwordPlana, BCrypt.gensalt());
+
+        // Sustituimos la contraseña texto por la encriptada antes de guardar
+        ur.setContrasena(passwordHasheada);
+
+        UsuarioRDAO.actualizar(ur);
     }
 
     public boolean bajaUsuarioR(String id) throws Exception {

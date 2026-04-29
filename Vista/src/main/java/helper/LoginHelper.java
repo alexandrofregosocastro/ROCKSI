@@ -3,6 +3,7 @@ package helper;
 import mx.desarollo.entity.Usuarioadministrador;
 import mx.desarollo.entity.Usuariorecepcionista;
 import mx.desarollo.integration.ServiceFacadeLocator;
+import org.mindrot.jbcrypt.BCrypt;
 
 import java.io.Serializable;
 
@@ -17,7 +18,7 @@ public class LoginHelper implements Serializable {
 
         String idUpper = id.trim().toUpperCase();
 
-        if (idUpper.startsWith("ADM")) {
+        if (idUpper.startsWith("ADM") || idUpper.startsWith("UA")) {
             Usuarioadministrador admin = ServiceFacadeLocator.getInstanceAAFacade().obtenerUsuarioAPorId(idUpper);
 
             if (admin != null) {
@@ -25,7 +26,8 @@ public class LoginHelper implements Serializable {
                     throw new Exception("El usuario administrador ha sido dado de baja del sistema.");
                 }
 
-                if (admin.getContrasena().equals(contrasena)) {
+                // Verificamos si la contraseña texto es igual al hash de la BD
+                if (BCrypt.checkpw(contrasena, admin.getContrasena())) {
                     return admin;
                 } else {
                     throw new Exception("Contraseña incorrecta para el Administrador.");
@@ -41,7 +43,8 @@ public class LoginHelper implements Serializable {
                     throw new Exception("El usuario recepcionista ha sido dado de baja del sistema.");
                 }
 
-                if (recepcionista.getContrasena().equals(contrasena)) {
+                // Verificamos si la contraseña texto es igual al hash de la BD
+                if (BCrypt.checkpw(contrasena, recepcionista.getContrasena())) {
                     return recepcionista;
                 } else {
                     throw new Exception("Contraseña incorrecta para el Recepcionista.");

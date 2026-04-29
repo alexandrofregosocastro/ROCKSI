@@ -23,7 +23,7 @@ public class UsuarioAFacade {
      * @return void
      */
     public void registrarUsuarioAdministrador(Usuarioadministrador ua) throws Exception {
-        delegate.registrarUsuarioAdministrador(ua);
+        delegate.registrarUsuarioA(ua);
     }
 
     public void modificarUsuarioA(Usuarioadministrador ua) throws Exception {

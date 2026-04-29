@@ -4,6 +4,7 @@ import mx.avanti.desarollo.dao.UsuarioADao;
 import mx.avanti.desarollo.integration.ServiceLocator;
 import mx.desarollo.entity.Cliente;
 import mx.desarollo.entity.Usuarioadministrador;
+import org.mindrot.jbcrypt.BCrypt;
 
 import java.util.Date;
 import java.util.List;
@@ -22,7 +23,7 @@ public class UsuarioADelegate {
      * @params Un objeto de tipo Usuarioadministrador
      * @return void
      */
-    public void registrarUsuarioAdministrador(Usuarioadministrador ua) throws Exception {
+    public void registrarUsuarioA(Usuarioadministrador ua) throws Exception {
         //validaciones
         if (ua.getNombreCompleto() == null || ua.getNombreCompleto().trim().isEmpty()) {
             throw new Exception("El nombre no puede estar vacio.");
@@ -39,7 +40,16 @@ public class UsuarioADelegate {
             throw new Exception("El nombre solo puede contener letras y espacios.");
         }
 
+        // Encriptacion (Hashing)
+        // Generamos un hash a partir de la contraseña
+        String passwordPlana = ua.getContrasena();
+        String passwordHasheada = BCrypt.hashpw(passwordPlana, BCrypt.gensalt());
+
+        // Sustituimos la contraseña texto por la encriptada antes de guardar
+        ua.setContrasena(passwordHasheada);
+
         ua.setEstatus(1);
+
         usuarioADao.crearUsuarioA(ua);
     }
 
@@ -57,6 +67,14 @@ public class UsuarioADelegate {
         if (ua.getContrasena() == null || ua.getContrasena().trim().isEmpty()) {
             throw new Exception("La contraseña no puede estar vacía.");
         }
+
+        // Encriptacion (Hashing)
+        // Generamos un hash a partir de la contraseña
+        String passwordPlana = ua.getContrasena();
+        String passwordHasheada = BCrypt.hashpw(passwordPlana, BCrypt.gensalt());
+
+        // Sustituimos la contraseña texto por la encriptada antes de guardar
+        ua.setContrasena(passwordHasheada);
 
         usuarioADao.actualizar(ua);
     }
