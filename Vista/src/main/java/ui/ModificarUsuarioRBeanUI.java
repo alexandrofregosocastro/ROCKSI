@@ -31,6 +31,10 @@ public class ModificarUsuarioRBeanUI implements Serializable {
                 throw new Exception("El usuario con ID " + idUsuario + " no existe.");
             }
 
+            if (this.usuarioSeleccionado.getEstatus() == 0) {
+                throw new Exception("El recepcionista está actualmente dado de baja..");
+            }
+
             this.idUsuario = null;
             PrimeFaces.current().executeScript("PF('dlgBuscar').hide(); PF('dlgModificar').show();");
 

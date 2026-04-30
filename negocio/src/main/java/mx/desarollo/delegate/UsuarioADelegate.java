@@ -97,7 +97,11 @@ public class UsuarioADelegate {
     }
 
     public Usuarioadministrador obtenerUA(String id) {
-        return usuarioADao.buscarADMPorId(id);
+        Usuarioadministrador ua = usuarioADao.buscarADMPorId(id);
+        if (ua != null) {
+            ua.setContrasena(""); // Limpiamos el hash antes de enviarlo a la vista
+        }
+        return ua;
     }
 
 

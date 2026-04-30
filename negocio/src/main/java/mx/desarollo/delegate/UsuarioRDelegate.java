@@ -2,6 +2,7 @@ package mx.desarollo.delegate;
 
 import mx.avanti.desarollo.dao.UsuarioRDAO;
 import mx.avanti.desarollo.integration.ServiceLocator;
+import mx.desarollo.entity.Usuarioadministrador;
 import mx.desarollo.entity.Usuariorecepcionista;
 import org.mindrot.jbcrypt.BCrypt;
 
@@ -57,8 +58,11 @@ public class UsuarioRDelegate {
             if (id.isEmpty()) return null;
 
             Usuariorecepcionista ur = UsuarioRDAO.buscarURPorId(id);
-
+            if (ur != null) {
+                ur.setContrasena(""); // Limpiamos el hash antes de enviarlo a la vista
+            }
             return ur;
+
         } catch (Exception e) {
             throw new RuntimeException("Error obteniendo al usuario recepcionista con id=" + id, e);
         }

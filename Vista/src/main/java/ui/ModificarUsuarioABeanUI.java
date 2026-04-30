@@ -31,6 +31,10 @@ public class ModificarUsuarioABeanUI implements Serializable {
                 throw new Exception("El administrador con ID " + idUsuario + " no existe.");
             }
 
+            if (this.usuarioSeleccionado.getEstatus() == 0) {
+                throw new Exception("El administrador está actualmente dado de baja..");
+            }
+
             this.idUsuario = null;
             PrimeFaces.current().executeScript("PF('dlgBuscarAdmin').hide(); PF('dlgModificarAdmin').show();");
 
