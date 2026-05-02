@@ -1,11 +1,13 @@
 package ui;
 
 import helper.AsignarClaseHelper;
+import helper.ClaseHelper;
 import helper.ClienteHelper;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
 import jakarta.inject.Named;
+import mx.desarollo.entity.Clase;
 import mx.desarollo.entity.Cliente;
 import org.primefaces.PrimeFaces;
 import java.io.Serializable;
@@ -18,6 +20,7 @@ public class AsignarClaseBeanUI implements Serializable {
 
     private final AsignarClaseHelper helper = new AsignarClaseHelper();
     private final ClienteHelper clienteHelper = new ClienteHelper();
+    private final ClaseHelper  claseHelper = new ClaseHelper();
 
     public void asignarClase() {
         FacesContext fc = FacesContext.getCurrentInstance();
@@ -33,6 +36,12 @@ public class AsignarClaseBeanUI implements Serializable {
             Cliente clienteExistente = clienteHelper.obtenerCliente(idCliente);
             if (clienteExistente == null) {
                 throw new Exception("No se encontró ningún cliente con el ID: " + idCliente);
+            }
+
+            // Validacion para no enviar al cliente al pago de la clase, sí este ya esta asignado a esta clase
+            if (helper.verificarClaseAsignadaACliente(idCliente, idClase)) {
+                Clase clase = claseHelper.obtenerClase(idClase);
+                throw new Exception("El cliente " + idCliente + " ya está inscrito a la clase " + clase.getNombre() + ".");
             }
 
             // Metemos los datos del cliente y clase a la sesión
