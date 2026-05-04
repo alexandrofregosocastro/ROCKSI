@@ -1,11 +1,13 @@
 package ui;
 
+import helper.EmailHelper;
 import helper.PagaHelper;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
 import jakarta.inject.Named;
+import mx.desarollo.entity.Cliente;
 import mx.desarollo.entity.Paga;
 import org.primefaces.PrimeFaces;
 
@@ -89,10 +91,40 @@ public class PagaBeanUI implements Serializable {
             inverso.setIdUsuariorecep(original.getIdUsuariorecep());
             inverso.setFecha(LocalDate.now());
             inverso.setIdCliente(original.getIdCliente());
-            inverso.setMonto(-1*original.getMonto());
+            inverso.setMonto(-1 * original.getMonto());
             inverso.setPorPagar(original.getPorPagar());
-            // Registrar el pago inverso
+
+            // Registrar el pago inverso en la BD
             pagaHelper.RealizarPago(inverso, original.getIdItem().getIdItem());
+
+            // Enviar correo a cliente
+            try {
+                Cliente cliente = original.getIdCliente();
+                String correoCliente = cliente.getCorreoElectronico();
+
+                if (correoCliente != null && !correoCliente.trim().isEmpty()) {
+                    String asunto = "Aviso de Cancelación de Pago - Rock On";
+                    String mensaje = "Hola " + cliente.getNombreCompleto() + ",\n\n"
+                            + "Te informamos que tu pago con ID " + original.getIdPaga()
+                            + " por un monto de $" + original.getMonto()
+                            + " ha sido cancelado exitosamente en nuestro sistema.\n\n"
+                            + "Si tienes alguna duda, acércate a recepción.\n\n"
+                            + "Saludos,\nEl equipo de Rock On.";
+
+                            EmailHelper.enviarCorreo(correoCliente, asunto, mensaje);
+
+                    FacesContext.getCurrentInstance().addMessage(null,
+                            new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No se encontró el pago con ese ID."));
+
+                    // Esto se debera cambiar por un toast en la vista ya que tengamos el correo del cliente
+                    System.out.println("Correo de cancelación enviado exitosamente a: " + correoCliente);
+                } else {
+                    System.out.println("El cliente " + cliente.getIdCliente() + " no tiene correo registrado.");
+                }
+            } catch (Exception exMail) {
+                // Atrapamos el error si surge uno
+                System.err.println("Error al intentar enviar el correo de cancelación: " + exMail.getMessage());
+            }
 
             cargarPagos();
 

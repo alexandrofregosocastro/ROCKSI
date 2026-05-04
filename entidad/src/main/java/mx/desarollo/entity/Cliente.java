@@ -47,6 +47,10 @@ public class Cliente {
     @Column(name = "cantidadDineroMensual")
     private double cantidadDineroMensual;
 
+    @Column(name = "correoelectronico", length = 45)
+    private String correoElectronico;
+
+
     //constructores
 
     public Cliente() { this.estatus = 1; }
@@ -134,5 +138,9 @@ public class Cliente {
     public double getCantidadDineroMensual() {return cantidadDineroMensual;}
 
     public void setCantidadDineroMensual(double cantidadDineroMensual) {this.cantidadDineroMensual = cantidadDineroMensual;}
+
+    public String getCorreoElectronico() {return correoElectronico;}
+
+    public void setCorreoElectronico(String correoElectronico){this.correoElectronico = correoElectronico;}
 
 }
