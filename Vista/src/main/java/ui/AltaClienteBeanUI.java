@@ -43,13 +43,14 @@ public class AltaClienteBeanUI implements Serializable {
             // Metemos la bandera que le avisa a la otra página que abra el modal
             fc.getExternalContext().getSessionMap().put("abrirModalPagoMembresia", true);
 
-            FacesContext.getCurrentInstance().getExternalContext().redirect("pagos.xhtml");
-
             this.nombre = "";
             this.apellido = "";
             this.telefono = "";
             this.sexo = "";
             this.cantidadDineroMensual = 0;
+
+            FacesContext.getCurrentInstance().getExternalContext().redirect("pagos.xhtml");
+
         } catch (IOException e) {
             e.printStackTrace();
         } catch (Exception e) {
