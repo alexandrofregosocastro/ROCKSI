@@ -17,8 +17,14 @@ public class BajaProductoBeanUI implements Serializable {
     public void eliminarProducto(){
         try{
             boolean eliminado = productoHelper.eliminarProductos(idProducto);//Se usa boolean para verificar si se elimino o no
+            FacesContext fc = FacesContext.getCurrentInstance();
+
             if(eliminado){
-                FacesContext.getCurrentInstance().addMessage(null,
+                ProductoBeanUI productoBeanUI = (ProductoBeanUI) fc.getApplication()
+                        .getELResolver().getValue(fc.getELContext(), null, "productoBeanUI");
+                if (productoBeanUI != null) productoBeanUI.cargarProductos();
+
+                fc.addMessage(null,
                         new FacesMessage(FacesMessage.SEVERITY_INFO, "Baja Exitosa", "Producto eliminado correctamente."));
             } else {
                 FacesContext.getCurrentInstance().addMessage(null,

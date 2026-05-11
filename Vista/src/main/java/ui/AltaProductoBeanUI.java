@@ -45,6 +45,9 @@ public class AltaProductoBeanUI implements Serializable {
             nuevoProducto.setIdUsuarioAdmin("ADM1000"); //Admin que despues se cambiara
             productoHelper.altaProducto(nuevoProducto);
 
+            ProductoBeanUI productoBeanUI = (ProductoBeanUI) fc.getApplication().getELResolver().getValue(fc.getELContext(), null, "productoBeanUI");
+            if (productoBeanUI != null) productoBeanUI.cargarProductos();
+
             fc.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
                     "Registro exitoso", "El producto fue agregado correctamente."));
 

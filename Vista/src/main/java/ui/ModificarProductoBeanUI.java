@@ -72,6 +72,9 @@ public class ModificarProductoBeanUI implements Serializable {
 
             productoHelper.modificarProducto(productoEncontrado);
 
+            ProductoBeanUI productoBeanUI = (ProductoBeanUI) fc.getApplication().getELResolver().getValue(fc.getELContext(), null, "productoBeanUI");
+            if (productoBeanUI != null) productoBeanUI.cargarProductos();
+
             fc.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
                     "Modificación exitosa", "El producto fue actualizado correctamente."));
 
