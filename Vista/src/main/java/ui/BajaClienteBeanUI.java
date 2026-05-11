@@ -4,7 +4,10 @@ import helper.ClienteHelper;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
+import jakarta.inject.Inject;
 import jakarta.inject.Named;
+import org.primefaces.PrimeFaces;
+
 import java.io.Serializable;
 
 @Named("bajaClienteBeanUI")
@@ -20,7 +23,14 @@ public class BajaClienteBeanUI implements Serializable {
             //Se usa un boolean para confirmar si la transaccion fue un exito o no
 
             if (eliminado) {
-                FacesContext.getCurrentInstance().addMessage(null,
+                FacesContext fc = FacesContext.getCurrentInstance();
+                ClienteBeanUI clienteBeanUI = (ClienteBeanUI) fc.getApplication().getELResolver().getValue(fc.getELContext(), null, "clienteBeanUI");
+
+                if (clienteBeanUI != null) {
+                    clienteBeanUI.probarConexion();
+                }
+
+                fc.addMessage(null,
                         new FacesMessage(FacesMessage.SEVERITY_INFO, "Baja Exitosa", "Cliente eliminado correctamente."));
             } else {
                 FacesContext.getCurrentInstance().addMessage(null,

@@ -1,7 +1,7 @@
 package ui;
 
 import jakarta.annotation.PostConstruct;
-import jakarta.enterprise.context.SessionScoped;
+import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Named;
 import java.util.List;
 import mx.desarollo.entity.Cliente;
@@ -9,7 +9,7 @@ import helper.ClienteHelper;
 import java.io.Serializable;
 
 @Named("clienteBeanUI")
-@SessionScoped
+@ViewScoped
 public class ClienteBeanUI implements Serializable {
     private List<Cliente> listaClientes; // Lista de clientes necesesaria para consulta de clientes
     private ClienteHelper clienteHelper = new ClienteHelper(); // Instancia del helper de clientes
