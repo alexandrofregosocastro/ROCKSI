@@ -102,6 +102,22 @@ public class ModificarClienteBeanUI implements Serializable {
         }
     }
 
+    public void cargarClienteDesdeTabla(Cliente c) {
+        this.cliente = c;
+        String nc = c.getNombreCompleto() == null ? "" : c.getNombreCompleto().trim();
+        if (nc.isEmpty()) {
+            this.nombre = "";
+            this.apellido = "";
+        } else {
+            String[] parts = nc.split("\\s+", 2);
+            this.nombre = parts.length > 0 ? parts[0] : "";
+            this.apellido = parts.length > 1 ? parts[1] : "";
+        }
+        this.telefono = c.getTelefono();
+        this.segundoTelefono = c.getSegundoTelefono();
+        this.sexo = c.getSexo();
+    }
+
     public String getNombre() { return nombre; }
     public void setNombre(String nombre) { this.nombre = nombre; }
 

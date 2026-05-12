@@ -452,6 +452,7 @@
         <div class="card">
             <h:form id="formClientes">
                 <h1>Clientes</h1>
+                <p:growl id="msgsGrowl" showDetail="true" life="3000"/>
 
                 <div class="action-buttons">
                     <h:outputLabel for="txtFiltro" value="ID Cliente"/>
@@ -605,7 +606,8 @@
                     <p:commandButton id="modificarBtn" value="Modificar al cliente"
                                      action="#{modificarCliBeanUI.modificarCliente}"
                                      process="@this nombreMod apellidoMod telefonoMod segundoTel sexoMod"
-                                     update="msgsModificar : formClientes:tablaClientes" icon="pi pi-check" styleClass="btn"
+                                     update=":formClientes:msgsGrowl :formClientes:tablaClientes" icon="pi pi-check" styleClass="btn"
+                                     oncomplete="if (!args.validationFailed) { PF('dlgModificarCliente').hide(); }"
                                      style="background: #007bff !important; background-image: none !important;
                                             color: #fff !important; border: none !important; box-shadow: none !important;"/>
                 </p:dialog>
@@ -629,34 +631,35 @@
                                      icon="pi pi-times-circle" styleClass="btn-baja"
                                      onclick="PF('dlgConfirmar').show(); return false;"
                     />
+                </p:dialog>
 
                     <!-- dialog de confirmacion de eliminacion -->
-                    <p:confirmDialog id="confirmDialog"
-                                     widgetVar="dlgConfirmar"
-                                     header="Confirmar modificación"
-                                     message="¿Seguro que deseas eliminar este cliente?"
-                                     icon="pi pi-exclamation-triangle"
-                                     closable="false"
-                                     modal="true"
-                                     style="width: 400px;">
+                    <p:dialog widgetVar="dlgConfirmarTabla"
+                              header="Confirmar eliminación"
+                              modal="true"
+                              resizable="false"
+                              draggable="false"
+                              closable="false"
+                              width="400">
+
+                        <h:outputText value="¿Seguro que deseas eliminar este cliente?"
+                                      style="display:block; margin-bottom:15px;"/>
 
                         <!-- Boton si ejecuta la acción real -->
                         <p:commandButton value="Sí, eliminar"
                                          icon="pi pi-check"
                                          action="#{bajaClienteBeanUI.eliminarCliente}"
-                                         process="@this idClienteEliminar"
-                                         update=":formClientes:msgsEliminar :formClientes:tablaClientes"
-                                         oncomplete="PF('dlgConfirmar').hide();"
-                                         styleClass="btn-confirmar"
+                                         process="@this"
+                                         update=":formClientes:msgsEliminar :formClientes:tablaClientes :formClientes:msgsGrowl"
+                                         oncomplete="PF('dlgConfirmarTabla').hide();"
                                          style="background:#007bff !important; color:#fff !important; border:none !important; box-shadow:none !important;"/>
 
                         <!-- Boton cancelar cierra el diálogo -->
                         <p:commandButton value="Cancelar"
                                          icon="pi pi-times"
-                                         onclick="PF('dlgConfirmar').hide(); return false;"
+                                         onclick="PF('dlgConfirmarTabla').hide(); return false;"
                                          type="button"
                                          style="background: #007bff !important; background-image: none !important; color: #fff !important; border: none !important; box-shadow: none !important;"/>
-                    </p:confirmDialog>
                 </p:dialog>
 
                 <!-- Tabla de clientes -->
@@ -710,6 +713,25 @@
 
                     <p:column headerText="Pago Mensual" sortBy="#{cli.cantidadDineroMensual}">
                         <h:outputText value="#{cli.cantidadDineroMensual}"/>
+                    </p:column>
+
+                    <p:column headerText="Acciones" style="width:120px; text-align:center;">
+                        <p:commandButton icon="pi pi-pencil"
+                                         title="Modificar"
+                                         styleClass="btn-modificar"
+                                         style="margin-right:5px;"
+                                         action="#{modificarCliBeanUI.cargarClienteDesdeTabla(cli)}"
+                                         process="@this"
+                                         update=":formClientes:dlgModificar"
+                                         oncomplete="PF('dlgModificarCliente').show();"/>
+
+                        <p:commandButton icon="pi pi-trash"
+                                         title="Eliminar"
+                                         styleClass="btn-baja"
+                                         actionListener="#{bajaClienteBeanUI.prepararEliminacion(cli.idCliente)}"
+                                         process="@this"
+                                         oncomplete="PF('dlgConfirmarTabla').show();"
+                                         style="margin-left:5px;"/>
                     </p:column>
 
                     <!-- Subtabla de clases asignadas -->

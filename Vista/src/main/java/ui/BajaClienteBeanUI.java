@@ -17,6 +17,10 @@ public class BajaClienteBeanUI implements Serializable {
     private String idCliente;
     private final ClienteHelper clienteHelper = new ClienteHelper();
 
+    public void prepararEliminacion(String id) {
+        this.idCliente = id;
+    }
+
     public void eliminarCliente() {
         try {
             boolean eliminado = clienteHelper.eliminarCliente(idCliente);
