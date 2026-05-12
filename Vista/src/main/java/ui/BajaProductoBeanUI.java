@@ -14,6 +14,10 @@ public class BajaProductoBeanUI implements Serializable {
     private String idProducto;
     private final ProductoHelper productoHelper = new ProductoHelper();
 
+    public void prepararEliminacion(String id) {
+        this.idProducto = id;
+    }
+
     public void eliminarProducto(){
         try{
             boolean eliminado = productoHelper.eliminarProductos(idProducto);//Se usa boolean para verificar si se elimino o no

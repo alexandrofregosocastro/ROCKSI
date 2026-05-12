@@ -84,6 +84,14 @@ public class ModificarProductoBeanUI implements Serializable {
         }
     }
 
+    public void cargarProductoDesdeTabla(Producto p) {
+        this.productoEncontrado = p;
+        this.nombre = p.getNombre();
+        this.stock = p.getStock();
+        this.precio = p.getPrecio();
+        this.proveedor = p.getProveedor();
+    }
+
     //getters y setters
     public String getBusquedaId() { return busquedaId; }
     public void setBusquedaId(String busquedaId) { this.busquedaId = busquedaId; }

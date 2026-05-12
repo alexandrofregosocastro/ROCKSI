@@ -743,14 +743,32 @@
                     </p:column>
                     <p:column headerText="Proveedor" sortBy="#{pro.proveedor}">
                         <h:outputText value="#{pro.proveedor}"/>
-                    </p:column> </p:dataTable>
+                    </p:column>
+
+                    <p:column headerText="Acciones" style="width:120px; text-align:center;">
+                        <p:commandButton icon="pi pi-pencil"
+                                         title="Modificar"
+                                         styleClass="btn-modificar"
+                                         style="margin-right:5px;"
+                                         actionListener="#{modificarProdBeanUI.cargarProductoDesdeTabla(pro)}"
+                                         process="@this"
+                                         update="formModificarProd"
+                                         oncomplete="PF('dlgModificarProd').show();"/>
+
+                        <p:commandButton icon="pi pi-trash"
+                                         title="Eliminar"
+                                         styleClass="btn-baja"
+                                         actionListener="#{bajaProductoBeanUI.prepararEliminacion(pro.idItem)}"
+                                         process="@this"
+                                         oncomplete="PF('dlgConfirmarProductoTabla').show();"
+                                         style="margin-left:5px;"/>
+                    </p:column>
+                </p:dataTable>
             </h:form>
         </div>
     </div>
     <p:dialog header="Nuevo producto" widgetVar="dlgAgregarProducto" modal="true"
               resizable="false" closable="true" draggable="false" width="360" rendered="#{loginBeanUI.isAdmin()}"> <h:form id="formAltaProducto">
-
-        <p:messages id="msgsAltaProducto" showDetail="true" closable="true"/>
 
         <div class="form-group">
             <h:outputLabel for="nombreProducto" value="Nombre"/>
@@ -798,7 +816,7 @@
                          icon="pi pi-plus-circle"
                          action="#{altaProdBeanUI.altaProducto}"
                          process="@form"
-                         update="@form formProductos:tablaProductos :formProductos:tablaProductosMini"
+                         update="@form formProductos:tablaProductos :formProductos:tablaProductosMini :formProductos:msgs"
                          style="background:#007bff; color:#fff; border:none;"/>
     </div>
     </h:form>
@@ -866,8 +884,8 @@
             <p:commandButton value="Guardar cambios"
                              icon="pi pi-check"
                              action="#{modificarProdBeanUI.modificarProducto}"
-                             update="msgsModificar formBuscarProd:msgsAsk :formProductos:tablaProductos :formProductos:tablaProductosMini"
-                             oncomplete="if (!args.validationFailed) { PF('dlgModificarProd').hide(); PF('dlgBuscarProd').show(); }"/>
+                             update="msgsModificar formBuscarProd:msgsAsk :formProductos:tablaProductos :formProductos:tablaProductosMini :formProductos:msgs"
+                             oncomplete="if (!args.validationFailed) { PF('dlgModificarProd').hide(); }"/>
         </div>
 
         <div style="text-align:center; margin-top:10px;">
@@ -897,31 +915,32 @@
             <p:commandButton id="abrirConfirmarProductoBtn" value="Eliminar Producto"
                              icon="pi pi-times-circle"
                              styleClass="btn-baja"
-                             onclick="PF('dlgConfirmar').show(); return false;"
-                             type="button"/>
+                             actionListener="#{bajaProductoBeanUI.prepararEliminacion(bajaProductoBeanUI.idProducto)}"
+                             process="@this idEliminarProducto"
+                             oncomplete="PF('dlgConfirmarProductoTabla').show(); PF('dlgEliminarProducto').hide();"/>
+        </h:form>
+    </p:dialog>
 
-            <p:confirmDialog id="confirmDialog"
-                             widgetVar="dlgConfirmar"
-                             header="Confirmar Eliminación"
-                             message="¿Seguro que deseas eliminar este producto?"
-                             icon="pi pi-exclamation-triangle"
-                             closable="false" modal="true">
+    <p:dialog widgetVar="dlgConfirmarProductoTabla" header="Confirmar eliminación"
+              modal="true" resizable="false" draggable="false"
+              closable="false" width="400">
 
-                <p:commandButton value="Sí, eliminar"
-                                 icon="pi pi-check"
-                                 action="#{bajaProductoBeanUI.eliminarProducto}"
-                                 process="@form"
-                                 update="msgsEliminarProducto :formProductos:tablaProductos :formProductos:tablaProductosMini"
-                                 oncomplete="PF('dlgConfirmar').hide();"
-                                 style="background:#007bff !important; color:#fff !important; border:none !important;"/>
+        <h:outputText value="¿Seguro que deseas eliminar este producto?"
+                      style="display:block; margin-bottom:15px;"/>
+
+            <p:commandButton value="Sí, eliminar"
+                             icon="pi pi-check"
+                             action="#{bajaProductoBeanUI.eliminarProducto}"
+                             process="@this"
+                             update=":formProductos:msgs :formProductos:tablaProductos :formProductos:tablaProductosMini"
+                             oncomplete="PF('dlgConfirmarProductoTabla').hide();"
+                             style="background:#007bff !important; color:#fff !important; border:none !important;"/>
 
                 <p:commandButton value="Cancelar"
                                  icon="pi pi-times"
-                                 onclick="PF('dlgConfirmar').hide(); return false;"
+                                 onclick="PF('dlgConfirmarProductoTabla').hide(); return false;"
                                  type="button"
-                                 style="background:#007bff !important; color:#fff !important; border:none !important;"/>
-            </p:confirmDialog>
-        </h:form>
+                                 style="background:#007bff !important; color:#fff !important; border:none !important; margin-left:10px;"/>
     </p:dialog>
 
     <h:form id="formPrincipal">
