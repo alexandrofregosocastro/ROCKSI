@@ -6,6 +6,7 @@ import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
 import jakarta.inject.Named;
 import mx.desarollo.entity.Clase;
+import ui.ClaseBeanUI;
 import org.primefaces.PrimeFaces;
 
 import java.io.Serializable;
@@ -71,6 +72,10 @@ public class AltaClaseBeanUI implements Serializable {
             nuevaClase.setTipo("clase");
 
             claseHelper.AltaClase(nuevaClase);
+
+            ClaseBeanUI claseBeanUI = (ClaseBeanUI) fc.getApplication()
+                    .getELResolver().getValue(fc.getELContext(), null, "claseBeanUI");
+            if (claseBeanUI != null) claseBeanUI.cargarClases();
 
             fc.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Registro exitoso", "La clase fue agregada correctamente."));
            // PrimeFaces.current().ajax().update("formClases:tablaClases formClases:msgsClase");

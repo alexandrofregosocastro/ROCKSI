@@ -5,6 +5,7 @@ import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
 import jakarta.inject.Named;
+import ui.ClaseBeanUI;
 
 import java.io.Serializable;
 
@@ -20,6 +21,11 @@ public class BajaClaseBeanUI implements Serializable {
             boolean eliminado = claseHelper.eliminarClase(idClase);//Se usa boolean para verificar si se elimino o no
 
             if(eliminado){
+                FacesContext fc = FacesContext.getCurrentInstance();
+                ClaseBeanUI claseBeanUI = (ClaseBeanUI) fc.getApplication()
+                        .getELResolver().getValue(fc.getELContext(), null, "claseBeanUI");
+                if (claseBeanUI != null) claseBeanUI.cargarClases();
+
                 FacesContext.getCurrentInstance().addMessage(null,
                         new FacesMessage(FacesMessage.SEVERITY_INFO, "Baja Exitosa", "Clase eliminado correctamente."));
             } else {

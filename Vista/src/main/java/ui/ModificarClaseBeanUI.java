@@ -11,6 +11,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import ui.ClaseBeanUI;
 
 import mx.desarollo.entity.Clase;
 import mx.desarollo.entity.Cliente;
@@ -145,6 +146,11 @@ public class ModificarClaseBeanUI implements Serializable {
 
             // Modifico la clase con el metodo .modificarClase de ClaseHelper
             guardarClase.modificarClase(this.clase);
+
+            ClaseBeanUI claseBeanUI = (ClaseBeanUI) fc.getApplication()
+                    .getELResolver().getValue(fc.getELContext(), null, "claseBeanUI");
+            if (claseBeanUI != null) claseBeanUI.cargarClases();
+
 
             // Si se modifico correctamente entonces muestro Modificacion Exitosa
             fc.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Modificación exitosa", "Clase modificada correctamente."));
