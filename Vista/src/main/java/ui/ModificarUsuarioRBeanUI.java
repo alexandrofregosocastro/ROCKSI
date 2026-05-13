@@ -51,21 +51,22 @@ public class ModificarUsuarioRBeanUI implements Serializable {
 
             usuarioRHelper.modificarUsuarioR(usuarioSeleccionado);
 
-            addMessage(FacesMessage.SEVERITY_INFO, "Éxito", "Usuario modificado correctamente.");
+            mostrarMensaje(FacesMessage.SEVERITY_INFO, "Éxito", "Usuario modificado.");
             PrimeFaces.current().executeScript("PF('dlgModificar').hide();");
 
         } catch (Exception e) {
-            addMessage(FacesMessage.SEVERITY_ERROR, "Error al modificar", e.getMessage());
+            mostrarMensaje(FacesMessage.SEVERITY_ERROR, "Error", "Al modificar al Recepcionista.");
         }
+    }
+
+    // Metodo para mostrar mensajes
+    private void mostrarMensaje(FacesMessage.Severity severidad, String titulo, String detalle) {
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severidad, titulo, detalle));
     }
 
     public void prepararBusqueda() {
         this.idUsuario = null;
         this.usuarioSeleccionado = null;
-    }
-
-    private void addMessage(FacesMessage.Severity severity, String summary, String detail) {
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));
     }
 
     // getters y setters

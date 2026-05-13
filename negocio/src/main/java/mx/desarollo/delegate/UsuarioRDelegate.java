@@ -79,17 +79,19 @@ public class UsuarioRDelegate {
         if (ur.getCorreo() == null || !ur.getCorreo().contains("@")) {
             throw new Exception("Ingrese un correo válido.");
         }
+
+        // logica para editar la contrasena
         if (ur.getContrasena() == null || ur.getContrasena().trim().isEmpty()) {
-            throw new Exception("La contraseña no puede estar vacía.");
+            // Si viene vacía, es que no se edita la contrasena
+            // conservamos el hash antiguo
+            Usuariorecepcionista usuarioViejo = UsuarioRDAO.buscarURPorId(ur.getIdUsuariorecep());
+            ur.setContrasena(usuarioViejo.getContrasena());
+        } else {
+            // Si no viene vacia significa que se modifico
+            String passwordPlana = ur.getContrasena();
+            String passwordHasheada = BCrypt.hashpw(passwordPlana, BCrypt.gensalt());
+            ur.setContrasena(passwordHasheada);
         }
-
-        // Encriptacion (Hashing)
-        // Generamos un hash a partir de la contraseña
-        String passwordPlana = ur.getContrasena();
-        String passwordHasheada = BCrypt.hashpw(passwordPlana, BCrypt.gensalt());
-
-        // Sustituimos la contraseña texto por la encriptada antes de guardar
-        ur.setContrasena(passwordHasheada);
 
         UsuarioRDAO.actualizar(ur);
     }

@@ -392,24 +392,45 @@
             <h:panelGroup rendered="#{modificarUsuarioRBeanUI.usuarioSeleccionado != null}">
                 <div class="form-group">
                     <h:outputLabel value="Nombre Completo"/>
-                    <p:inputText value="#{modificarUsuarioRBeanUI.usuarioSeleccionado.nombreCompleto}" required="true"/>
+                    <p:inputText id="nombreRecep"
+                                 value="#{modificarUsuarioRBeanUI.usuarioSeleccionado.nombreCompleto}"
+                                 required="true"
+                                 onkeyup="validarFormRecep();"/>
                 </div>
 
                 <div class="form-group">
                     <h:outputLabel value="Correo Electrónico"/>
-                    <p:inputText value="#{modificarUsuarioRBeanUI.usuarioSeleccionado.correo}" required="true"/>
+                    <p:inputText id="correoRecep"
+                                 value="#{modificarUsuarioRBeanUI.usuarioSeleccionado.correo}"
+                                 required="true"
+                                 onkeyup="validarFormRecep();"/>
                 </div>
 
                 <div class="form-group">
-                    <h:outputLabel value="Contraseña"/>
-                    <p:password value="#{modificarUsuarioRBeanUI.usuarioSeleccionado.contrasena}"
-                                redisplay="true" required="true" toggleMask="true"/>
+                    <h:outputLabel value="Nueva Contraseña"/>
+                    <p:password id="passRecep"
+                                value="#{modificarUsuarioRBeanUI.usuarioSeleccionado.contrasena}"
+                                required="true"
+                                toggleMask="true"
+                                placeholder="Obligatorio escribir contraseña"
+                                requiredMessage="La contraseña es obligatoria"
+                                onkeyup="validarFormRecep();"/>
                 </div>
 
-                <p:commandButton value="Guardar Cambios" icon="pi pi-save"
-                                 actionListener="#{modificarUsuarioRBeanUI.modificarUsuarioR}"
-                                 update="msgsModificar :globalMsgs"
-                                 styleClass="btn-custom" style="background: #007bff !important; color: #fff !important; border: none; width:100%;"/>
+                <div style="display:flex; gap:10px; margin-top: 15px;">
+                    <p:commandButton value="Cancelar" icon="pi pi-times"
+                                     type="button"
+                                     onclick="PF('dlgModificar').hide();"
+                                     style="background: #dc3545 !important; color: #fff !important; border: none; width:50%;" />
+
+                    <p:commandButton id="btnGuardarRecep" widgetVar="btnGuardarRecepWV"
+                                     value="Guardar Cambios" icon="pi pi-save"
+                                     actionListener="#{modificarUsuarioRBeanUI.modificarUsuarioR}"
+                                     update="msgsModificar :globalMsgs :formRecep:tablaRecep"
+                                     oncomplete="if (args &amp;&amp; !args.validationFailed) { PF('dlgModificar').hide(); }"
+                                     styleClass="btn-custom btn-disabled"
+                                     style="background: #007bff !important; color: #fff !important; border: none; width:50%;"/>
+                </div>
             </h:panelGroup>
         </h:form>
     </p:dialog>
@@ -538,25 +559,41 @@
             <h:panelGroup rendered="#{modificarUsuarioABeanUI.usuarioSeleccionado != null}">
                 <div class="form-group">
                     <h:outputLabel value="Nombre Completo"/>
-                    <p:inputText value="#{modificarUsuarioABeanUI.usuarioSeleccionado.nombreCompleto}" required="true"/>
+                    <p:inputText id="nombreAdmin" value="#{modificarUsuarioABeanUI.usuarioSeleccionado.nombreCompleto}" required="true"
+                                 onkeyup="validarFormAdmin();"/>
                 </div>
 
                 <div class="form-group">
                     <h:outputLabel value="Correo Electrónico"/>
-                    <p:inputText value="#{modificarUsuarioABeanUI.usuarioSeleccionado.correo}" required="true"/>
+                    <p:inputText id="correoAdmin" value="#{modificarUsuarioABeanUI.usuarioSeleccionado.correo}" required="true"
+                                 onkeyup="validarFormAdmin();"/>
                 </div>
 
                 <div class="form-group">
-                    <h:outputLabel value="Contraseña"/>
-                    <p:password value="#{modificarUsuarioABeanUI.usuarioSeleccionado.contrasena}"
-                                redisplay="true" required="true" toggleMask="true"/>
+                    <h:outputLabel value="Nueva Contraseña"/>
+                    <p:password id="passAdmin"
+                                value="#{modificarUsuarioABeanUI.usuarioSeleccionado.contrasena}"
+                                required="true"
+                                toggleMask="true"
+                                placeholder="Obligatorio escribir contraseña"
+                                requiredMessage="La contraseña es obligatoria"
+                                onkeyup="validarFormAdmin();"/>
                 </div>
 
-                <p:commandButton value="Guardar Cambios" icon="pi pi-save"
-                                 actionListener="#{modificarUsuarioABeanUI.modificarUsuarioA}"
-                                 update="msgsModificarAdmin :globalMsgs :formAdmin:tablaAdmin"
-                                 oncomplete="if (args &amp;&amp; !args.validationFailed) { PF('dlgModificarAdmin').hide(); }"
-                                 styleClass="btn-custom" style="background: #007bff !important; color: #fff !important; border: none; width:100%;"/>
+                <div style="display:flex; gap:10px; margin-top: 15px;">
+                    <p:commandButton value="Cancelar" icon="pi pi-times"
+                                     type="button"
+                                     onclick="PF('dlgModificarAdmin').hide();"
+                                     style="background: #dc3545 !important; color: #fff !important; border: none; width:50%;" />
+
+                    <p:commandButton id="btnGuardarAdmin" widgetVar="btnGuardarAdminWV"
+                                     value="Guardar Cambios" icon="pi pi-save"
+                                     actionListener="#{modificarUsuarioABeanUI.modificarUsuarioA}"
+                                     update="msgsModificarAdmin :globalMsgs :formAdmin:tablaAdmin"
+                                     oncomplete="if (args &amp;&amp; !args.validationFailed) { PF('dlgModificarAdmin').hide(); }"
+                                     styleClass="btn-custom btn-disabled"
+                                     style="background: #007bff !important; color: #fff !important; border: none; width:50%;"/>
+                </div>
             </h:panelGroup>
         </h:form>
     </p:dialog>
@@ -603,6 +640,34 @@
             </div>
         </h:form>
     </p:dialog>
+
+    <script type="text/javascript">
+        function validarFormRecep() {
+            var nombre = document.getElementById('formModificar:nombreRecep').value.trim();
+            var correo = document.getElementById('formModificar:correoRecep').value.trim();
+            var pass = document.getElementById('formModificar:passRecep').value.trim();
+
+            // Los 3 campos deben tener texto para que se active
+            if (nombre.length > 0 &amp;&amp; correo.length > 0 &amp;&amp; pass.length > 0) {
+                PF('btnGuardarRecepWV').jq.removeClass('btn-disabled');
+            } else {
+                PF('btnGuardarRecepWV').jq.addClass('btn-disabled');
+            }
+        }
+
+        function validarFormAdmin() {
+            var nombre = document.getElementById('formModificarAdmin:nombreAdmin').value.trim();
+            var correo = document.getElementById('formModificarAdmin:correoAdmin').value.trim();
+            var pass = document.getElementById('formModificarAdmin:passAdmin').value.trim();
+
+            // Los 3 campos deben tener texto para que se active
+            if (nombre.length > 0 &amp;&amp; correo.length > 0 &amp;&amp; pass.length > 0) {
+                PF('btnGuardarAdminWV').jq.removeClass('btn-disabled');
+            } else {
+                PF('btnGuardarAdminWV').jq.addClass('btn-disabled');
+            }
+        }
+    </script>
 
 </h:body>
 </html>

@@ -51,11 +51,11 @@ public class ModificarUsuarioABeanUI implements Serializable {
 
             usuarioAHelper.modificarUsuarioA(usuarioSeleccionado);
 
-            addMessage(FacesMessage.SEVERITY_INFO, "Éxito", "Administrador modificado correctamente.");
+            mostrarMensaje(FacesMessage.SEVERITY_INFO, "Éxito", "Administrador modificado correctamente.");
             PrimeFaces.current().executeScript("PF('dlgModificarAdmin').hide();");
 
         } catch (Exception e) {
-            addMessage(FacesMessage.SEVERITY_ERROR, "Error al modificar", e.getMessage());
+            mostrarMensaje(FacesMessage.SEVERITY_ERROR, "Error al modificar", e.getMessage());
         }
     }
 
@@ -64,8 +64,9 @@ public class ModificarUsuarioABeanUI implements Serializable {
         this.usuarioSeleccionado = null;
     }
 
-    private void addMessage(FacesMessage.Severity severity, String summary, String detail) {
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));
+    // Metodo para mostrar mensajes
+    private void mostrarMensaje(FacesMessage.Severity severidad, String titulo, String detalle) {
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severidad, titulo, detalle));
     }
 
     // getters y setters

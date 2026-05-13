@@ -64,17 +64,19 @@ public class UsuarioADelegate {
         if (ua.getCorreo() == null || !ua.getCorreo().contains("@")) {
             throw new Exception("Ingrese un correo válido.");
         }
+
+        // logica para editar la contrasena
         if (ua.getContrasena() == null || ua.getContrasena().trim().isEmpty()) {
-            throw new Exception("La contraseña no puede estar vacía.");
+            // Si viene vacía, es que no se edita la contrasena
+            // conservamos el hash antiguo
+            Usuarioadministrador usuarioViejo = usuarioADao.buscarADMPorId(ua.getIdUsuarioadmin());
+            ua.setContrasena(usuarioViejo.getContrasena());
+        } else {
+            // Si no viene vacia significa que se modifico
+            String passwordPlana = ua.getContrasena();
+            String passwordHasheada = BCrypt.hashpw(passwordPlana, BCrypt.gensalt());
+            ua.setContrasena(passwordHasheada);
         }
-
-        // Encriptacion (Hashing)
-        // Generamos un hash a partir de la contraseña
-        String passwordPlana = ua.getContrasena();
-        String passwordHasheada = BCrypt.hashpw(passwordPlana, BCrypt.gensalt());
-
-        // Sustituimos la contraseña texto por la encriptada antes de guardar
-        ua.setContrasena(passwordHasheada);
 
         usuarioADao.actualizar(ua);
     }
