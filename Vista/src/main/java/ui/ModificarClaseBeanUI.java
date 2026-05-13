@@ -160,6 +160,19 @@ public class ModificarClaseBeanUI implements Serializable {
         }
     }
 
+    public void cargarClaseDesdeTabla(Clase c) {
+        this.clase = c;
+        this.nombre = c.getNombre();
+        this.maestro = c.getMaestro();
+        this.cupoMaximo = c.getCupoMaximo();
+        this.diasImpartidos = c.getDias();
+        if (c.getHorario() != null && c.getHorario().contains("-")) {
+            String[] partes = c.getHorario().split("-");
+            this.horaInicio = partes[0].trim();
+            this.horaFinal = partes[1].trim();
+        }
+    }
+
     // Getters y Setters
     public String getNombre() { return nombre; }
     public void setNombre(String nombre) { this.nombre = nombre; }

@@ -15,6 +15,10 @@ public class BajaClaseBeanUI implements Serializable {
     private String idClase;
     private final ClaseHelper claseHelper = new ClaseHelper();
 
+    public void prepararEliminacion(String id) {
+        this.idClase = id;
+    }
+
     public void eliminarClase(){
         System.out.println("recibido: " + idClase);
         try{

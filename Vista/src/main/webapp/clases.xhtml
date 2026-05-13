@@ -438,6 +438,7 @@
         <div class="card">
             <h:form id="formClases">
                 <h1>Clases</h1>
+                <p:growl id="msgsGrowl" showDetail="true" life="3000"/>
 
                 <div class="action-buttons" style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
                     <h:outputLabel for="txtFiltroClase" value="Buscar:"/>
@@ -512,6 +513,25 @@
                         <h:outputText value="#{cla.dias}" />
                     </p:column> <!--Aqui se agrego lo que faltaba de diasImpartidos-->
 
+                    <p:column headerText="Acciones" style="width:120px; text-align:center;">
+                    <p:commandButton icon="pi pi-pencil"
+                                     title="Modificar"
+                                     styleClass="btn-modificar"
+                                     style="margin-right:5px;"
+                                     actionListener="#{modificarClaBeanUI.cargarClaseDesdeTabla(cla)}"
+                                     process="@this"
+                                     update="formModificarClase"
+                                     oncomplete="PF('dlgModificarClase').show();"/>
+
+                    <p:commandButton icon="pi pi-trash"
+                                     title="Eliminar"
+                                     styleClass="btn-baja"
+                                     actionListener="#{bajaClaseBeanUI.prepararEliminacion(cla.idClase)}"
+                                     process="@this"
+                                     oncomplete="PF('dlgConfirmarEliminarClase').show();"
+                                     style="margin-left:5px;"/>
+                </p:column>
+
                     <!-- Subtabla expandible -->
                     <p:rowExpansion>
                         <p:dataTable value="#{cla.clientes}" var="cli" style="margin-left:20px" emptyMessage="Sin clientes asignados">
@@ -544,7 +564,6 @@
               draggable="false"
               width="420">
         <h:form id="formAltaClase">
-            <p:messages id="msgsClase" showDetail="true" closable="true"/>
 
             <div class="form-group">
                 <h:outputLabel for="alta_nombre" value="Nombre"/>
@@ -616,7 +635,7 @@
                              icon="pi pi-plus-circle"
                              action="#{altaClaBeanUI.altaClase}"
                              process="@form"
-                             update="@form formClases:tablaClases"
+                             update="@form formClases:tablaClases :formClases:msgsGrowl"
                              styleClass="btn-registrar"/>
         </h:form>
     </p:dialog>
@@ -662,7 +681,6 @@
               draggable="false"
               width="420">
         <h:form id="formModificarClase">
-            <p:messages id="msgsModificar" showDetail="true" closable="true"/>
 
             <div class="form-group">
                 <h:outputLabel for="mod_nombre" value="Nombre"/>
@@ -743,8 +761,8 @@
                              icon="pi pi-check"
                              action="#{modificarClaBeanUI.modificarClase()}"
                              process="@form"
-                             update="msgsModificar :formClases:tablaClases"
-                             oncomplete="PF('dlgConfirmar').hide();"
+                             update=":formClases:msgsGrowl :formClases:tablaClases"
+                             oncomplete="PF('dlgConfirmar').hide(); if (!args.validationFailed) { PF('dlgModificarClase').hide(); }"
                              style="background:#007bff !important; color:#fff !important; border:none !important;"/>
 
             <p:commandButton value="Cancelar"
@@ -798,12 +816,8 @@
                              icon="pi pi-check"
                              action="#{bajaClaseBeanUI.eliminarClase}"
                              process="@this"
-                             update=":formEliminarClase:msgsEliminarClase :formClases:tablaClases"
-                             oncomplete="
-                            if (!args.validationFailed) {
-                                PF('dlgConfirmarEliminarClase').hide();
-                                PF('dlgEliminarClase').show();
-                            }"
+                             update=":formEliminarClase:msgsEliminarClase :formClases:tablaClases :formClases:msgsGrowl"
+                             oncomplete="PF('dlgConfirmarEliminarClase').hide();"
                              styleClass="btn-confirmar"/>
         </h:form>
     </p:dialog>
