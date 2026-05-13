@@ -40,7 +40,7 @@ public class UsuarioRFacade {
         return usuarioRDelegate.bajaUsuarioR(id);
     }
 
-    public Usuariorecepcionista obtenerUsuarioRPPorId(String id) {
+    public Usuariorecepcionista obtenerUsuarioRPorId(String id) {
         return usuarioRDelegate.obtenerURPorId(id);
     }
 
