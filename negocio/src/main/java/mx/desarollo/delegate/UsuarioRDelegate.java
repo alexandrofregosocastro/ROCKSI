@@ -118,4 +118,7 @@ public class UsuarioRDelegate {
         return UsuarioRDAO.findAllWithUsuarioR();
     }
 
+    public Usuariorecepcionista obtenerURPorId(String id) {
+        return UsuarioRDAO.buscarURPorId(id);
+    }
 }

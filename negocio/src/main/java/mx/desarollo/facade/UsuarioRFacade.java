@@ -18,7 +18,7 @@ public class UsuarioRFacade {
         usuarioRDelegate.registrarUsuarioR(ur);
     }
 
-    public Usuariorecepcionista obtenerUsuarioRPorId(String id) {
+    public Usuariorecepcionista obtenerUsuarioRP(String id) {
         return usuarioRDelegate.obtenerUR(id);
     }
 
@@ -39,5 +39,10 @@ public class UsuarioRFacade {
     public boolean bajaUsuarioR(String id) throws Exception {
         return usuarioRDelegate.bajaUsuarioR(id);
     }
+
+    public Usuariorecepcionista obtenerUsuarioRPPorId(String id) {
+        return usuarioRDelegate.obtenerURPorId(id);
+    }
+
 
 }

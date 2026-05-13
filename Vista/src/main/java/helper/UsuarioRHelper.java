@@ -24,7 +24,7 @@ public class UsuarioRHelper implements Serializable {
      * @return Una lista de clientes
      */
     public Usuariorecepcionista obtenerUsuarioR(String id) {
-        return ServiceFacadeLocator.getInstanceURFacade().obtenerUsuarioRPorId(id);
+        return ServiceFacadeLocator.getInstanceURFacade().obtenerUsuarioRP(id);
 
     }
 

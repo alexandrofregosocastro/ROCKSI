@@ -36,7 +36,7 @@ public class LoginHelper implements Serializable {
         }
 
         else if (idUpper.startsWith("UR")) {
-            Usuariorecepcionista recepcionista = ServiceFacadeLocator.getInstanceURFacade().obtenerUsuarioRPorId(idUpper);
+            Usuariorecepcionista recepcionista = ServiceFacadeLocator.getInstanceURFacade().obtenerUsuarioRPPorId(idUpper);
 
             if (recepcionista != null) {
                 if (recepcionista.getEstatus() != 1) {
