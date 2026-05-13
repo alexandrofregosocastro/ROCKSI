@@ -6,6 +6,7 @@ import jakarta.faces.context.FacesContext;
 import jakarta.inject.Named;
 import mx.desarollo.entity.Usuariorecepcionista;
 import org.primefaces.PrimeFaces;
+import ui.UsuarioRBeanUI;
 
 import java.io.Serializable;
 
@@ -35,6 +36,11 @@ public class AltaUsuarioRBeanUI implements Serializable {
             this.ur.setEstatus(this.status);
 
             guardarUsuarioR.AltaUsuarioR(ur);
+
+            UsuarioRBeanUI usuarioRBeanUI = (UsuarioRBeanUI) FacesContext.getCurrentInstance().getApplication()
+                    .getELResolver().getValue(FacesContext.getCurrentInstance().getELContext(), null, "usuarioRBeanUI");
+            if (usuarioRBeanUI != null) usuarioRBeanUI.cargarUsuarios();
+            PrimeFaces.current().ajax().update(":tabUsuarios:formRecep:tablaRecep");
 
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_INFO, "Alta realizada con éxito ", "Usuario recepcionista registrado correctamente."));

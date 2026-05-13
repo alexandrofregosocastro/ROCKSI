@@ -8,6 +8,7 @@ import jakarta.inject.Named;
 import mx.desarollo.entity.Usuarioadministrador;
 import org.primefaces.PrimeFaces;
 import java.io.Serializable;
+import ui.UsuarioABeanUI;
 
 @Named("modificarUsuarioABeanUI")
 @ViewScoped
@@ -50,6 +51,11 @@ public class ModificarUsuarioABeanUI implements Serializable {
             }
 
             usuarioAHelper.modificarUsuarioA(usuarioSeleccionado);
+
+            UsuarioABeanUI usuarioABeanUI = (UsuarioABeanUI) FacesContext.getCurrentInstance().getApplication()
+                    .getELResolver().getValue(FacesContext.getCurrentInstance().getELContext(), null, "usuarioABeanUI");
+            if (usuarioABeanUI != null) usuarioABeanUI.cargarUsuarios();
+            PrimeFaces.current().ajax().update(":tabUsuarios:formAdmin:tablaAdmin");
 
             mostrarMensaje(FacesMessage.SEVERITY_INFO, "Éxito", "Administrador modificado correctamente.");
             PrimeFaces.current().executeScript("PF('dlgModificarAdmin').hide();");

@@ -8,6 +8,7 @@ import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import org.primefaces.PrimeFaces;
 import java.io.Serializable;
+import ui.UsuarioABeanUI;
 
 @Named("bajaUsuarioABeanUI")
 @ViewScoped
@@ -36,8 +37,12 @@ public class BajaUsuarioABeanUI implements Serializable {
             boolean exito = usuarioAHelper.bajaUsuarioA(this.idUsuario);
 
             if (exito) {
-                addMessage(FacesMessage.SEVERITY_INFO, "Éxito", "Administrador dado de baja correctamente.");
+                UsuarioABeanUI usuarioABeanUI = (UsuarioABeanUI) FacesContext.getCurrentInstance().getApplication()
+                        .getELResolver().getValue(FacesContext.getCurrentInstance().getELContext(), null, "usuarioABeanUI");
+                if (usuarioABeanUI != null) usuarioABeanUI.cargarUsuarios();
+                PrimeFaces.current().ajax().update(":tabUsuarios:formAdmin:tablaAdmin");
 
+                addMessage(FacesMessage.SEVERITY_INFO, "Éxito", "Administrador dado de baja correctamente.");
                 PrimeFaces.current().executeScript("PF('dlgConfAdmin').hide(); PF('dlgEliminarAdmin').hide();");
                 limpiar();
             } else {

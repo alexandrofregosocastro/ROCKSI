@@ -9,6 +9,7 @@ import mx.desarollo.entity.Cliente;
 import mx.desarollo.entity.Usuarioadministrador;
 import mx.desarollo.entity.Usuariorecepcionista;
 import org.primefaces.PrimeFaces;
+import ui.UsuarioABeanUI;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -39,6 +40,11 @@ public class AltaUsuarioABeanUI implements Serializable {
             this.ua.setEstatus(this.status);
 
             guardarUsuarioA.AltaUsuarioA(this.ua);
+
+            UsuarioABeanUI usuarioABeanUI = (UsuarioABeanUI) FacesContext.getCurrentInstance().getApplication()
+                    .getELResolver().getValue(FacesContext.getCurrentInstance().getELContext(), null, "usuarioABeanUI");
+            if (usuarioABeanUI != null) usuarioABeanUI.cargarUsuarios();
+            PrimeFaces.current().ajax().update(":tabUsuarios:formAdmin:tablaAdmin");
 
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_INFO, "Alta realizada con éxito ", "Usuario administrador registrado correctamente."));

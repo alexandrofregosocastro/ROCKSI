@@ -7,6 +7,7 @@ import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Named;
 import mx.desarollo.entity.Usuariorecepcionista;
 import org.primefaces.PrimeFaces;
+import ui.UsuarioRBeanUI;
 
 import java.io.Serializable;
 
@@ -50,6 +51,11 @@ public class ModificarUsuarioRBeanUI implements Serializable {
             }
 
             usuarioRHelper.modificarUsuarioR(usuarioSeleccionado);
+
+            UsuarioRBeanUI usuarioRBeanUI = (UsuarioRBeanUI) FacesContext.getCurrentInstance().getApplication()
+                    .getELResolver().getValue(FacesContext.getCurrentInstance().getELContext(), null, "usuarioRBeanUI");
+            if (usuarioRBeanUI != null) usuarioRBeanUI.cargarUsuarios();
+            PrimeFaces.current().ajax().update(":tabUsuarios:formRecep:tablaRecep");
 
             mostrarMensaje(FacesMessage.SEVERITY_INFO, "Éxito", "Usuario modificado.");
             PrimeFaces.current().executeScript("PF('dlgModificar').hide();");

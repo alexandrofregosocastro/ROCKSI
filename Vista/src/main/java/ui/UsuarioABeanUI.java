@@ -5,6 +5,7 @@ import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
+import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Named;
 import mx.desarollo.entity.Usuarioadministrador;
 import org.primefaces.PrimeFaces;
@@ -14,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Named("usuarioABeanUI")
-@SessionScoped
+@ViewScoped
 public class UsuarioABeanUI implements Serializable {
 
     private List<Usuarioadministrador> listaUsuarios;

@@ -203,7 +203,7 @@
 
             <p:growl id="globalMsgs" showDetail="true"/>
 
-            <p:tabView>
+            <p:tabView id="tabUsuarios">
 
                 <p:tab title="Recepcionistas">
                     <h:form id="formRecep">
@@ -447,7 +447,7 @@
             </div>
 
             <p:commandButton value="Eliminar" icon="pi pi-trash"
-                             process="@form" update="msgsEliminar"
+                             process="@form" update="msgsEliminar :formRecep:tablaRecep"
                              oncomplete="if (args &amp;&amp; !args.validationFailed) { PF('dlgCapturaID').hide(); PF('dlgConfirmEliminar').show(); }"
                              styleClass="btn-danger" style="background: #007bff !important; color: #fff !important; border: none; width:100%;"/>
         </h:form>
@@ -610,7 +610,7 @@
             </div>
 
             <p:commandButton value="Eliminar" icon="pi pi-trash"
-                             process="@form" update="msgsEliminarAdmin"
+                             process="@form" update="msgsEliminarAdmin :formAdmin:tablaAdmin"
                              oncomplete="if (args &amp;&amp; !args.validationFailed) { PF('dlgCapturaIDAdmin').hide(); PF('dlgConfirmEliminarAdmin').show(); }"
                              styleClass="btn-danger" style="background: #007bff !important; color: #fff !important; border: none; width:100%;"/>
         </h:form>
