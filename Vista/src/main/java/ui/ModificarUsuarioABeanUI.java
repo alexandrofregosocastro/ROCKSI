@@ -70,6 +70,11 @@ public class ModificarUsuarioABeanUI implements Serializable {
         this.usuarioSeleccionado = null;
     }
 
+    public void cargarDesdeTabla(Usuarioadministrador u) {
+        this.usuarioSeleccionado = u;
+        PrimeFaces.current().executeScript("PF('dlgModificarAdmin').show();");
+    }
+
     // Metodo para mostrar mensajes
     private void mostrarMensaje(FacesMessage.Severity severidad, String titulo, String detalle) {
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severidad, titulo, detalle));

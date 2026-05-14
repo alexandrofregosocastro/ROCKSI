@@ -75,6 +75,11 @@ public class ModificarUsuarioRBeanUI implements Serializable {
         this.usuarioSeleccionado = null;
     }
 
+    public void cargarDesdeTabla(Usuariorecepcionista u) {
+        this.usuarioSeleccionado = u;
+        PrimeFaces.current().executeScript("PF('dlgModificar').show();");
+    }
+
     // getters y setters
     public String getidUsuario() { return idUsuario; }
     public void setidUsuario(String idUsuario) { this.idUsuario = idUsuario; }

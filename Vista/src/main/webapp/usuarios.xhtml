@@ -248,6 +248,26 @@
                             <p:column headerText="Correo Electrónico" sortBy="#{usu.correo}">
                                 <h:outputText value="#{usu.correo}"/>
                             </p:column>
+
+                            <p:column headerText="Acciones" style="width:120px; text-align:center;">
+                                <p:commandButton icon="pi pi-pencil"
+                                                 title="Modificar"
+                                                 styleClass="btn-modificar"
+                                                 style="margin-right:5px;"
+                                                 actionListener="#{modificarUsuarioRBeanUI.cargarDesdeTabla(usu)}"
+                                                 process="@this"
+                                                 update=":formModificar"
+                                                 oncomplete="PF('dlgModificar').show();"/>
+
+                                <p:commandButton icon="pi pi-trash"
+                                                 title="Eliminar"
+                                                 styleClass="btn-baja"
+                                                 actionListener="#{bajaUsuarioRBeanUI.prepararEliminacion(usu.idUsuariorecep)}"
+                                                 process="@this"
+                                                 oncomplete="PF('dlgConfirmEliminar').show();"
+                                                 style="margin-left:5px;"/>
+                            </p:column>
+
                         </p:dataTable>
                     </h:form>
                 </p:tab>
@@ -296,6 +316,26 @@
                             <p:column headerText="Correo Electrónico" sortBy="#{adm.correo}">
                                 <h:outputText value="#{adm.correo}"/>
                             </p:column>
+
+                            <p:column headerText="Acciones" style="width:120px; text-align:center;">
+                                <p:commandButton icon="pi pi-pencil"
+                                                 title="Modificar"
+                                                 styleClass="btn-modificar"
+                                                 style="margin-right:5px;"
+                                                 actionListener="#{modificarUsuarioABeanUI.cargarDesdeTabla(adm)}"
+                                                 process="@this"
+                                                 update=":formModificarAdmin"
+                                                 oncomplete="PF('dlgModificarAdmin').show();"/>
+
+                                <p:commandButton icon="pi pi-trash"
+                                                 title="Eliminar"
+                                                 styleClass="btn-baja"
+                                                 actionListener="#{bajaUsuarioABeanUI.prepararEliminacion(adm.idUsuarioadmin)}"
+                                                 process="@this"
+                                                 oncomplete="PF('dlgConfirmEliminarAdmin').show();"
+                                                 style="margin-left:5px;"/>
+                            </p:column>
+
                         </p:dataTable>
                     </h:form>
                 </p:tab>
@@ -418,11 +458,6 @@
                 </div>
 
                 <div style="display:flex; gap:10px; margin-top: 15px;">
-                    <p:commandButton value="Cancelar" icon="pi pi-times"
-                                     type="button"
-                                     onclick="PF('dlgModificar').hide();"
-                                     style="background: #dc3545 !important; color: #fff !important; border: none; width:50%;" />
-
                     <p:commandButton id="btnGuardarRecep" widgetVar="btnGuardarRecepWV"
                                      value="Guardar Cambios" icon="pi pi-save"
                                      actionListener="#{modificarUsuarioRBeanUI.modificarUsuarioR}"
@@ -430,6 +465,11 @@
                                      oncomplete="if (args &amp;&amp; !args.validationFailed) { PF('dlgModificar').hide(); }"
                                      styleClass="btn-custom btn-disabled"
                                      style="background: #007bff !important; color: #fff !important; border: none; width:50%;"/>
+
+                    <p:commandButton value="Cancelar" icon="pi pi-times"
+                                     type="button"
+                                     onclick="PF('dlgModificar').hide();"
+                                     style="background: #dc3545 !important; color: #fff !important; border: none; width:50%;" />
                 </div>
             </h:panelGroup>
         </h:form>
@@ -581,11 +621,6 @@
                 </div>
 
                 <div style="display:flex; gap:10px; margin-top: 15px;">
-                    <p:commandButton value="Cancelar" icon="pi pi-times"
-                                     type="button"
-                                     onclick="PF('dlgModificarAdmin').hide();"
-                                     style="background: #dc3545 !important; color: #fff !important; border: none; width:50%;" />
-
                     <p:commandButton id="btnGuardarAdmin" widgetVar="btnGuardarAdminWV"
                                      value="Guardar Cambios" icon="pi pi-save"
                                      actionListener="#{modificarUsuarioABeanUI.modificarUsuarioA}"
@@ -593,6 +628,11 @@
                                      oncomplete="if (args &amp;&amp; !args.validationFailed) { PF('dlgModificarAdmin').hide(); }"
                                      styleClass="btn-custom btn-disabled"
                                      style="background: #007bff !important; color: #fff !important; border: none; width:50%;"/>
+
+                    <p:commandButton value="Cancelar" icon="pi pi-times"
+                                     type="button"
+                                     onclick="PF('dlgModificarAdmin').hide();"
+                                     style="background: #dc3545 !important; color: #fff !important; border: none; width:50%;" />
                 </div>
             </h:panelGroup>
         </h:form>

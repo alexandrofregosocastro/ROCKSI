@@ -43,6 +43,10 @@ public class BajaUsuarioRBeanUI implements Serializable {
         }
     }
 
+    public void prepararEliminacion(String id) {
+        this.idUsuario = id;
+    }
+
     public void limpiar() {
         this.idUsuario = "";
     }

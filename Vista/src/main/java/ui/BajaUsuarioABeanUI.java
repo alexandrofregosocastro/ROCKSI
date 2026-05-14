@@ -61,6 +61,10 @@ public class BajaUsuarioABeanUI implements Serializable {
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));
     }
 
+    public void prepararEliminacion(String id) {
+        this.idUsuario = id;
+    }
+
     // getters y setters
     public String getIdUsuario() { return idUsuario; }
     public void setIdUsuario(String idUsuario) { this.idUsuario = idUsuario; }
