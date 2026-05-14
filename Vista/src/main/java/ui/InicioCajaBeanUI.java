@@ -1,105 +1,76 @@
 package ui;
 
-import helper.ClienteHelper;
-import helper.PagaHelper;
-import helper.UsuarioRHelper;
+import helper.MovimientoHelper;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
+import jakarta.inject.Inject;
 import jakarta.inject.Named;
-import mx.desarollo.entity.Cliente;
-import mx.desarollo.entity.Paga;
-import mx.desarollo.entity.Usuariorecepcionista;
+import mx.desarollo.entity.MovimientoCaja;
 import org.primefaces.PrimeFaces;
 
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Named("inicioCajaBeanUI")
 @SessionScoped
 public class InicioCajaBeanUI implements Serializable {
 
-    private String idUsuarioRecep;
+    @Inject
+    private LoginBeanUI loginBeanUI;
+
     private Double montoEnCaja;
-    private String contrasenaUR;
-    private Usuariorecepcionista usuarioValidado;
 
-    private final PagaHelper pagaHelper = new PagaHelper();
-    private final ClienteHelper clienteHelper = new ClienteHelper();
-    private final UsuarioRHelper usuarioRHelper = new UsuarioRHelper();
+    private final MovimientoHelper movimientoHelper = new MovimientoHelper();
 
-    private static final String ID_ITEM_APERTURA = "AC1000";
-    private static final String ID_CLIENTE_TIENDA = "CLI68";
-
-    // Verifica el ID del recepcionista
-    public void verificarUsuario() {
-        FacesContext fc = FacesContext.getCurrentInstance();
-        try {
-            if (idUsuarioRecep == null || idUsuarioRecep.trim().isEmpty()) {
-                throw new Exception("Debe ingresar el ID del usuario recepcionista.");
-            }
-
-            usuarioValidado = usuarioRHelper.obtenerUsuarioR(idUsuarioRecep.trim());
-
-            if (usuarioValidado == null) {
-                throw new Exception("No se encontró un usuario con ese ID.");
-            }
-
-        } catch (Exception e) {
-            usuarioValidado = null;
-            fc.validationFailed();
-            fc.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al verificar", e.getMessage()));
-        }
-    }
-
-    // Valida la contraseña del recepcionista
-    public void validarContrasena() {
-        FacesContext fc = FacesContext.getCurrentInstance();
-        try {
-            if (usuarioValidado == null) {
-                fc.validationFailed();
-                throw new Exception("Debe verificar primero al usuario recepcionista.");
-            }
-            if (contrasenaUR == null || contrasenaUR.trim().isEmpty()) {
-                fc.validationFailed();
-                throw new Exception("Debe ingresar la contraseña.");
-            }
-            if (!usuarioValidado.getContrasena().equals(contrasenaUR)) {
-                fc.validationFailed();
-                throw new Exception("Contraseña incorrecta.");
-            }
-
-        } catch (Exception e) {
-            fc.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error de autenticación", e.getMessage()));
-        }
-    }
-
-    // Lógica para registrar la apertura de caja (ingreso inicial)
     public void registrarAperturaCaja() {
         FacesContext fc = FacesContext.getCurrentInstance();
         try {
-            if (usuarioValidado == null) {
-                throw new Exception("No se ha validado un recepcionista.");
+
+            String idUsuarioActivo = loginBeanUI.getIdUsuario();
+
+            if (idUsuarioActivo == null || idUsuarioActivo.trim().isEmpty()) {
+                throw new Exception("Por seguridad, vuelve a iniciar sesión para realizar esta acción.");
             }
+
             if (montoEnCaja == null || montoEnCaja <= 0) {
                 throw new Exception("El monto de apertura debe ser mayor a 0.");
             }
 
-            Cliente clienteTienda = clienteHelper.obtenerCliente(ID_CLIENTE_TIENDA);
-            if (clienteTienda == null) {
-                throw new Exception("Error crítico: El cliente marcador '" + ID_CLIENTE_TIENDA + "' no existe.");
+            if (movimientoHelper.existeAperturaHoy()) {
+
+                // Si no es admin, bloqueamos el que vuelva a registrar una apertura de caja
+                if (!loginBeanUI.isAdmin()) {
+                    throw new Exception("La caja ya fue abierta hoy. Solo un Administrador puede corregir el monto.");
+                }
+
+                // Si es admin, actualizamos el registro
+                MovimientoCaja aperturaExistente = movimientoHelper.obtenerAperturaHoy();
+                aperturaExistente.setMonto(montoEnCaja);
+                aperturaExistente.setIdUsuario(idUsuarioActivo); // Actualizamos a quién hizo la correccion
+                aperturaExistente.setRolUsuario("ADMINISTRADOR");
+                aperturaExistente.setObservaciones("Monto corregido por el Administrador");
+
+                movimientoHelper.actualizarMovimiento(aperturaExistente);
+
+                fc.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Corregido", "El monto de apertura de hoy fue actualizado a $" + montoEnCaja));
+
+            } else {
+                // Si no existe una apertura hoy, hacemos el registro
+                MovimientoCaja apertura = new MovimientoCaja();
+                apertura.setIdUsuario(idUsuarioActivo);
+                apertura.setRolUsuario(loginBeanUI.isAdmin() ? "ADMINISTRADOR" : "RECEPCIONISTA");
+                apertura.setTipoMovimiento("APERTURA");
+                apertura.setMonto(montoEnCaja);
+                apertura.setFechaHora(LocalDateTime.now());
+                apertura.setObservaciones("Apertura de caja inicial");
+
+                movimientoHelper.registrarMovimiento(apertura);
+
+                fc.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito", "Apertura de caja registrada por $" + montoEnCaja));
             }
 
-            Paga apertura = new Paga();
-            apertura.setIdCliente(clienteTienda);
-            apertura.setIdUsuariorecep(usuarioValidado.getIdUsuariorecep());
-            apertura.setFecha(LocalDate.now());
-            apertura.setMonto(montoEnCaja);
-            apertura.setPorPagar((byte) 0);
-
-            pagaHelper.RealizarPago(apertura, ID_ITEM_APERTURA);
-
-            fc.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito", "Apertura de caja registrada por $" + montoEnCaja + "."));
+            // Actualizamos vista y cerramos dialogo
             PrimeFaces.current().ajax().update("formPagos:tablaPagos");
             PrimeFaces.current().executeScript("PF('dlgMontoApertura').hide(); PF('dlgConfirmacionApertura').show();");
 
@@ -113,19 +84,10 @@ public class InicioCajaBeanUI implements Serializable {
     }
 
     public void limpiar() {
-        this.idUsuarioRecep = null;
-        this.contrasenaUR = null;
         this.montoEnCaja = null;
-        this.usuarioValidado = null;
     }
 
     // Getters y Setters
-    public String getIdUsuarioRecep() { return idUsuarioRecep; }
-    public void setIdUsuarioRecep(String idUsuarioRecep) { this.idUsuarioRecep = idUsuarioRecep; }
-
     public Double getMontoEnCaja() { return montoEnCaja; }
     public void setMontoEnCaja(Double montoEnCaja) { this.montoEnCaja = montoEnCaja; }
-
-    public String getContrasenaUR() { return contrasenaUR; }
-    public void setContrasenaUR(String contrasenaUR) { this.contrasenaUR = contrasenaUR; }
 }

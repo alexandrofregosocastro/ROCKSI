@@ -14,6 +14,8 @@ public class ServiceFacadeLocator {
     private static InventarioDiarioFacade inventarioDiarioFacade;
     private static ReporteMensualFacade reporteMensualFacade;
     private static UsuarioAFacade UsuarioAFacade;
+    private static MovimientoCajaFacade MovimientoCajaFacade;
+
 
     public static UsuarioAFacade getInstanceAAFacade() {
         if(UsuarioAFacade == null){
@@ -98,6 +100,13 @@ public class ServiceFacadeLocator {
             reporteMensualFacade = new ReporteMensualFacade();
         }
         return reporteMensualFacade;
+    }
+
+    public static MovimientoCajaFacade getInstanceMovimientoCajaFacade() {
+        if (MovimientoCajaFacade == null) {
+            MovimientoCajaFacade = new MovimientoCajaFacade();
+        }
+        return MovimientoCajaFacade;
     }
 
 }

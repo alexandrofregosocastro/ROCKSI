@@ -51,6 +51,8 @@ public class ServiceLocator {
     }
 
     public static MembresiaDAO getInstanceMembresiaDAO() { return new MembresiaDAO(getEntityManager()); }
+
+    public static MovimientoCajaDAO getInstanceMovimientoCajaDAO() { return new MovimientoCajaDAO(getEntityManager()); }
     /**
      * se crea la instancia de usuarioDAO si esta no existe
      */
