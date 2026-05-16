@@ -697,6 +697,132 @@ public class TiendaBeanUI implements Serializable {
         }
     }
 
+    /**
+     * Metodo para Agrega un producto nuevo al carrito
+     */
+    public void agregarAlCarrito(Producto producto) {
+        if (producto == null) {
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_WARN, "Advertencia", "Producto no válido."));
+            return;
+        }
+
+        if (producto.getStock() <= 0) {
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Sin stock", "El producto no tiene unidades disponibles."));
+            return;
+        }
+
+        // Descontamos 1 del stock real
+        producto.setStock(producto.getStock() - 1);
+
+        // Buscamos si ya existe en el carrito
+        Optional<ItemCarrito> existente = carrito.stream()
+                .filter(i -> i.getId().equals(producto.getIdItem()))
+                .findFirst();
+
+        if (existente.isPresent()) {
+            ItemCarrito item = existente.get();
+            item.setCantidad(item.getCantidad() + 1);
+        } else {
+            ItemCarrito nuevo = new ItemCarrito();
+            nuevo.setId(producto.getIdItem());
+            nuevo.setNombre(producto.getNombre());
+            nuevo.setPrecio(producto.getPrecio());
+            nuevo.setCantidad(1);
+            carrito.add(nuevo);
+        }
+
+        calcularTotal();
+
+        try {
+            productoHelper.modificarProducto(producto);
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_INFO, "Agregado", "Producto agregado al carrito."));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Metodo para aunmentar la cantidad de un mismo producto
+     */
+    public void aumentarCantidad(ItemCarrito itemCarrito) {
+        if (itemCarrito == null) return;
+
+        // Necesitamos traernos el producto de la BD para verificar si todavía queda stock
+        Producto producto = productoHelper.obtenerProducto(itemCarrito.getId());
+
+        if (producto == null || producto.getStock() <= 0) {
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Límite alcanzado", "Ya no hay más unidades en stock."));
+            return;
+        }
+
+        // Subimos en el carrito, bajamos en la BD
+        itemCarrito.setCantidad(itemCarrito.getCantidad() + 1);
+        producto.setStock(producto.getStock() - 1);
+
+        calcularTotal();
+
+        try {
+            productoHelper.modificarProducto(producto);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Metodo para disminuir la cantidad de un mismo producto
+     */
+    public void disminuirCantidad(ItemCarrito itemCarrito) {
+        if (itemCarrito == null) return;
+
+        if (itemCarrito.getCantidad() > 1) {
+            // Si tiene mas de 1, restamos en carrito y devolvemos 1 a la BD
+            itemCarrito.setCantidad(itemCarrito.getCantidad() - 1);
+
+            Producto producto = productoHelper.obtenerProducto(itemCarrito.getId());
+            if (producto != null) {
+                producto.setStock(producto.getStock() + 1);
+                try {
+                    productoHelper.modificarProducto(producto);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            calcularTotal();
+        } else {
+            // Si solo tiene 1 y le da al menos, eliminamos el item del carrito
+            eliminarDelCarrito(itemCarrito);
+        }
+    }
+
+    /**
+     * Metodo Para elimianar un producto, sin importar cantidad
+     */
+    public void eliminarDelCarrito(ItemCarrito itemCarrito) {
+        if (itemCarrito == null) return;
+
+        // Devolvemos TODA la cantidad que tenía en el carrito de regreso a la BD
+        Producto producto = productoHelper.obtenerProducto(itemCarrito.getId());
+        if (producto != null) {
+            producto.setStock(producto.getStock() + itemCarrito.getCantidad());
+            try {
+                productoHelper.modificarProducto(producto);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        // Eliminamos de la lista temporal y recalculamos totales
+        carrito.remove(itemCarrito);
+        calcularTotal();
+
+        FacesContext.getCurrentInstance().addMessage(null,
+                new FacesMessage(FacesMessage.SEVERITY_INFO, "Eliminado", "Se retiró el producto del carrito."));
+    }
+
     // Getters y setters
     public List<ItemCarrito> getCarrito() { return carrito; }
     public void setCarrito(List<ItemCarrito> carrito) { this.carrito = carrito; }

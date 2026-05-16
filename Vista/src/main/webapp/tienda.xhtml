@@ -604,10 +604,9 @@
                     <div class="tienda-box">
                         <div class="header-tienda">
                             <h2>Productos</h2>
-
                             <p:inputText id="buscarProducto"
                                          value="#{productoBeanUI.filtro}"
-                                         placeholder="Buscar por ID Clase"
+                                         placeholder="Buscar por ID"
                                          styleClass="form-control buscar-producto">
                                 <p:ajax event="input"
                                         listener="#{productoBeanUI.filtrarPorId}"
@@ -621,27 +620,28 @@
                         <p:dataTable id="tablaProductosMini"
                                      value="#{productoBeanUI.listaProductos}"
                                      var="pro"
-                                     selectionMode="single"
-                                     selection="#{productoBeanUI.productoSeleccionado}"
-                                     rowKey="#{pro.idItem}"
                                      paginator="false"
                                      emptyMessage="No hay productos registrados">
 
-                            <p:ajax event="rowDblselect"
-                                    listener="#{tiendaBeanUI.agregarAlCarritoDesdeProductos}"
-                                    update=":formProductos:tablaCarrito :formProductos:totalBox :formProductos:msgs :formProductos:tablaProductosMini" />
-
-                            <p:column headerText="ID">
+                            <p:column headerText="ID" width="60">
                                 <h:outputText value="#{pro.idItem}" />
                             </p:column>
                             <p:column headerText="Nombre">
                                 <h:outputText value="#{pro.nombre}" />
                             </p:column>
-                            <p:column headerText="Precio">
+                            <p:column headerText="Precio" width="80">
                                 <h:outputText value="$#{pro.precio}" />
                             </p:column>
-                            <p:column headerText="Stock">
+                            <p:column headerText="Stock" width="60" style="text-align: center;">
                                 <h:outputText value="#{pro.stock}" />
+                            </p:column>
+
+                            <p:column headerText="Agregar" width="80" style="text-align: center;">
+                                <p:commandButton icon="pi pi-cart-plus"
+                                                 actionListener="#{tiendaBeanUI.agregarAlCarrito(pro)}"
+                                                 update=":formProductos:tablaCarrito :formProductos:tablaProductosMini :formProductos:totalBox :formProductos:msgs"
+                                                 style="background:#28a745 !important; border:none; border-radius:50%; width:2.5rem; height:2.5rem;"
+                                                 title="Agregar al Carrito"/>
                             </p:column>
                         </p:dataTable>
                     </div>
@@ -653,29 +653,38 @@
                                      value="#{tiendaBeanUI.carrito}"
                                      var="item"
                                      paginator="false"
-                                     emptyMessage="No hay productos en el carrito"
-                                     selectionMode="single"
-                                     selection="#{tiendaBeanUI.itemSeleccionado}"
-                                     rowKey="#{item.id}">
+                                     emptyMessage="Tu carrito está vacío">
 
-                            <p:ajax event="rowDblselect"
-                                    listener="#{tiendaBeanUI.devolverProductoAlInventario}"
-                                    update=":formProductos:tablaCarrito :formProductos:tablaProductosMini :formProductos:totalBox :formProductos:msgs" />
-
-                            <p:column headerText="ID">
-                                <h:outputText value="#{item.id}" />
-                            </p:column>
                             <p:column headerText="Nombre">
                                 <h:outputText value="#{item.nombre}" />
                             </p:column>
-                            <p:column headerText="Precio">
+                            <p:column headerText="Precio" width="80">
                                 <h:outputText value="$#{item.precio}" />
                             </p:column>
-                            <p:column headerText="Cantidad">
-                                <h:outputText value="#{item.cantidad}" />
+
+                            <p:column headerText="Cantidad" width="140" style="text-align: center;">
+                                <div style="display: flex; justify-content: center; align-items: center; gap: 8px;">
+
+                                    <p:commandButton icon="pi pi-minus"
+                                                     actionListener="#{tiendaBeanUI.disminuirCantidad(item)}"
+                                                     update=":formProductos:tablaCarrito :formProductos:tablaProductosMini :formProductos:totalBox"
+                                                     style="background:#6c757d !important; border:none; border-radius:4px; width:2rem; height:2rem; padding:0;"/>
+
+                                    <h:outputText value="#{item.cantidad}" style="font-weight: bold; font-size: 16px; width: 20px; text-align: center;"/>
+
+                                    <p:commandButton icon="pi pi-plus"
+                                                     actionListener="#{tiendaBeanUI.aumentarCantidad(item)}"
+                                                     update=":formProductos:tablaCarrito :formProductos:tablaProductosMini :formProductos:totalBox :formProductos:msgs"
+                                                     style="background:#007bff !important; border:none; border-radius:4px; width:2rem; height:2rem; padding:0;"/>
+
+                                    <p:commandButton icon="pi pi-trash"
+                                                     actionListener="#{tiendaBeanUI.eliminarDelCarrito(item)}"
+                                                     update=":formProductos:tablaCarrito :formProductos:tablaProductosMini :formProductos:totalBox"
+                                                     style="background:#dc3545 !important; border:none; border-radius:4px; width:2rem; height:2rem; padding:0; margin-left: 5px;"
+                                                     title="Quitar del carrito"/>
+                                </div>
                             </p:column>
                         </p:dataTable>
-
 
                         <h:panelGroup id="totalBox" layout="block" styleClass="total-box">
                             <span>Total:</span>
@@ -693,7 +702,6 @@
                     </div>
 
                 </div>
-
 
                 <h:panelGroup layout="block" styleClass="action-buttons" style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;" rendered="#{loginBeanUI.isAdmin()}">
                     <h:outputLabel for="txtFiltroProducto" value="ID Producto:"/>
