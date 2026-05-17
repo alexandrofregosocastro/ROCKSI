@@ -1,7 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:p="http://primefaces.org/ui">
 
 <h:head>
     <title>Inicio de Sesión</title>
@@ -9,13 +7,16 @@
         * {
             box-sizing: border-box;
         }
-        body, html {
+
+        body,
+        html {
             margin: 0;
             padding: 0;
             width: 100%;
             height: 100%;
             font-family: 'Segoe UI', sans-serif;
         }
+
         .container {
             display: flex;
             width: 100vw;
@@ -66,7 +67,8 @@
         .ui-inputfield {
             width: 100%;
             padding: 10px !important;
-            border: 1px solid #ddd !important; /* Borde gris suave */
+            border: 1px solid #ddd !important;
+            /* Borde gris suave */
             background-color: #fcfcfc !important;
             box-shadow: none !important;
             border-radius: 2px !important;
@@ -77,22 +79,35 @@
             border-color: #008bd2 !important;
         }
 
+        /* ESTILO DE BOTONES ESTANDARIZADOS */
         .btn-submit {
-            background-color: #008bd2;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            padding: 12px;
-            font-size: 16px;
+            border: none !important;
+            border-radius: 20px !important;
+            font-family: "Poppins", Arial, sans-serif !important;
+            font-weight: 600 !important;
+            font-size: 14px !important;
+            padding: 12px !important;
+            text-shadow: none !important;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08) !important;
+            transition: all 0.2s ease-in-out !important;
+            cursor: pointer !important;
+            background: #007bcb !important;
+            color: #ffffff !important;
             width: 100%;
             margin-top: 30px;
-            cursor: pointer;
-            transition: background-color 0.3s;
         }
 
         .btn-submit:hover {
-            background-color: #0070a8;
+            background: #005c96 !important;
+            transform: translateY(-1px) !important;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12) !important;
         }
+
+        .btn-submit:active {
+            transform: translateY(0) !important;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08) !important;
+        }
+
         .right-pane {
             width: 50%;
             background-color: #0286cf;
@@ -106,6 +121,7 @@
             max-width: 450px;
             height: auto;
         }
+
         .ui-messages {
             width: 100%;
             margin-bottom: 15px;
@@ -119,40 +135,35 @@
         <div class="left-pane">
 
             <div class="form-wrapper">
-                <h:graphicImage value="resources-20250903T164359Z-1-001/resources/Rock_on_text_logo.png" styleClass="logo-top" alt="Logo RockOn"/>
+                <h:graphicImage value="resources-20250903T164359Z-1-001/resources/Rock_on_text_logo.png"
+                    styleClass="logo-top" alt="Logo RockOn" />
 
                 <h2 class="title">Inicio de sesión</h2>
 
                 <h:form id="loginForm" style="width: 100%;">
 
-                    <p:messages id="messages" showDetail="false" autoUpdate="true" closable="true"/>
+                    <p:messages id="messages" showDetail="false" autoUpdate="true" closable="true" />
 
-                    <h:outputLabel for="usuario" value="Usuario" styleClass="input-label"/>
-                    <p:inputText id="usuario"
-                                 value="#{loginBeanUI.idUsuario}"
-                                 placeholder="Usuario"
-                                 required="true"
-                                 requiredMessage="Ingresa el usuario"/>
+                    <h:outputLabel for="usuario" value="Usuario" styleClass="input-label" />
+                    <p:inputText id="usuario" value="#{loginBeanUI.idUsuario}" placeholder="Usuario" required="true"
+                        requiredMessage="Ingresa el usuario" />
 
-                    <h:outputLabel for="contrasena" value="Contraseña" styleClass="input-label"/>
-                    <p:password id="contrasena"
-                                value="#{loginBeanUI.contrasena}"
-                                placeholder="Contraseña"
-                                required="true"
-                                requiredMessage="Ingresa la contraseña"
-                                feedback="false"/>
+                    <h:outputLabel for="contrasena" value="Contraseña" styleClass="input-label" />
+                    <p:password id="contrasena" value="#{loginBeanUI.contrasena}" placeholder="Contraseña"
+                        required="true" requiredMessage="Ingresa la contraseña" feedback="false" />
 
-                    <h:commandButton value="Iniciar sesión"
-                                     action="#{loginBeanUI.iniciarSesion()}"
-                                     styleClass="btn-submit"/>
+                    <h:commandButton value="Iniciar sesión" action="#{loginBeanUI.iniciarSesion()}"
+                        styleClass="btn-submit" />
                 </h:form>
             </div>
         </div>
 
         <div class="right-pane">
-            <h:graphicImage value="resources-20250903T164359Z-1-001/resources/rockon-icon.png" styleClass="logo-circle" alt="Logo Gym"/>
+            <h:graphicImage value="resources-20250903T164359Z-1-001/resources/rockon-icon.png" styleClass="logo-circle"
+                alt="Logo Gym" />
         </div>
 
     </div>
 </h:body>
+
 </html>

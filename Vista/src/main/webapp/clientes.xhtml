@@ -1,15 +1,12 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://xmlns.jcp.org/jsf/core">
 
 <h:head>
     <title>Clientes - Rock On</title>
-    <meta charset="UTF-8"/>
+    <meta charset="UTF-8" />
 
     <style>
-
         body {
             margin: 0;
             font-family: "Poppins", Arial, sans-serif;
@@ -118,7 +115,7 @@
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
         }
 
-        /* BOTONES DE ACCIÓN */
+        /* BOTONES DE ACCIÓN ESTANDARIZADOS */
         .action-buttons {
             display: flex;
             gap: 10px;
@@ -126,27 +123,82 @@
             margin-bottom: 15px;
         }
 
-        .action-buttons .ui-button {
+        body .ui-button,
+        body .btn-registrar,
+        body .btn-modificar,
+        body .btn-baja,
+        body .btn-cancelar,
+        body .btn-custom,
+        body .btn-submit,
+        body .ui-button.ui-widget {
             border: none !important;
             border-radius: 20px !important;
+            font-family: "Poppins", Arial, sans-serif !important;
             font-weight: 600 !important;
-            padding: 6px 16px !important;
             font-size: 14px !important;
+            padding: 6px 16px !important;
+            text-shadow: none !important;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08) !important;
+            transition: all 0.2s ease-in-out !important;
+            cursor: pointer !important;
         }
 
-        .btn-registrar {
+        /* 1. Botones Estándar / Registrar / Modificar / Cancelar (Color Azul Estándar) */
+        body .btn-primary,
+        body .btn-registrar,
+        body .btn-warning,
+        body .btn-modificar,
+        body .btn-secondary,
+        body .btn-cancelar,
+        body .ui-button.btn-primary,
+        body .ui-button.btn-warning,
+        body .ui-button.btn-secondary {
             background: #007bcb !important;
-            color: #fff !important;
+            color: #ffffff !important;
         }
 
-        .btn-modificar {
-            background: #007bcb !important;
-            color: #fff !important;
+        body .btn-primary:hover,
+        body .btn-registrar:hover,
+        body .btn-warning:hover,
+        body .btn-modificar:hover,
+        body .btn-secondary:hover,
+        body .btn-cancelar:hover {
+            background: #005c96 !important;
+            color: #ffffff !important;
+            transform: translateY(-1px) !important;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12) !important;
         }
 
-        .btn-baja {
-            background: #007bcb !important;
-            color: #fff !important;
+        body .btn-primary:active,
+        body .btn-registrar:active,
+        body .btn-warning:active,
+        body .btn-modificar:active,
+        body .btn-secondary:active,
+        body .btn-cancelar:active {
+            transform: translateY(0) !important;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08) !important;
+        }
+
+        /* 2. Botón Destructivo / Peligro / Baja (Color Rojo Estándar) */
+        body .btn-danger,
+        body .btn-baja,
+        body .ui-button.btn-danger {
+            background: #dc3545 !important;
+            color: #ffffff !important;
+        }
+
+        body .btn-danger:hover,
+        body .btn-baja:hover {
+            background: #c82333 !important;
+            color: #ffffff !important;
+            transform: translateY(-1px) !important;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12) !important;
+        }
+
+        body .btn-danger:active,
+        body .btn-baja:active {
+            transform: translateY(0) !important;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08) !important;
         }
 
         /* TABLA DE CLIENTES */
@@ -386,47 +438,53 @@
             <h:form>
                 <!-- HOME -->
                 <h:commandLink action="home.xhtml?faces-redirect=true"
-                               actionListener="#{menuBeanUI.setActivePage('home')}"
-                               styleClass="#{menuBeanUI.activePage eq 'home' ? 'active' : ''}">
-                    <img src="resources-20250903T164359Z-1-001/resources/home.png" alt="Home Icon" class="menu-icon"/>
+                    actionListener="#{menuBeanUI.setActivePage('home')}"
+                    styleClass="#{menuBeanUI.activePage eq 'home' ? 'active' : ''}">
+                    <img src="resources-20250903T164359Z-1-001/resources/home.png" alt="Home Icon" class="menu-icon" />
                     <span>Home</span>
                 </h:commandLink>
 
                 <!-- CLIENTES -->
                 <h:commandLink action="clientes.xhtml?faces-redirect=true"
-                               actionListener="#{menuBeanUI.setActivePage('clientes')}"
-                               styleClass="#{menuBeanUI.activePage eq 'clientes' ? 'active' : ''}">
-                    <img src="resources-20250903T164359Z-1-001/resources/clientes.png" alt="Clientes Icon" class="menu-icon"/>
+                    actionListener="#{menuBeanUI.setActivePage('clientes')}"
+                    styleClass="#{menuBeanUI.activePage eq 'clientes' ? 'active' : ''}">
+                    <img src="resources-20250903T164359Z-1-001/resources/clientes.png" alt="Clientes Icon"
+                        class="menu-icon" />
                     <span>Clientes</span>
                 </h:commandLink>
 
                 <!-- TIENDA -->
                 <h:commandLink action="tienda.xhtml?faces-redirect=true"
-                               actionListener="#{menuBeanUI.setActivePage('tienda')}"
-                               styleClass="#{menuBeanUI.activePage eq 'tienda' ? 'active' : ''}">
-                    <img src="resources-20250903T164359Z-1-001/resources/tienda.png" alt="Tienda Icon" class="menu-icon"/>
+                    actionListener="#{menuBeanUI.setActivePage('tienda')}"
+                    styleClass="#{menuBeanUI.activePage eq 'tienda' ? 'active' : ''}">
+                    <img src="resources-20250903T164359Z-1-001/resources/tienda.png" alt="Tienda Icon"
+                        class="menu-icon" />
                     <span>Tienda</span>
                 </h:commandLink>
 
                 <!-- CLASES -->
                 <h:commandLink action="clases.xhtml?faces-redirect=true"
-                               actionListener="#{menuBeanUI.setActivePage('clases')}"
-                               styleClass="#{menuBeanUI.activePage eq 'clases' ? 'active' : ''}">
-                    <img src="resources-20250903T164359Z-1-001/resources/clases.png" alt="Clases Icon" class="menu-icon"/>
+                    actionListener="#{menuBeanUI.setActivePage('clases')}"
+                    styleClass="#{menuBeanUI.activePage eq 'clases' ? 'active' : ''}">
+                    <img src="resources-20250903T164359Z-1-001/resources/clases.png" alt="Clases Icon"
+                        class="menu-icon" />
                     <span>Clases</span>
                 </h:commandLink>
 
                 <!-- PAGOS -->
                 <h:commandLink action="pagos.xhtml?faces-redirect=true"
-                               actionListener="#{menuBeanUI.setActivePage('pagos')}"
-                               styleClass="#{menuBeanUI.activePage eq 'pagos' ? 'active' : ''}">
-                    <img src="resources-20250903T164359Z-1-001/resources/pagos.png" alt="Pagos Icon" class="menu-icon"/>
+                    actionListener="#{menuBeanUI.setActivePage('pagos')}"
+                    styleClass="#{menuBeanUI.activePage eq 'pagos' ? 'active' : ''}">
+                    <img src="resources-20250903T164359Z-1-001/resources/pagos.png" alt="Pagos Icon"
+                        class="menu-icon" />
                     <span>Pagos</span>
                 </h:commandLink>
                 <h:commandLink action="usuarios.xhtml?faces-redirect=true"
-                               actionListener="#{menuBeanUI.setActivePage('usuarios')}"
-                               styleClass="#{menuBeanUI.activePage eq 'usuarios' ? 'active' : ''}" rendered="#{loginBeanUI.isAdmin()}"> <!-- Muestra si es admin -->
-                    <img src="resources-20250903T164359Z-1-001/resources/clientes.png" alt="Usuarios Icon" class="menu-icon"/>
+                    actionListener="#{menuBeanUI.setActivePage('usuarios')}"
+                    styleClass="#{menuBeanUI.activePage eq 'usuarios' ? 'active' : ''}"
+                    rendered="#{loginBeanUI.isAdmin()}"> <!-- Muestra si es admin -->
+                    <img src="resources-20250903T164359Z-1-001/resources/clientes.png" alt="Usuarios Icon"
+                        class="menu-icon" />
                     <span>Usuarios</span>
                 </h:commandLink>
             </h:form>
@@ -442,7 +500,7 @@
             </h:form>
 
             <div class="logo-bottom">
-                <img src="resources-20250903T164359Z-1-001/resources/rockon-icon.png" alt="Rock On Logo"/>
+                <img src="resources-20250903T164359Z-1-001/resources/rockon-icon.png" alt="Rock On Logo" />
             </div>
         </div>
     </div>
@@ -452,223 +510,199 @@
         <div class="card">
             <h:form id="formClientes">
                 <h1>Clientes</h1>
-                <p:growl id="msgsGrowl" showDetail="true" life="3000"/>
+                <p:growl id="msgsGrowl" showDetail="true" life="3000" />
 
                 <div class="action-buttons">
-                    <h:outputLabel for="txtFiltro" value="ID Cliente"/>
+                    <h:outputLabel for="txtFiltro" value="ID Cliente" />
                     <p:inputText id="txtFiltro" value="#{clienteBeanUI.filtroId}" placeholder="Buscar por ID Cliente">
-                        <p:ajax event="input" listener="#{clienteBeanUI.filtrarPorId}" update="tablaClientes" process="@this" delay="300"/>
+                        <p:ajax event="input" listener="#{clienteBeanUI.filtrarPorId}" update="tablaClientes"
+                            process="@this" delay="300" />
                     </p:inputText>
 
-                    <p:commandButton value="Actualizar Tabla"
-                                     icon="pi pi-refresh"
-                                     actionListener="#{clienteBeanUI.probarConexion()}"
-                                     process="@this"
-                                     update="formClientes:tablaClientes"
-                                     styleClass="btn-registrar"/>
+                    <p:commandButton value="Actualizar Tabla" icon="pi pi-refresh"
+                        actionListener="#{clienteBeanUI.probarConexion()}" process="@this"
+                        update="formClientes:tablaClientes" styleClass="btn-registrar" />
 
 
 
                     <p:commandButton value="Registrar Cliente" icon="pi pi-user-plus"
-                                     onclick="PF('dlgAgregarCliente').show();" styleClass="btn-registrar"/>
+                        onclick="PF('dlgAgregarCliente').show();" styleClass="btn-registrar" />
 
-                    <p:commandButton value="Modificar Cliente" icon="pi pi-user-edit"
-                                     onclick="PF('dlgAskId').show();" styleClass="btn-modificar"/>
+                    <p:commandButton value="Modificar Cliente" icon="pi pi-user-edit" onclick="PF('dlgAskId').show();"
+                        styleClass="btn-modificar" />
 
-                    <p:commandButton value="Baja de Cliente" icon="pi pi-user-minus"
-                                     styleClass="btn-baja" type="button" onclick="PF('dlgEliminarCliente').show();"/>
+                    <p:commandButton value="Baja de Cliente" icon="pi pi-user-minus" styleClass="btn-baja" type="button"
+                        onclick="PF('dlgEliminarCliente').show();" />
                 </div>
 
                 <!--Titulo y configuracion del modal modal Alta de Cliente-->
                 <p:dialog header="Nuevo cliente" widgetVar="dlgAgregarCliente" modal="true" resizable="false"
-                          closable="true" draggable="false" width="360">
+                    closable="true" draggable="false" width="360">
                     <!-- Mensajes -->
-                    <p:messages id="msgsAlta" showDetail="true" closable="true"/>
+                    <p:messages id="msgsAlta" showDetail="true" closable="true" />
 
                     <!-- Campo para ingresar nombre -->
                     <div class="form-group">
-                        <h:outputLabel for="nombreAlta" value="Nombre"/>
+                        <h:outputLabel for="nombreAlta" value="Nombre" />
                         <p:inputText id="nombreAlta" value="#{altaCliBeanUI.nombre}" placeholder="Nombre"
-                                     class="form-control" required="true" requiredMessage="El campo Nombre es obligatorio"/>
+                            class="form-control" required="true" requiredMessage="El campo Nombre es obligatorio" />
                     </div>
 
                     <!-- Campo para ingresar apellidos -->
                     <div class="form-group">
-                        <h:outputLabel for="apellidoAlta" value="Apellidos"/>
+                        <h:outputLabel for="apellidoAlta" value="Apellidos" />
                         <p:inputText id="apellidoAlta" value="#{altaCliBeanUI.apellido}" placeholder="Apellidos"
-                                     class="form-control" required="true" requiredMessage="El campo Apellidos es obligatorio"/>
+                            class="form-control" required="true" requiredMessage="El campo Apellidos es obligatorio" />
                     </div>
 
                     <!-- Campo para seleccionar sexo -->
                     <div class="form-group">
-                        <h:outputLabel for="sexoAlta" value="Sexo"/>
-                        <p:selectOneMenu id="sexoAlta" value="#{altaCliBeanUI.sexo}" class="form-control" required="true"
-                                         requiredMessage="Debe seleccionar el sexo del cliente">
-                            <f:selectItem itemLabel="Seleccione..." itemValue=""/>
-                            <f:selectItem itemLabel="Masculino" itemValue="Masculino"/>
-                            <f:selectItem itemLabel="Femenino" itemValue="Femenino"/>
-                            <f:selectItem itemLabel="Otro" itemValue="Otro"/>
+                        <h:outputLabel for="sexoAlta" value="Sexo" />
+                        <p:selectOneMenu id="sexoAlta" value="#{altaCliBeanUI.sexo}" class="form-control"
+                            required="true" requiredMessage="Debe seleccionar el sexo del cliente">
+                            <f:selectItem itemLabel="Seleccione..." itemValue="" />
+                            <f:selectItem itemLabel="Masculino" itemValue="Masculino" />
+                            <f:selectItem itemLabel="Femenino" itemValue="Femenino" />
+                            <f:selectItem itemLabel="Otro" itemValue="Otro" />
                         </p:selectOneMenu>
                     </div>
 
                     <!-- Campo para ingresar teléfono principal -->
                     <div class="form-group">
-                        <h:outputLabel for="telefonoAlta" value="Teléfono principal"/>
+                        <h:outputLabel for="telefonoAlta" value="Teléfono principal" />
                         <p:inputMask id="telefonoAlta" value="#{altaCliBeanUI.telefono}" mask="(999) 999-9999"
-                                     placeholder="(686) 185 8942" class="form-control"
-                                     required="true" requiredMessage="El campo Teléfono es obligatorio"/>
+                            placeholder="(686) 185 8942" class="form-control" required="true"
+                            requiredMessage="El campo Teléfono es obligatorio" />
                     </div>
 
                     <!-- Campo para ingresar otro teléfono (opcional) -->
                     <div class="form-group">
-                        <h:outputLabel for="segundoTelefonoAlta" value="Otro teléfono (opcional)"/>
-                        <p:inputMask id="segundoTelefonoAlta" value="#{altaCliBeanUI.segundoTelefono}" mask="(999) 999-9999"
-                                     placeholder="(686) 185 8942" class="form-control"/>
+                        <h:outputLabel for="segundoTelefonoAlta" value="Otro teléfono (opcional)" />
+                        <p:inputMask id="segundoTelefonoAlta" value="#{altaCliBeanUI.segundoTelefono}"
+                            mask="(999) 999-9999" placeholder="(686) 185 8942" class="form-control" />
                     </div>
 
                     <!-- Botón para registrar cliente -->
                     <div class="boton-registrar">
                         <p:commandButton id="registrarBtn" value="Registrar al cliente"
-                                         action="#{altaCliBeanUI.altaCliente}"
-                                         process="@this nombreAlta apellidoAlta sexoAlta telefonoAlta segundoTelefonoAlta"
-                                         update="msgsAlta tablaClientes"
-                                         icon="pi pi-plus-circle" styleClass="btn"
-                                         style="background: #007bff !important; background-image: none !important;
-                                color: #fff !important; border: none !important; box-shadow: none !important;"/>
+                            action="#{altaCliBeanUI.altaCliente}"
+                            process="@this nombreAlta apellidoAlta sexoAlta telefonoAlta segundoTelefonoAlta"
+                            update="msgsAlta tablaClientes" icon="pi pi-plus-circle" styleClass="btn-registrar" />
                     </div>
                 </p:dialog>
 
                 <!-- pedir ID del cliente a modificar -->
                 <p:dialog header="Buscar cliente a modificar" widgetVar="dlgAskId" modal="true" resizable="false"
-                          closable="true" draggable="false" width="360">
+                    closable="true" draggable="false" width="360">
                     <h:panelGrid columns="1" style="width:100%;">
-                        <p:messages id="msgsAsk" showDetail="true" closable="true"/>
+                        <p:messages id="msgsAsk" showDetail="true" closable="true" />
 
                         <div class="form-group">
-                            <h:outputLabel for="searchId" value="ID Cliente"/>
+                            <h:outputLabel for="searchId" value="ID Cliente" />
                             <p:inputText id="searchId" value="#{modificarCliBeanUI.busquedaId}"
-                                         placeholder="Ej. CLI1001" styleClass="form-control"
-                                         required="true" requiredMessage="El ID es obligatorio"/>
+                                placeholder="Ej. CLI1001" styleClass="form-control" required="true"
+                                requiredMessage="El ID es obligatorio" />
                         </div>
 
                         <p:commandButton value="Buscar" icon="pi pi-search"
-                                         action="#{modificarCliBeanUI.cargarClientePorId}"
-                                         process="@this searchId"
-                                         oncomplete="if (args &amp;&amp; args.found) { PF('dlgAskId').hide(); PF('dlgModificarCliente').loadContents(); }"
-                                         styleClass="btn"
-                                         style="background: #007bff !important; color: #fff !important; border: none !important;"/>
+                            action="#{modificarCliBeanUI.cargarClientePorId}" process="@this searchId"
+                            oncomplete="if (args &amp;&amp; args.found) { PF('dlgAskId').hide(); PF('dlgModificarCliente').loadContents(); }"
+                            styleClass="btn-registrar" />
 
                     </h:panelGrid>
                 </p:dialog>
 
                 <!-- dialog de modificar cliente que solo se muestra en caso de que se haya encontrado el cliente por id -->
-                <p:dialog id="dlgModificar" header="Modificar cliente" widgetVar="dlgModificarCliente" modal="true" resizable="false"
-                          dynamic="true" cache="false" closable="true" draggable="false" width="360">
-                    <p:messages id="msgsModificar" showDetail="true" closable="true"/>
+                <p:dialog id="dlgModificar" header="Modificar cliente" widgetVar="dlgModificarCliente" modal="true"
+                    resizable="false" dynamic="true" cache="false" closable="true" draggable="false" width="360">
+                    <p:messages id="msgsModificar" showDetail="true" closable="true" />
 
                     <div class="form-group">
-                        <h:outputLabel for="nombreMod" value="Nombre"/>
+                        <h:outputLabel for="nombreMod" value="Nombre" />
                         <p:inputText id="nombreMod" value="#{modificarCliBeanUI.nombre}" placeholder="Nombre"
-                                     class="form-control" required="true" requiredMessage="El campo Nombre es obligatorio"/>
+                            class="form-control" required="true" requiredMessage="El campo Nombre es obligatorio" />
                     </div>
 
                     <div class="form-group">
-                        <h:outputLabel for="apellidoMod" value="Apellidos"/>
+                        <h:outputLabel for="apellidoMod" value="Apellidos" />
                         <p:inputText id="apellidoMod" value="#{modificarCliBeanUI.apellido}" placeholder="Apellidos"
-                                     class="form-control" required="true" requiredMessage="El campo Apellidos es obligatorio"/>
+                            class="form-control" required="true" requiredMessage="El campo Apellidos es obligatorio" />
                     </div>
 
                     <div class="form-group">
-                        <h:outputLabel for="sexoMod" value="Sexo"/>
-                        <p:selectOneMenu id="sexoMod" value="#{modificarCliBeanUI.sexo}" class="form-control" required="true"
-                                         requiredMessage="Debe seleccionar el sexo del cliente">
-                            <f:selectItem itemLabel="Seleccione..." itemValue=""/>
-                            <f:selectItem itemLabel="Masculino" itemValue="masculino"/>
-                            <f:selectItem itemLabel="Femenino" itemValue="femenino"/>
-                            <f:selectItem itemLabel="Otro" itemValue="otro"/>
+                        <h:outputLabel for="sexoMod" value="Sexo" />
+                        <p:selectOneMenu id="sexoMod" value="#{modificarCliBeanUI.sexo}" class="form-control"
+                            required="true" requiredMessage="Debe seleccionar el sexo del cliente">
+                            <f:selectItem itemLabel="Seleccione..." itemValue="" />
+                            <f:selectItem itemLabel="Masculino" itemValue="masculino" />
+                            <f:selectItem itemLabel="Femenino" itemValue="femenino" />
+                            <f:selectItem itemLabel="Otro" itemValue="otro" />
                         </p:selectOneMenu>
                     </div>
 
                     <div class="form-group">
-                        <h:outputLabel for="telefonoMod" value="Teléfono"/>
+                        <h:outputLabel for="telefonoMod" value="Teléfono" />
                         <p:inputMask id="telefonoMod" value="#{modificarCliBeanUI.telefono}" mask="(999) 999-9999"
-                                     placeholder="(686) 185 8942" class="form-control"
-                                     required="true" requiredMessage="El campo Teléfono es obligatorio"/>
+                            placeholder="(686) 185 8942" class="form-control" required="true"
+                            requiredMessage="El campo Teléfono es obligatorio" />
                     </div>
 
                     <div class="form-group">
-                        <h:outputLabel for="segundoTel" value="Teléfono secundario (opcional)"/>
+                        <h:outputLabel for="segundoTel" value="Teléfono secundario (opcional)" />
                         <p:inputMask id="segundoTel" value="#{modificarCliBeanUI.segundoTelefono}" mask="(999) 999-9999"
-                                     placeholder="(686) 999 9999" class="form-control"
-                                     required="false" maxlength="15"/>
+                            placeholder="(686) 999 9999" class="form-control" required="false" maxlength="15" />
                     </div>
 
                     <p:commandButton id="modificarBtn" value="Modificar al cliente"
-                                     action="#{modificarCliBeanUI.modificarCliente}"
-                                     process="@this nombreMod apellidoMod telefonoMod segundoTel sexoMod"
-                                     update=":formClientes:msgsGrowl :formClientes:tablaClientes" icon="pi pi-check" styleClass="btn"
-                                     oncomplete="if (!args.validationFailed) { PF('dlgModificarCliente').hide(); }"
-                                     style="background: #007bff !important; background-image: none !important;
-                                            color: #fff !important; border: none !important; box-shadow: none !important;"/>
+                        action="#{modificarCliBeanUI.modificarCliente}"
+                        process="@this nombreMod apellidoMod telefonoMod segundoTel sexoMod"
+                        update=":formClientes:msgsGrowl :formClientes:tablaClientes" icon="pi pi-check"
+                        styleClass="btn-registrar"
+                        oncomplete="if (!args.validationFailed) { PF('dlgModificarCliente').hide(); }" />
                 </p:dialog>
 
                 <!-- dialog para bajas de cliente -->
 
                 <p:dialog header="Eliminar Cliente" widgetVar="dlgEliminarCliente" modal="true" resizable="false"
-                          closable="true" draggable="false" width="360">
+                    closable="true" draggable="false" width="360">
                     <!-- Mensajes del backend -->
-                    <p:messages id="msgsEliminar" showDetail="true" closable="true"/>
+                    <p:messages id="msgsEliminar" showDetail="true" closable="true" />
 
                     <div class="form-group">
-                        <h:outputLabel for="idClienteEliminar" value="ID del Cliente"/>
+                        <h:outputLabel for="idClienteEliminar" value="ID del Cliente" />
                         <p:inputText id="idClienteEliminar" value="#{bajaClienteBeanUI.idCliente}"
-                                     placeholder="ID del cliente a eliminar" class="form-control"
-                                     required="true" requiredMessage="El campo ID es obligatorio"/>
+                            placeholder="ID del cliente a eliminar" class="form-control" required="true"
+                            requiredMessage="El campo ID es obligatorio" />
                     </div>
 
                     <!-- Botón que abre el modal de confirmación -->
-                    <p:commandButton id="abrirConfirmarClienteBtn" value="Eliminar Cliente"
-                                     icon="pi pi-times-circle" styleClass="btn-baja"
-                                     onclick="PF('dlgConfirmar').show(); return false;"
-                    />
+                    <p:commandButton id="abrirConfirmarClienteBtn" value="Eliminar Cliente" icon="pi pi-times-circle"
+                        styleClass="btn-baja" onclick="PF('dlgConfirmarTabla').show(); return false;" />
                 </p:dialog>
 
-                    <!-- dialog de confirmacion de eliminacion -->
-                    <p:dialog widgetVar="dlgConfirmarTabla"
-                              header="Confirmar eliminación"
-                              modal="true"
-                              resizable="false"
-                              draggable="false"
-                              closable="false"
-                              width="400">
+                <!-- dialog de confirmacion de eliminacion -->
+                <p:dialog widgetVar="dlgConfirmarTabla" header="Confirmar eliminación" modal="true" resizable="false"
+                    draggable="false" closable="false" width="400">
 
-                        <h:outputText value="¿Seguro que deseas eliminar este cliente?"
-                                      style="display:block; margin-bottom:15px;"/>
+                    <h:outputText value="¿Seguro que deseas eliminar este cliente?"
+                        style="display:block; margin-bottom:15px;" />
 
-                        <!-- Boton si ejecuta la acción real -->
-                        <p:commandButton value="Sí, eliminar"
-                                         icon="pi pi-check"
-                                         action="#{bajaClienteBeanUI.eliminarCliente}"
-                                         process="@this"
-                                         update=":formClientes:msgsEliminar :formClientes:tablaClientes :formClientes:msgsGrowl"
-                                         oncomplete="PF('dlgConfirmarTabla').hide();"
-                                         style="background:#007bff !important; color:#fff !important; border:none !important; box-shadow:none !important;"/>
+                    <!-- Boton si ejecuta la acción real -->
+                    <p:commandButton value="Sí, eliminar" icon="pi pi-check"
+                        action="#{bajaClienteBeanUI.eliminarCliente}" process="@this"
+                        update=":formClientes:msgsEliminar :formClientes:tablaClientes :formClientes:msgsGrowl"
+                        oncomplete="PF('dlgConfirmarTabla').hide();" styleClass="btn-baja" />
 
-                        <!-- Boton cancelar cierra el diálogo -->
-                        <p:commandButton value="Cancelar"
-                                         icon="pi pi-times"
-                                         onclick="PF('dlgConfirmarTabla').hide(); return false;"
-                                         type="button"
-                                         style="background: #007bff !important; background-image: none !important; color: #fff !important; border: none !important; box-shadow: none !important;"/>
+                    <!-- Boton cancelar cierra el diálogo -->
+                    <p:commandButton value="Cancelar" icon="pi pi-times"
+                        onclick="PF('dlgConfirmarTabla').hide(); return false;" type="button"
+                        styleClass="btn-cancelar" />
                 </p:dialog>
 
                 <!-- Tabla de clientes -->
                 <p:dataTable id="tablaClientes" value="#{clienteBeanUI.listaClientes}" var="cli" lazy="false"
-                             rowKey="#{cli.idCliente}"
-                             paginator="true" rows="5"
-                             emptyMessage="No hay clientes registrados"
-                             styleClass="clientes-tabla"
-                             paginatorPosition="bottom">
+                    rowKey="#{cli.idCliente}" paginator="true" rows="5" emptyMessage="No hay clientes registrados"
+                    styleClass="clientes-tabla" paginatorPosition="bottom">
 
                     <!-- Columna para expandir -->
                     <p:column style="width:50px; text-align:center;">
@@ -676,23 +710,23 @@
                     </p:column>
 
                     <p:column headerText="ID Cliente" sortBy="#{cli.idCliente}">
-                        <h:outputText value="#{cli.idCliente}"/>
+                        <h:outputText value="#{cli.idCliente}" />
                     </p:column>
 
                     <p:column headerText="Nombre" sortBy="#{cli.nombreCompleto}">
-                        <h:outputText value="#{cli.nombreCompleto.split(' ')[0]}"/>
+                        <h:outputText value="#{cli.nombreCompleto.split(' ')[0]}" />
                     </p:column>
 
                     <p:column headerText="Apellidos" sortBy="#{cli.apellido}">
-                        <h:outputText value="#{cli.apellido}"/>
+                        <h:outputText value="#{cli.apellido}" />
                     </p:column>
 
                     <p:column headerText="Sexo" sortBy="#{cli.sexo}">
-                        <h:outputText value="#{cli.sexo}"/>
+                        <h:outputText value="#{cli.sexo}" />
                     </p:column>
 
                     <p:column headerText="Teléfono" sortBy="#{cli.telefono}">
-                        <h:outputText value="#{cli.telefono}"/>
+                        <h:outputText value="#{cli.telefono}" />
                     </p:column>
 
                     <p:column headerText="Teléfono 2" sortBy="#{cli.segundoTelefono}">
@@ -701,42 +735,35 @@
 
                     <p:column headerText="Fecha de Registro" sortBy="#{cli.fechaRegistro}">
                         <h:outputText value="#{cli.fechaRegistro}">
-                            <f:convertDateTime pattern="dd-MM-yyyy"/>
+                            <f:convertDateTime pattern="dd-MM-yyyy" />
                         </h:outputText>
                     </p:column>
 
                     <p:column headerText="Crédito" sortBy="#{cli.credito}">
                         <h:outputText value="#{cli.credito}">
-                            <f:convertNumber type="currency" currencySymbol="$"/>
+                            <f:convertNumber type="currency" currencySymbol="$" />
                         </h:outputText>
                     </p:column>
 
                     <p:column headerText="Pago Mensual" sortBy="#{cli.cantidadDineroMensual}">
-                        <h:outputText value="#{cli.cantidadDineroMensual}"/>
+                        <h:outputText value="#{cli.cantidadDineroMensual}" />
                     </p:column>
 
                     <p:column headerText="Acciones" style="width:120px; text-align:center;">
-                        <p:commandButton icon="pi pi-pencil"
-                                         title="Modificar"
-                                         styleClass="btn-modificar"
-                                         style="margin-right:5px;"
-                                         action="#{modificarCliBeanUI.cargarClienteDesdeTabla(cli)}"
-                                         process="@this"
-                                         update=":formClientes:dlgModificar"
-                                         oncomplete="PF('dlgModificarCliente').show();"/>
+                        <p:commandButton icon="pi pi-pencil" title="Modificar" styleClass="btn-modificar"
+                            style="margin-right:5px;" action="#{modificarCliBeanUI.cargarClienteDesdeTabla(cli)}"
+                            process="@this" update=":formClientes:dlgModificar"
+                            oncomplete="PF('dlgModificarCliente').show();" />
 
-                        <p:commandButton icon="pi pi-trash"
-                                         title="Eliminar"
-                                         styleClass="btn-baja"
-                                         actionListener="#{bajaClienteBeanUI.prepararEliminacion(cli.idCliente)}"
-                                         process="@this"
-                                         oncomplete="PF('dlgConfirmarTabla').show();"
-                                         style="margin-left:5px;"/>
+                        <p:commandButton icon="pi pi-trash" title="Eliminar" styleClass="btn-baja"
+                            actionListener="#{bajaClienteBeanUI.prepararEliminacion(cli.idCliente)}" process="@this"
+                            oncomplete="PF('dlgConfirmarTabla').show();" style="margin-left:5px;" />
                     </p:column>
 
                     <!-- Subtabla de clases asignadas -->
                     <p:rowExpansion>
-                        <p:dataTable value="#{cli.clases}" var="cla" style="margin-left:20px" emptyMessage="Sin clases asignadas">
+                        <p:dataTable value="#{cli.clases}" var="cla" style="margin-left:20px"
+                            emptyMessage="Sin clases asignadas">
                             <p:column headerText="ID Clase">
                                 <h:outputText value="#{cla.idClase}" />
                             </p:column>
@@ -757,4 +784,5 @@
         </div>
     </div>
 </h:body>
+
 </html>

@@ -1,13 +1,12 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://xmlns.jcp.org/jsf/core">
 
 <h:head>
     <title>Pagos - Rock On</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
-    <meta charset="UTF-8"/>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet"
+        type="text/css" />
+    <meta charset="UTF-8" />
     <style>
         body {
             margin: 0;
@@ -103,7 +102,7 @@
             margin: 0;
         }
 
-        /* --- BOTONES DE ACCIÓN --- */
+        /* BOTONES DE ACCIÓN ESTANDARIZADOS */
         .action-buttons {
             display: flex;
             align-items: center;
@@ -112,19 +111,94 @@
             margin-bottom: 15px;
         }
 
-        .ui-button {
+        body .ui-button,
+        body .btn-registrar,
+        body .btn-modificar,
+        body .btn-baja,
+        body .btn-cancelar,
+        body .btn-custom,
+        body .btn-submit,
+        body .ui-button.ui-widget {
             border: none !important;
             border-radius: 20px !important;
+            font-family: "Poppins", Arial, sans-serif !important;
             font-weight: 600 !important;
-            padding: 6px 18px !important;
             font-size: 14px !important;
-            background: #007bcb !important;
-            color: white !important;
-            transition: background 0.2s ease;
+            padding: 6px 16px !important;
+            text-shadow: none !important;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08) !important;
+            transition: all 0.2s ease-in-out !important;
+            cursor: pointer !important;
         }
 
-        .ui-button:hover {
-            background: #0061a6 !important;
+        /* 1. Botones Estándar / Registrar / Modificar / Cancelar / Info / Success / Gold (Color Azul Estándar) */
+        body .btn-primary,
+        body .btn-registrar,
+        body .btn-warning,
+        body .btn-modificar,
+        body .btn-secondary,
+        body .btn-cancelar,
+        body .btn-info,
+        body .btn-success,
+        body .btn-gold,
+        body .ui-button.btn-primary,
+        body .ui-button.btn-warning,
+        body .ui-button.btn-secondary,
+        body .ui-button.btn-info,
+        body .ui-button.btn-success,
+        body .ui-button.btn-gold {
+            background: #007bcb !important;
+            color: #ffffff !important;
+        }
+
+        body .btn-primary:hover,
+        body .btn-registrar:hover,
+        body .btn-warning:hover,
+        body .btn-modificar:hover,
+        body .btn-secondary:hover,
+        body .btn-cancelar:hover,
+        body .btn-info:hover,
+        body .btn-success:hover,
+        body .btn-gold:hover {
+            background: #005c96 !important;
+            color: #ffffff !important;
+            transform: translateY(-1px) !important;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12) !important;
+        }
+
+        body .btn-primary:active,
+        body .btn-registrar:active,
+        body .btn-warning:active,
+        body .btn-modificar:active,
+        body .btn-secondary:active,
+        body .btn-cancelar:active,
+        body .btn-info:active,
+        body .btn-success:active,
+        body .btn-gold:active {
+            transform: translateY(0) !important;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08) !important;
+        }
+
+        /* 2. Botón Destructivo / Peligro / Baja (Color Rojo Estándar) */
+        body .btn-danger,
+        body .btn-baja,
+        body .ui-button.btn-danger {
+            background: #dc3545 !important;
+            color: #ffffff !important;
+        }
+
+        body .btn-danger:hover,
+        body .btn-baja:hover {
+            background: #c82333 !important;
+            color: #ffffff !important;
+            transform: translateY(-1px) !important;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12) !important;
+        }
+
+        body .btn-danger:active,
+        body .btn-baja:active {
+            transform: translateY(0) !important;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08) !important;
         }
 
         /* --- TABLA --- */
@@ -246,7 +320,8 @@
         }
 
         .status-pendiente {
-            color: #D32F2F; /* Rojo o Naranja */
+            color: #D32F2F;
+            /* Rojo o Naranja */
             font-weight: bold;
             background-color: #FFEBEE;
             padding: 3px 6px;
@@ -254,7 +329,8 @@
         }
 
         .status-pagado {
-            color: #2E7D32; /* Verde */
+            color: #2E7D32;
+            /* Verde */
             font-weight: bold;
             background-color: #E8F5E9;
             padding: 3px 6px;
@@ -299,7 +375,6 @@
             height: 22px;
             font-size: 1.2rem;
         }
-
     </style>
 </h:head>
 
@@ -309,42 +384,49 @@
         <div class="menu">
             <h:form>
                 <h:commandLink action="home.xhtml?faces-redirect=true"
-                               actionListener="#{menuBeanUI.setActivePage('home')}"
-                               styleClass="#{menuBeanUI.activePage eq 'home' ? 'active' : ''}">
-                    <img src="resources-20250903T164359Z-1-001/resources/home.png" alt="Home Icon" class="menu-icon"/>
+                    actionListener="#{menuBeanUI.setActivePage('home')}"
+                    styleClass="#{menuBeanUI.activePage eq 'home' ? 'active' : ''}">
+                    <img src="resources-20250903T164359Z-1-001/resources/home.png" alt="Home Icon" class="menu-icon" />
                     <span>Home</span>
                 </h:commandLink>
 
                 <h:commandLink action="clientes.xhtml?faces-redirect=true"
-                               actionListener="#{menuBeanUI.setActivePage('clientes')}"
-                               styleClass="#{menuBeanUI.activePage eq 'clientes' ? 'active' : ''}">
-                    <img src="resources-20250903T164359Z-1-001/resources/clientes.png" alt="Clientes Icon" class="menu-icon"/>
+                    actionListener="#{menuBeanUI.setActivePage('clientes')}"
+                    styleClass="#{menuBeanUI.activePage eq 'clientes' ? 'active' : ''}">
+                    <img src="resources-20250903T164359Z-1-001/resources/clientes.png" alt="Clientes Icon"
+                        class="menu-icon" />
                     <span>Clientes</span>
                 </h:commandLink>
 
                 <h:commandLink action="tienda.xhtml?faces-redirect=true"
-                               actionListener="#{menuBeanUI.setActivePage('tienda')}"
-                               styleClass="#{menuBeanUI.activePage eq 'tienda' ? 'active' : ''}">
-                    <img src="resources-20250903T164359Z-1-001/resources/tienda.png" alt="Tienda Icon" class="menu-icon"/>
+                    actionListener="#{menuBeanUI.setActivePage('tienda')}"
+                    styleClass="#{menuBeanUI.activePage eq 'tienda' ? 'active' : ''}">
+                    <img src="resources-20250903T164359Z-1-001/resources/tienda.png" alt="Tienda Icon"
+                        class="menu-icon" />
                     <span>Tienda</span>
                 </h:commandLink>
 
                 <h:commandLink action="clases.xhtml?faces-redirect=true"
-                               actionListener="#{menuBeanUI.setActivePage('clases')}"
-                               styleClass="#{menuBeanUI.activePage eq 'clases' ? 'active' : ''}">
-                    <img src="resources-20250903T164359Z-1-001/resources/clases.png" alt="Clases Icon" class="menu-icon"/>
+                    actionListener="#{menuBeanUI.setActivePage('clases')}"
+                    styleClass="#{menuBeanUI.activePage eq 'clases' ? 'active' : ''}">
+                    <img src="resources-20250903T164359Z-1-001/resources/clases.png" alt="Clases Icon"
+                        class="menu-icon" />
                     <span>Clases</span>
                 </h:commandLink>
 
                 <h:commandLink action="pagos.xhtml?faces-redirect=true"
-                               actionListener="#{menuBeanUI.setActivePage('pagos')}"
-                               styleClass="#{menuBeanUI.activePage eq 'pagos' ? 'active' : ''}">
-                    <img src="resources-20250903T164359Z-1-001/resources/pagos.png" alt="Pagos Icon" class="menu-icon"/>
+                    actionListener="#{menuBeanUI.setActivePage('pagos')}"
+                    styleClass="#{menuBeanUI.activePage eq 'pagos' ? 'active' : ''}">
+                    <img src="resources-20250903T164359Z-1-001/resources/pagos.png" alt="Pagos Icon"
+                        class="menu-icon" />
                     <span>Pagos</span>
                 </h:commandLink>
                 <h:commandLink action="usuarios.xhtml?faces-redirect=true"
-                               actionListener="#{menuBeanUI.setActivePage('usuarios')}"
-                               styleClass="#{menuBeanUI.activePage eq 'usuarios' ? 'active' : ''}" rendered="#{loginBeanUI.isAdmin()}"> <img src="resources-20250903T164359Z-1-001/resources/clientes.png" alt="Usuarios Icon" class="menu-icon"/>
+                    actionListener="#{menuBeanUI.setActivePage('usuarios')}"
+                    styleClass="#{menuBeanUI.activePage eq 'usuarios' ? 'active' : ''}"
+                    rendered="#{loginBeanUI.isAdmin()}"> <img
+                        src="resources-20250903T164359Z-1-001/resources/clientes.png" alt="Usuarios Icon"
+                        class="menu-icon" />
                     <span>Usuarios</span>
                 </h:commandLink>
             </h:form>
@@ -360,7 +442,7 @@
             </h:form>
 
             <div class="logo-bottom">
-                <img src="resources-20250903T164359Z-1-001/resources/rockon-icon.png" alt="Rock On Logo"/>
+                <img src="resources-20250903T164359Z-1-001/resources/rockon-icon.png" alt="Rock On Logo" />
             </div>
         </div>
     </div>
@@ -370,85 +452,65 @@
             <h:form id="formPagos">
                 <h1>Pagos</h1>
 
-                <div class="action-buttons" style="display:flex; justify-content:flex-end; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:15px;">
+                <div class="action-buttons"
+                    style="display:flex; justify-content:flex-end; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:15px;">
 
-                    <h:outputLabel for="buscarPago" value="ID Pago" style="font-weight:600;"/>
-                    <p:inputText id="buscarPago" value="#{pagoBeanUI.filtro}"
-                                 placeholder="Buscar por ID Pago"
-                                 style="width:200px;">
-                        <p:ajax event="input" listener="#{pagoBeanUI.filtrarPorId}"
-                                update="tablaPagos" delay="300"/>
+                    <h:outputLabel for="buscarPago" value="ID Pago" style="font-weight:600;" />
+                    <p:inputText id="buscarPago" value="#{pagoBeanUI.filtro}" placeholder="Buscar por ID Pago"
+                        style="width:200px;">
+                        <p:ajax event="input" listener="#{pagoBeanUI.filtrarPorId}" update="tablaPagos" delay="300" />
                     </p:inputText>
 
                     <p:commandButton value="Actualizar Tabla" icon="pi pi-refresh"
-                                     actionListener="#{pagoBeanUI.recargar}"
-                                     process="@this"
-                                     update=":formPagos:tablaPagos :formPagos:buscarPago"/>
+                        actionListener="#{pagoBeanUI.recargar}" process="@this"
+                        update=":formPagos:tablaPagos :formPagos:buscarPago" styleClass="btn-info" />
 
-                    <p:commandButton value="Realizar Pago clase"
-                                     icon="pi pi-shopping-cart"
-                                     onclick="PF('dlgMetodoPago2').show();"
-                                     type="button"/>
+                    <p:commandButton value="Realizar Pago clase" icon="pi pi-shopping-cart"
+                        onclick="PF('dlgMetodoPago2').show();" type="button" styleClass="btn-registrar" />
 
-                    <p:commandButton value="Realizar Pago Membresia"
-                                     icon="pi pi-shopping-cart"
-                                     onclick="PF('dlgMetodoPago1').show();"
-                                     type="button"/>
+                    <p:commandButton value="Realizar Pago Membresia" icon="pi pi-shopping-cart"
+                        onclick="PF('dlgMetodoPago1').show();" type="button" styleClass="btn-registrar" />
 
-                    <p:commandButton value="Cancelar pago"
-                                     icon="pi pi-times"
-                                     type="button"
-                                     onclick="PF('dlgCancelarPago').show()" />
+                    <p:commandButton value="Cancelar pago" icon="pi pi-times" type="button"
+                        onclick="PF('dlgCancelarPago').show()" styleClass="btn-baja" />
 
-                    <p:dialog header="Cancelar Pago"
-                              widgetVar="dlgCancelarPago"
-                              modal="true"
-                              closable="false"
-                              resizable="false"
-                              draggable="false">
+                    <p:dialog header="Cancelar Pago" widgetVar="dlgCancelarPago" modal="true" closable="false"
+                        resizable="false" draggable="false">
 
                         <h:panelGrid columns="2" cellpadding="5">
 
                             <h:outputLabel for="pagoId" value="ID del Pago:" />
-                            <p:inputText id="pagoId"
-                                         value="#{pagoBeanUI.idPagoCancelar}"
-                                         required="true"
-                                         requiredMessage="Debes ingresar un ID de pago." />
+                            <p:inputText id="pagoId" value="#{pagoBeanUI.idPagoCancelar}" required="true"
+                                requiredMessage="Debes ingresar un ID de pago." />
 
                         </h:panelGrid>
 
                         <p:separator />
 
-                        <p:commandButton value="Aceptar"
-                                         icon="pi pi-check"
-                                         actionListener="#{pagoBeanUI.cancelarPago()}"
-                                         update=":formPagos"
-                                         oncomplete="if (!args.validationFailed) PF('dlgCancelarPago').hide();" />
+                        <p:commandButton value="Aceptar" icon="pi pi-check"
+                            actionListener="#{pagoBeanUI.cancelarPago()}" update=":formPagos"
+                            oncomplete="if (!args.validationFailed) PF('dlgCancelarPago').hide();"
+                            styleClass="btn-baja" />
 
-                        <p:commandButton value="Cerrar"
-                                         icon="pi pi-times"
-                                         type="button"
-                                         onclick="PF('dlgCancelarPago').hide()" />
+                        <p:commandButton value="Cerrar" icon="pi pi-times" type="button"
+                            onclick="PF('dlgCancelarPago').hide()" styleClass="btn-cancelar" />
 
                     </p:dialog>
 
                     <p:commandButton value="Abrir la caja" icon="pi pi-inbox"
-                                     onclick="PF('dlgCaja').show(); return false;"
-                                     type="button"/>
+                        onclick="PF('dlgCaja').show(); return false;" type="button" styleClass="btn-gold" />
 
                 </div>
 
-                <p:dataTable id="tablaPagos" value="#{pagoBeanUI.listaPagos}" var="pa"
-                             paginator="true" rows="8"
-                             paginatorPosition="bottom"
-                             emptyMessage="No hay pagos registrados">
+                <p:dataTable id="tablaPagos" value="#{pagoBeanUI.listaPagos}" var="pa" paginator="true" rows="8"
+                    paginatorPosition="bottom" emptyMessage="No hay pagos registrados">
 
                     <p:column headerText="ID" sortBy="#{pa.idPaga}">
-                        <h:outputText value="#{pa.idPaga}"/>
+                        <h:outputText value="#{pa.idPaga}" />
                     </p:column>
 
                     <p:column headerText="Nombre del cliente" sortBy="#{pa.idCliente}">
-                        <h:outputText value="#{pa.idCliente.nombreCompleto}"/>
+                        <h:outputText value="#{pa.idCliente.nombreCompleto}" />
                     </p:column>
 
                     <p:column headerText="Producto" sortBy="#{pa.idItem.idItem}">
@@ -457,713 +519,535 @@
 
                     <p:column headerText="Observaciones" sortBy="#{pa.observaciones}">
                         <h:outputText value="#{empty pa.observaciones ? 'Ninguna observación' : pa.observaciones}"
-                                      styleClass="#{empty pa.observaciones ? 'texto-vacio' : ''}"/>
+                            styleClass="#{empty pa.observaciones ? 'texto-vacio' : ''}" />
                     </p:column>
 
                     <p:column headerText="Fecha de pago" sortBy="#{pa.fecha}">
-                        <h:outputText value="#{pa.fecha}"/>
+                        <h:outputText value="#{pa.fecha}" />
                     </p:column>
 
                     <p:column headerText="Monto" sortBy="#{pa.monto}">
-                        <h:outputText value="#{pa.monto}"/>
+                        <h:outputText value="#{pa.monto}" />
                     </p:column>
 
                     <p:column headerText="A pagar" sortBy="#{pa.porPagar}">
                         <h:outputText value="#{pa.porPagar == 1 ? 'Por Pagar' : 'Pagado'}"
-                                      styleClass="#{pa.porPagar == 1 ? 'status-pendiente' : 'status-pagado'}" />
+                            styleClass="#{pa.porPagar == 1 ? 'status-pendiente' : 'status-pagado'}" />
                     </p:column>
                 </p:dataTable>
 
             </h:form>
             <h:form id="formReportes" style="display:flex; justify-content:flex-end; gap:10px; margin: 15px 0;">
 
-                <p:commandButton value="Generar Reporte Diario"
-                                 icon="pi pi-file-pdf"
-                                 action="#{reporteBeanUI.descargarReporteDiario}"
-                                 ajax="false"
-                                 styleClass="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-left"
-                                 style="background:#007bff; color:#fff; border:none;"/>
+                <p:commandButton value="Generar Reporte Diario" icon="pi pi-file-pdf"
+                    action="#{reporteBeanUI.descargarReporteDiario}" ajax="false" styleClass="btn-registrar" />
 
-                <p:commandButton value="Generar Reporte Mensual"
-                                 icon="pi pi-file-pdf"
-                                 action="#{reporteMensualBeanUI.descargarReporteMensual}"
-                                 ajax="false"
-                                 styleClass="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-left"
-                                 style="background:#007bff; color:#fff; border:none;"/>
+                <p:commandButton value="Generar Reporte Mensual" icon="pi pi-file-pdf"
+                    action="#{reporteMensualBeanUI.descargarReporteMensual}" ajax="false" styleClass="btn-registrar" />
             </h:form>
         </div>
     </div>
     <h:form id="formPrincipal">
 
-        <p:remoteCommand name="autoAbrirPago" action="#{RealizarPagoBeanUI.verificarAperturaAutomatica}" autoRun="true" />
+        <p:remoteCommand name="autoAbrirPago" action="#{RealizarPagoBeanUI.verificarAperturaAutomatica}"
+            autoRun="true" />
 
-        <p:remoteCommand name="autoAbrirPagoMembresia" action="#{RealizarPagoBeanUI.verificarAperturaAutomatica1}" autoRun="true" />
+        <p:remoteCommand name="autoAbrirPagoMembresia" action="#{RealizarPagoBeanUI.verificarAperturaAutomatica1}"
+            autoRun="true" />
 
-        <p:dialog header="Seleccionar Método de Pago" widgetVar="dlgMetodoPago1"
-                  modal="true" resizable="false" closable="true" draggable="false" width="360">
+        <p:dialog header="Seleccionar Método de Pago" widgetVar="dlgMetodoPago1" modal="true" resizable="false"
+            closable="true" draggable="false" width="360">
             <h:panelGrid id="panelMetodoPago1" columns="1" style="width:100%; text-align:center;">
 
-                <p:messages id="msgsMetodoPago1" showDetail="true" closable="true"/>
+                <p:messages id="msgsMetodoPago1" showDetail="true" closable="true" />
 
                 <div class="form-group">
-                    <h:outputLabel for="cliente1" value="Cliente (opcional)" style="font-weight:bold;"/>
-                    <p:inputText id="cliente1"
-                                 value="#{RealizarPagoBeanUI.idCliente}"
-                                 maxlength="7"
-                                 onkeydown="if(event.key === 'Enter'){event.preventDefault(); return false;}"
-                                 placeholder="CLI1000"
-                                 styleClass="form-control">
+                    <h:outputLabel for="cliente1" value="Cliente (opcional)" style="font-weight:bold;" />
+                    <p:inputText id="cliente1" value="#{RealizarPagoBeanUI.idCliente}" maxlength="7"
+                        onkeydown="if(event.key === 'Enter'){event.preventDefault(); return false;}"
+                        placeholder="CLI1000" styleClass="form-control">
                     </p:inputText>
                 </div>
 
                 <div class="form-group">
-                    <h:outputLabel for="descuento1" value="Descuento (opcional)" style="font-weight:bold;"/>
-                    <p:inputNumber id="descuento1"
-                                   value="#{RealizarPagoBeanUI.descuento}"
-                                   minValue="0"
-                                   decimalPlaces="2"
-                                   placeholder="$200"
-                                   style="width: 100%;">
+                    <h:outputLabel for="descuento1" value="Descuento (opcional)" style="font-weight:bold;" />
+                    <p:inputNumber id="descuento1" value="#{RealizarPagoBeanUI.descuento}" minValue="0"
+                        decimalPlaces="2" placeholder="$200" style="width: 100%;">
                     </p:inputNumber>
                 </div>
 
-                <p:commandButton value="Pago en Efectivo"
-                                 icon="pi pi-money-bill"
-                                 actionListener="#{RealizarPagoBeanUI.prepararPago('membresia')}"
-                                 process="@this cliente1 descuento1"
-                                 update="panelMetodoPago1 :formPrincipal:panelPagoInteractivo1 :formPrincipal:panelAplicarCredito1"
-                                 oncomplete="if (!args.validationFailed) {
+                <p:commandButton value="Pago en Efectivo" icon="pi pi-money-bill"
+                    actionListener="#{RealizarPagoBeanUI.prepararPago('membresia')}" process="@this cliente1 descuento1"
+                    update="panelMetodoPago1 :formPrincipal:panelPagoInteractivo1 :formPrincipal:panelAplicarCredito1"
+                    oncomplete="if (!args.validationFailed) {
                             PF('dlgMetodoPago1').hide();
                             if (args.tieneCredito) {
                                 PF('dlgAplicarCredito1').show();
                             } else {
                                 PF('dlgPagoInteractivo1').show();
                             }
-                        }"
-                                 style="margin-bottom:10px; background:#ffc107; color:#000;">
+                        }" styleClass="btn-registrar" style="width:100%; margin-bottom:10px;">
                     <f:param name="proximo" value="dlgPagoInteractivo1" />
                 </p:commandButton>
 
-                <p:commandButton value="Pago con Tarjeta"
-                                 icon="pi pi-credit-card"
-                                 actionListener="#{RealizarPagoBeanUI.prepararPago('membresia')}"
-                                 process="@this cliente1 descuento1"
-                                 update="panelMetodoPago1 :formPrincipal:panelPagoTarjeta1 :formPrincipal:panelAplicarCredito1"
-                                 oncomplete="if (!args.validationFailed) {
+                <p:commandButton value="Pago con Tarjeta" icon="pi pi-credit-card"
+                    actionListener="#{RealizarPagoBeanUI.prepararPago('membresia')}" process="@this cliente1 descuento1"
+                    update="panelMetodoPago1 :formPrincipal:panelPagoTarjeta1 :formPrincipal:panelAplicarCredito1"
+                    oncomplete="if (!args.validationFailed) {
                             PF('dlgMetodoPago1').hide();
                             if (args.tieneCredito) {
                                 PF('dlgAplicarCredito1').show();
                             } else {
                                 PF('dlgPagoTarjeta1').show();
                             }
-                        }"
-                                 style="background:#17a2b8; color:#fff;">
+                        }" styleClass="btn-info" style="width:100%;">
                     <f:param name="proximo" value="dlgPagoTarjeta1" />
                 </p:commandButton>
 
             </h:panelGrid>
         </p:dialog>
 
-        <p:dialog header="Confirmar Crédito" widgetVar="dlgAplicarCredito1"
-                  modal="true" resizable="false" closable="false" draggable="false" width="420">
+        <p:dialog header="Confirmar Crédito" widgetVar="dlgAplicarCredito1" modal="true" resizable="false"
+            closable="false" draggable="false" width="420">
 
             <h:panelGrid id="panelAplicarCredito1" columns="1" style="width:100%; text-align:center;">
-                <p:messages id="msgsCredito1" showDetail="true" closable="true"/>
+                <p:messages id="msgsCredito1" showDetail="true" closable="true" />
 
-                <h:outputText value="El cliente tiene un crédito disponible de:"
-                              style="font-size:16px;"/>
+                <h:outputText value="El cliente tiene un crédito disponible de:" style="font-size:16px;" />
 
                 <h:outputText value="#{RealizarPagoBeanUI.cliente.credito}"
-                              style="font-size:22px; font-weight:bold; color:#28a745; margin:5px 0;">
-                    <f:convertNumber type="currency" currencySymbol="$"/>
+                    style="font-size:22px; font-weight:bold; color:#28a745; margin:5px 0;">
+                    <f:convertNumber type="currency" currencySymbol="$" />
                 </h:outputText>
 
-                <h:outputText value="Total actual de la compra:"
-                              style="font-size:16px; margin-top:10px;"/>
-                <h:outputText value="#{RealizarPagoBeanUI.montoTotal}"
-                              style="font-size:18px; font-weight:bold;">
-                    <f:convertNumber type="currency" currencySymbol="$"/>
+                <h:outputText value="Total actual de la compra:" style="font-size:16px; margin-top:10px;" />
+                <h:outputText value="#{RealizarPagoBeanUI.montoTotal}" style="font-size:18px; font-weight:bold;">
+                    <f:convertNumber type="currency" currencySymbol="$" />
                 </h:outputText>
 
                 <h:outputText value="¿Desea aplicar el crédito a esta compra?"
-                              style="font-size:16px; margin-top:15px; font-weight:bold;"/>
+                    style="font-size:16px; margin-top:15px; font-weight:bold;" />
 
                 <h:outputText value="Esta acción es irreversible y modificará el saldo del cliente."
-                              style="font-size:13px; font-style:italic; color:#777;"/>
+                    style="font-size:13px; font-style:italic; color:#777;" />
 
-                <p:commandButton value="Sí, Aplicar Crédito"
-                                 icon="pi pi-check"
-                                 action="#{RealizarPagoBeanUI.aplicarCredito}"
-                                 process="@this"
-                                 update="panelAplicarCredito1 msgsCredito1 :formPrincipal:panelPagoTarjeta1 :formPrincipal:panelPagoInteractivo1"
-                                 oncomplete="if (!args.validationFailed) { PF('dlgAplicarCredito1').hide(); PF('#{RealizarPagoBeanUI.siguienteDialogo}').show(); }"
-                                 style="background:#28a745; color:#fff;"/>
+                <p:commandButton value="Sí, Aplicar Crédito" icon="pi pi-check"
+                    action="#{RealizarPagoBeanUI.aplicarCredito}" process="@this"
+                    update="panelAplicarCredito1 msgsCredito1 :formPrincipal:panelPagoTarjeta1 :formPrincipal:panelPagoInteractivo1"
+                    oncomplete="if (!args.validationFailed) { PF('dlgAplicarCredito1').hide(); PF('#{RealizarPagoBeanUI.siguienteDialogo}').show(); }"
+                    styleClass="btn-registrar" style="width:100%; margin-bottom:10px;" />
 
-                <p:commandButton value="No, Pagar Completo"
-                                 icon="pi pi-times"
-                                 type="button"
-                                 onclick="PF('dlgAplicarCredito1').hide(); PF('#{RealizarPagoBeanUI.siguienteDialogo}').show();"
-                                 style="background:#dc3545; color:#fff;"/>
+                <p:commandButton value="No, Pagar Completo" icon="pi pi-times" type="button"
+                    onclick="PF('dlgAplicarCredito1').hide(); PF('#{RealizarPagoBeanUI.siguienteDialogo}').show();"
+                    styleClass="btn-baja" style="width:100%;" />
 
             </h:panelGrid>
         </p:dialog>
 
-        <p:dialog header="Pago con Tarjeta"
-                  widgetVar="dlgPagoTarjeta1"
-                  modal="true"
-                  resizable="false"
-                  closable="false"
-                  draggable="false"
-                  width="420">
+        <p:dialog header="Pago con Tarjeta" widgetVar="dlgPagoTarjeta1" modal="true" resizable="false" closable="false"
+            draggable="false" width="420">
 
             <h:panelGrid id="panelPagoTarjeta1" columns="1" style="width:100%;">
-                <p:messages id="msgsTarjeta1" showDetail="true" closable="true"/>
+                <p:messages id="msgsTarjeta1" showDetail="true" closable="true" />
 
-                <h:outputText value="Información del Cliente:" style="font-weight:bold; margin-bottom:10px;"/>
+                <h:outputText value="Información del Cliente:" style="font-weight:bold; margin-bottom:10px;" />
 
                 <h:panelGrid columns="2" columnClasses="label,value" style="width:100%;">
-                    <h:outputText value="ID Cliente:" style="color:#000000;"/>
-                    <h:outputText value="#{RealizarPagoBeanUI.cliente.idCliente}" style="color:#000000;"/>
+                    <h:outputText value="ID Cliente:" style="color:#000000;" />
+                    <h:outputText value="#{RealizarPagoBeanUI.cliente.idCliente}" style="color:#000000;" />
 
-                    <h:outputText value="Nombre del cliente:" style="color:#000000;"/>
-                    <h:outputText value="#{RealizarPagoBeanUI.cliente.nombreCompleto}" style="color:#000000;"/>
+                    <h:outputText value="Nombre del cliente:" style="color:#000000;" />
+                    <h:outputText value="#{RealizarPagoBeanUI.cliente.nombreCompleto}" style="color:#000000;" />
 
-                    <h:outputText value="Monto Total:" style="color:#000000;"/>
-                    <h:outputText value="#{RealizarPagoBeanUI.montoTotal}" style="color:#000000;"/>
+                    <h:outputText value="Monto Total:" style="color:#000000;" />
+                    <h:outputText value="#{RealizarPagoBeanUI.montoTotal}" style="color:#000000;" />
 
-                    <h:outputText value="Fecha:" style="color:#000000;"/>
+                    <h:outputText value="Fecha:" style="color:#000000;" />
                     <h:outputText value="#{RealizarPagoBeanUI.fecha}" style="color:#000000;">
-                        <f:convertDateTime pattern="dd/MM/yyyy HH:mm"/>
+                        <f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
                     </h:outputText>
 
-                    <h:outputText value="Método de pago:" style="color:#000000;"/>
-                    <h:outputText value="Tarjeta de crédito/débito" style="color:#17a2b8; font-weight:bold;"/>
+                    <h:outputText value="Método de pago:" style="color:#000000;" />
+                    <h:outputText value="Tarjeta de crédito/débito" style="color:#17a2b8; font-weight:bold;" />
                 </h:panelGrid>
 
                 <h:outputText value="Por favor, realice el cobro manual en la terminal bancaria."
-                              style="margin-top:10px; display:block; text-align:center; font-style:italic;"/>
+                    style="margin-top:10px; display:block; text-align:center; font-style:italic;" />
 
                 <h:panelGroup layout="block" style="margin-top:15px; text-align:center;">
-                    <p:commandButton id="btnPagoTarjeta1"
-                                     value="Pagar"
-                                     process="@this"
-                                     update="msgsTarjeta1"
-                                     actionListener="#{RealizarPagoBeanUI.realizarPagoTarjetaMembresia()}"/>
+                    <p:commandButton id="btnPagoTarjeta1" value="Pagar" process="@this" update="msgsTarjeta1"
+                        actionListener="#{RealizarPagoBeanUI.realizarPagoTarjetaMembresia()}"
+                        styleClass="btn-registrar" />
 
-                    <p:commandButton value="Cancelar"
-                                     icon="pi pi-times"
-                                     actionListener="#{RealizarPagoBeanUI.limpiarCampos()}"
-                                     update="@form"
-                                     process="@this"
-                                     oncomplete="PF('dlgPagoTarjeta1').hide();"
-                                     style="background:#dc3545; color:#fff;"/>
+                    <p:commandButton value="Cancelar" icon="pi pi-times"
+                        actionListener="#{RealizarPagoBeanUI.limpiarCampos()}" update="@form" process="@this"
+                        oncomplete="PF('dlgPagoTarjeta1').hide();" styleClass="btn-baja" />
                 </h:panelGroup>
             </h:panelGrid>
         </p:dialog>
 
-        <p:dialog id="dlgExitoTarjeta1"
-                  header="Pago Realizado"
-                  widgetVar="dlgExitoTarjeta1"
-                  modal="true"
-                  resizable="false"
-                  closable="false"
-                  draggable="false"
-                  width="300">
+        <p:dialog id="dlgExitoTarjeta1" header="Pago Realizado" widgetVar="dlgExitoTarjeta1" modal="true"
+            resizable="false" closable="false" draggable="false" width="300">
 
             <h:panelGrid columns="1" style="width:100%; text-align:center;">
                 <h:outputText value="Pago realizado con éxito"
-                              style="font-weight:bold; font-size:18px; color:#28a745;"/>
+                    style="font-weight:bold; font-size:18px; color:#28a745;" />
 
                 <h:outputText value="El cobro con tarjeta se procesó correctamente."
-                              style="font-size:14px; color:#333; margin-top:10px;"/>
+                    style="font-size:14px; color:#333; margin-top:10px;" />
 
-                <p:commandButton value="Continuar"
-                                 icon="pi pi-check"
-                                 actionListener="#{RealizarPagoBeanUI.limpiarCampos()}"
-                                 onclick="PF('dlgExitoTarjeta1').hide();"
-                                 update="@form"
-                                 style="margin-top:15px; background:#28a745; color:#fff; width:100%;"/>
+                <p:commandButton value="Continuar" icon="pi pi-check"
+                    actionListener="#{RealizarPagoBeanUI.limpiarCampos()}" onclick="PF('dlgExitoTarjeta1').hide();"
+                    update="@form" styleClass="btn-registrar" style="width:100%; margin-top:15px;" />
             </h:panelGrid>
         </p:dialog>
 
-        <p:dialog header="Realizar Pago en Efectivo"
-                  widgetVar="dlgPagoInteractivo1"
-                  modal="true"
-                  resizable="false"
-                  closable="true"
-                  draggable="false"
-                  width="400">
+        <p:dialog header="Realizar Pago en Efectivo" widgetVar="dlgPagoInteractivo1" modal="true" resizable="false"
+            closable="true" draggable="false" width="400">
 
             <h:panelGrid id="panelPagoInteractivo1" columns="1" style="width:100%;">
-                <p:messages id="msgsPagoInteractivo1" showDetail="true" closable="true"/>
+                <p:messages id="msgsPagoInteractivo1" showDetail="true" closable="true" />
 
                 <div class="form-group">
-                    <h:outputLabel for="montoIngresado1" value="Monto ingresado"/>
-                    <p:inputNumber id="montoIngresado1"
-                                   value="#{RealizarPagoBeanUI.montoIngresado}"
-                                   minValue="0"
-                                   decimalPlaces="2"
-                                   style="width: 100%;">
-                        <p:ajax event="keyup" update="faltante1" process="@this"/>
+                    <h:outputLabel for="montoIngresado1" value="Monto ingresado" />
+                    <p:inputNumber id="montoIngresado1" value="#{RealizarPagoBeanUI.montoIngresado}" minValue="0"
+                        decimalPlaces="2" style="width: 100%;">
+                        <p:ajax event="keyup" update="faltante1" process="@this" />
                     </p:inputNumber>
                 </div>
 
                 <div class="form-group">
-                    <h:outputLabel value="Monto restante"/>
-                    <h:outputText id="faltante1" value="#{RealizarPagoBeanUI.montoFaltante}"/>
+                    <h:outputLabel value="Monto restante" />
+                    <h:outputText id="faltante1" value="#{RealizarPagoBeanUI.montoFaltante}" />
                 </div>
 
-                <p:commandButton value="Pagar"
-                                 action="#{RealizarPagoBeanUI.realizarPagoInteractivoMembresia()}"
-                                 update="msgsPagoInteractivo1 faltante1"
-                                 styleClass="ui-button"
-                                 process="@this montoIngresado1"
-                                 style="background:#28a745; color:#fff;"/>
+                <p:commandButton value="Pagar" action="#{RealizarPagoBeanUI.realizarPagoInteractivoMembresia()}"
+                    update="msgsPagoInteractivo1 faltante1" styleClass="btn-registrar" process="@this montoIngresado1"
+                    style="width:100%;" />
             </h:panelGrid>
         </p:dialog>
 
-        <p:dialog id="dlgCambio1"
-                  header="Cambio Entregado"
-                  widgetVar="dlgCambio1"
-                  modal="true"
-                  resizable="false"
-                  closable="false"
-                  draggable="false"
-                  width="300">
+        <p:dialog id="dlgCambio1" header="Cambio Entregado" widgetVar="dlgCambio1" modal="true" resizable="false"
+            closable="false" draggable="false" width="300">
 
             <h:panelGrid columns="1" style="width:100%; text-align:center;">
-                <h:outputText value="Cambio:" style="font-weight:bold; font-size:18px;"/>
+                <h:outputText value="Cambio:" style="font-weight:bold; font-size:18px;" />
                 <h:outputText value="$#{RealizarPagoBeanUI.montoCambio}"
-                              style="font-size:22px; color:#28a745; margin:10px 0; display:block;">
-                    <f:convertNumber type="currency" currencySymbol="$" maxFractionDigits="2"/>
+                    style="font-size:22px; color:#28a745; margin:10px 0; display:block;">
+                    <f:convertNumber type="currency" currencySymbol="$" maxFractionDigits="2" />
                 </h:outputText>
 
-                <p:commandButton value="Continuar"
-                                 icon="pi pi-check"
-                                 actionListener="#{RealizarPagoBeanUI.limpiarCampos()}"
-                                 onclick="PF('dlgCambio1').hide();"
-                                 update="@form"
-                                 style="margin-top:10px; background:#28a745; color:#fff; width:100%;"/>
+                <p:commandButton value="Continuar" icon="pi pi-check"
+                    actionListener="#{RealizarPagoBeanUI.limpiarCampos()}" onclick="PF('dlgCambio1').hide();"
+                    update="@form" styleClass="btn-registrar" style="width:100%; margin-top:10px;" />
             </h:panelGrid>
         </p:dialog>
 
 
-        <p:dialog header="Seleccionar Método de Pago" widgetVar="dlgMetodoPago2"
-                  modal="true" resizable="false" closable="true" draggable="false" width="360">
+        <p:dialog header="Seleccionar Método de Pago" widgetVar="dlgMetodoPago2" modal="true" resizable="false"
+            closable="true" draggable="false" width="360">
             <h:panelGrid id="panelMetodoPago2" columns="1" style="width:100%; text-align:center;">
 
-                <p:messages id="msgsMetodoPago2" showDetail="true" closable="true"/>
+                <p:messages id="msgsMetodoPago2" showDetail="true" closable="true" />
 
                 <div class="form-group">
-                    <h:outputLabel for="cliente2" value="Cliente (opcional)" style="font-weight:bold;"/>
-                    <p:inputText id="cliente2"
-                                 value="#{RealizarPagoBeanUI.idCliente}"
-                                 maxlength="7"
-                                 onkeydown="if(event.key === 'Enter'){event.preventDefault(); return false;}"
-                                 placeholder="CLI1000"
-                                 styleClass="form-control">
+                    <h:outputLabel for="cliente2" value="Cliente (opcional)" style="font-weight:bold;" />
+                    <p:inputText id="cliente2" value="#{RealizarPagoBeanUI.idCliente}" maxlength="7"
+                        onkeydown="if(event.key === 'Enter'){event.preventDefault(); return false;}"
+                        placeholder="CLI1000" styleClass="form-control">
                     </p:inputText>
                 </div>
 
                 <div class="form-group">
-                    <h:outputLabel for="descuento2" value="Descuento (opcional)" style="font-weight:bold;"/>
-                    <p:inputNumber id="descuento2"
-                                   value="#{RealizarPagoBeanUI.descuento}"
-                                   minValue="0"
-                                   decimalPlaces="2"
-                                   placeholder="$200"
-                                   style="width: 100%;">
+                    <h:outputLabel for="descuento2" value="Descuento (opcional)" style="font-weight:bold;" />
+                    <p:inputNumber id="descuento2" value="#{RealizarPagoBeanUI.descuento}" minValue="0"
+                        decimalPlaces="2" placeholder="$200" style="width: 100%;">
                     </p:inputNumber>
                 </div>
 
-                <p:commandButton value="Pago en Efectivo"
-                                 icon="pi pi-money-bill"
-                                 actionListener="#{RealizarPagoBeanUI.prepararPago('clase')}"
-                                 process="@this cliente2 descuento2"
-                                 update="panelMetodoPago2 :formPrincipal:panelPagoInteractivo2 :formPrincipal:panelAplicarCredito2"
-                                 oncomplete="if (!args.validationFailed) {
+                <p:commandButton value="Pago en Efectivo" icon="pi pi-money-bill"
+                    actionListener="#{RealizarPagoBeanUI.prepararPago('clase')}" process="@this cliente2 descuento2"
+                    update="panelMetodoPago2 :formPrincipal:panelPagoInteractivo2 :formPrincipal:panelAplicarCredito2"
+                    oncomplete="if (!args.validationFailed) {
                             PF('dlgMetodoPago2').hide();
                             if (args.tieneCredito) {
                                 PF('dlgAplicarCredito2').show();
                             } else {
                                 PF('dlgPagoInteractivo2').show();
                             }
-                        }"
-                                 style="margin-bottom:10px; background:#ffc107; color:#000;">
+                        }" styleClass="btn-registrar" style="width:100%; margin-bottom:10px;">
                     <f:param name="proximo" value="dlgPagoInteractivo2" />
                 </p:commandButton>
 
-                <p:commandButton value="Pago con Tarjeta"
-                                 icon="pi pi-credit-card"
-                                 actionListener="#{RealizarPagoBeanUI.prepararPago('clase')}"
-                                 process="@this cliente2 descuento2"
-                                 update="panelMetodoPago2 :formPrincipal:panelPagoTarjeta2 :formPrincipal:panelAplicarCredito2"
-                                 oncomplete="if (!args.validationFailed) {
+                <p:commandButton value="Pago con Tarjeta" icon="pi pi-credit-card"
+                    actionListener="#{RealizarPagoBeanUI.prepararPago('clase')}" process="@this cliente2 descuento2"
+                    update="panelMetodoPago2 :formPrincipal:panelPagoTarjeta2 :formPrincipal:panelAplicarCredito2"
+                    oncomplete="if (!args.validationFailed) {
                             PF('dlgMetodoPago2').hide();
                             if (args.tieneCredito) {
                                 PF('dlgAplicarCredito2').show();
                             } else {
                                 PF('dlgPagoTarjeta2').show();
                             }
-                        }"
-                                 style="background:#17a2b8; color:#fff;">
+                        }" styleClass="btn-info" style="width:100%;">
                     <f:param name="proximo" value="dlgPagoTarjeta2" />
                 </p:commandButton>
 
             </h:panelGrid>
         </p:dialog>
 
-        <p:dialog header="Confirmar Crédito" widgetVar="dlgAplicarCredito2"
-                  modal="true" resizable="false" closable="false" draggable="false" width="420">
+        <p:dialog header="Confirmar Crédito" widgetVar="dlgAplicarCredito2" modal="true" resizable="false"
+            closable="false" draggable="false" width="420">
 
             <h:panelGrid id="panelAplicarCredito2" columns="1" style="width:100%; text-align:center;">
-                <p:messages id="msgsCredito2" showDetail="true" closable="true"/>
+                <p:messages id="msgsCredito2" showDetail="true" closable="true" />
 
-                <h:outputText value="El cliente tiene un crédito disponible de:"
-                              style="font-size:16px;"/>
+                <h:outputText value="El cliente tiene un crédito disponible de:" style="font-size:16px;" />
 
                 <h:outputText value="#{RealizarPagoBeanUI.cliente.credito}"
-                              style="font-size:22px; font-weight:bold; color:#28a745; margin:5px 0;">
-                    <f:convertNumber type="currency" currencySymbol="$"/>
+                    style="font-size:22px; font-weight:bold; color:#28a745; margin:5px 0;">
+                    <f:convertNumber type="currency" currencySymbol="$" />
                 </h:outputText>
 
-                <h:outputText value="Total actual de la compra:"
-                              style="font-size:16px; margin-top:10px;"/>
-                <h:outputText value="#{RealizarPagoBeanUI.montoTotal}"
-                              style="font-size:18px; font-weight:bold;">
-                    <f:convertNumber type="currency" currencySymbol="$"/>
+                <h:outputText value="Total actual de la compra:" style="font-size:16px; margin-top:10px;" />
+                <h:outputText value="#{RealizarPagoBeanUI.montoTotal}" style="font-size:18px; font-weight:bold;">
+                    <f:convertNumber type="currency" currencySymbol="$" />
                 </h:outputText>
 
                 <h:outputText value="¿Desea aplicar el crédito a esta compra?"
-                              style="font-size:16px; margin-top:15px; font-weight:bold;"/>
+                    style="font-size:16px; margin-top:15px; font-weight:bold;" />
 
                 <h:outputText value="Esta acción es irreversible y modificará el saldo del cliente."
-                              style="font-size:13px; font-style:italic; color:#777;"/>
+                    style="font-size:13px; font-style:italic; color:#777;" />
 
-                <p:commandButton value="Sí, Aplicar Crédito"
-                                 icon="pi pi-check"
-                                 action="#{RealizarPagoBeanUI.aplicarCredito}"
-                                 process="@this"
-                                 update="panelAplicarCredito2 msgsCredito2 :formPrincipal:panelPagoTarjeta2 :formPrincipal:panelPagoInteractivo2"
-                                 oncomplete="if (!args.validationFailed) { PF('dlgAplicarCredito2').hide(); PF('#{RealizarPagoBeanUI.siguienteDialogo}').show(); }"
-                                 style="background:#28a745; color:#fff;"/>
+                <p:commandButton value="Sí, Aplicar Crédito" icon="pi pi-check"
+                    action="#{RealizarPagoBeanUI.aplicarCredito}" process="@this"
+                    update="panelAplicarCredito2 msgsCredito2 :formPrincipal:panelPagoTarjeta2 :formPrincipal:panelPagoInteractivo2"
+                    oncomplete="if (!args.validationFailed) { PF('dlgAplicarCredito2').hide(); PF('#{RealizarPagoBeanUI.siguienteDialogo}').show(); }"
+                    styleClass="btn-registrar" style="width:100%; margin-bottom:10px;" />
 
-                <p:commandButton value="No, Pagar Completo"
-                                 icon="pi pi-times"
-                                 type="button"
-                                 onclick="PF('dlgAplicarCredito2').hide(); PF('#{RealizarPagoBeanUI.siguienteDialogo}').show();"
-                                 style="background:#dc3545; color:#fff;"/>
+                <p:commandButton value="No, Pagar Completo" icon="pi pi-times" type="button"
+                    onclick="PF('dlgAplicarCredito2').hide(); PF('#{RealizarPagoBeanUI.siguienteDialogo}').show();"
+                    styleClass="btn-baja" style="width:100%;" />
 
             </h:panelGrid>
         </p:dialog>
 
-        <p:dialog header="Pago con Tarjeta"
-                  widgetVar="dlgPagoTarjeta2"
-                  modal="true"
-                  resizable="false"
-                  closable="false"
-                  draggable="false"
-                  width="420">
+        <p:dialog header="Pago con Tarjeta" widgetVar="dlgPagoTarjeta2" modal="true" resizable="false" closable="false"
+            draggable="false" width="420">
 
             <h:panelGrid id="panelPagoTarjeta2" columns="1" style="width:100%;">
-                <p:messages id="msgsTarjeta2" showDetail="true" closable="true"/>
+                <p:messages id="msgsTarjeta2" showDetail="true" closable="true" />
 
-                <h:outputText value="Información del Cliente:" style="font-weight:bold; margin-bottom:10px;"/>
+                <h:outputText value="Información del Cliente:" style="font-weight:bold; margin-bottom:10px;" />
 
                 <h:panelGrid columns="2" columnClasses="label,value" style="width:100%;">
-                    <h:outputText value="ID Cliente:" style="color:#000000;"/>
-                    <h:outputText value="#{RealizarPagoBeanUI.cliente.idCliente}" style="color:#000000;"/>
+                    <h:outputText value="ID Cliente:" style="color:#000000;" />
+                    <h:outputText value="#{RealizarPagoBeanUI.cliente.idCliente}" style="color:#000000;" />
 
-                    <h:outputText value="Nombre del cliente:" style="color:#000000;"/>
-                    <h:outputText value="#{RealizarPagoBeanUI.cliente.nombreCompleto}" style="color:#000000;"/>
+                    <h:outputText value="Nombre del cliente:" style="color:#000000;" />
+                    <h:outputText value="#{RealizarPagoBeanUI.cliente.nombreCompleto}" style="color:#000000;" />
 
-                    <h:outputText value="Monto Total:" style="color:#000000;"/>
-                    <h:outputText value="#{RealizarPagoBeanUI.montoTotal}" style="color:#000000;"/>
+                    <h:outputText value="Monto Total:" style="color:#000000;" />
+                    <h:outputText value="#{RealizarPagoBeanUI.montoTotal}" style="color:#000000;" />
 
-                    <h:outputText value="Fecha:" style="color:#000000;"/>
+                    <h:outputText value="Fecha:" style="color:#000000;" />
                     <h:outputText value="#{RealizarPagoBeanUI.fecha}" style="color:#000000;">
-                        <f:convertDateTime pattern="dd/MM/yyyy HH:mm"/>
+                        <f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
                     </h:outputText>
 
-                    <h:outputText value="Método de pago:" style="color:#000000;"/>
-                    <h:outputText value="Tarjeta de crédito/débito" style="color:#17a2b8; font-weight:bold;"/>
+                    <h:outputText value="Método de pago:" style="color:#000000;" />
+                    <h:outputText value="Tarjeta de crédito/débito" style="color:#17a2b8; font-weight:bold;" />
                 </h:panelGrid>
 
                 <h:outputText value="Por favor, realice el cobro manual en la terminal bancaria."
-                              style="margin-top:10px; display:block; text-align:center; font-style:italic;"/>
+                    style="margin-top:10px; display:block; text-align:center; font-style:italic;" />
 
                 <h:panelGroup layout="block" style="margin-top:15px; text-align:center;">
-                    <p:commandButton id="btnPagoTarjeta2"
-                                     value="Pagar"
-                                     process="@this"
-                                     update="msgsTarjeta2"
-                                     actionListener="#{RealizarPagoBeanUI.realizarPagoTarjetaClase()}"/>
+                    <p:commandButton id="btnPagoTarjeta2" value="Pagar" process="@this" update="msgsTarjeta2"
+                        actionListener="#{RealizarPagoBeanUI.realizarPagoTarjetaClase()}" styleClass="btn-registrar" />
 
-                    <p:commandButton value="Cancelar"
-                                     icon="pi pi-times"
-                                     actionListener="#{RealizarPagoBeanUI.limpiarCampos()}"
-                                     update="@form"
-                                     process="@this"
-                                     oncomplete="PF('dlgPagoTarjeta2').hide();"
-                                     style="background:#dc3545; color:#fff;"/>
+                    <p:commandButton value="Cancelar" icon="pi pi-times"
+                        actionListener="#{RealizarPagoBeanUI.limpiarCampos()}" update="@form" process="@this"
+                        oncomplete="PF('dlgPagoTarjeta2').hide();" styleClass="btn-baja" />
                 </h:panelGroup>
             </h:panelGrid>
         </p:dialog>
 
-        <p:dialog id="dlgExitoTarjeta2"
-                  header="Pago Realizado"
-                  widgetVar="dlgExitoTarjeta2"
-                  modal="true"
-                  resizable="false"
-                  closable="false"
-                  draggable="false"
-                  width="300">
+        <p:dialog id="dlgExitoTarjeta2" header="Pago Realizado" widgetVar="dlgExitoTarjeta2" modal="true"
+            resizable="false" closable="false" draggable="false" width="300">
 
             <h:panelGrid columns="1" style="width:100%; text-align:center;">
                 <h:outputText value="Pago realizado con éxito"
-                              style="font-weight:bold; font-size:18px; color:#28a745;"/>
+                    style="font-weight:bold; font-size:18px; color:#28a745;" />
 
                 <h:outputText value="El cobro con tarjeta se procesó correctamente."
-                              style="font-size:14px; color:#333; margin-top:10px;"/>
+                    style="font-size:14px; color:#333; margin-top:10px;" />
 
-                <p:commandButton value="Continuar"
-                                 icon="pi pi-check"
-                                 actionListener="#{RealizarPagoBeanUI.limpiarCampos()}"
-                                 onclick="PF('dlgExitoTarjeta2').hide();"
-                                 update="@form"
-                                 style="margin-top:15px; background:#28a745; color:#fff; width:100%;"/>
+                <p:commandButton value="Continuar" icon="pi pi-check"
+                    actionListener="#{RealizarPagoBeanUI.limpiarCampos()}" onclick="PF('dlgExitoTarjeta2').hide();"
+                    update="@form" styleClass="btn-registrar" style="width:100%; margin-top:15px;" />
             </h:panelGrid>
         </p:dialog>
 
-        <p:dialog header="Realizar Pago en Efectivo"
-                  widgetVar="dlgPagoInteractivo2"
-                  modal="true"
-                  resizable="false"
-                  closable="true"
-                  draggable="false"
-                  width="400">
+        <p:dialog header="Realizar Pago en Efectivo" widgetVar="dlgPagoInteractivo2" modal="true" resizable="false"
+            closable="true" draggable="false" width="400">
 
             <h:panelGrid id="panelPagoInteractivo2" columns="1" style="width:100%;">
-                <p:messages id="msgsPagoInteractivo2" showDetail="true" closable="true"/>
+                <p:messages id="msgsPagoInteractivo2" showDetail="true" closable="true" />
 
                 <div class="form-group">
-                    <h:outputLabel for="montoIngresado2" value="Monto ingresado"/>
-                    <p:inputNumber id="montoIngresado2"
-                                   value="#{RealizarPagoBeanUI.montoIngresado}"
-                                   minValue="0"
-                                   decimalPlaces="2"
-                                   style="width: 100%;">
-                        <p:ajax event="keyup" update="faltante2" process="@this"/>
+                    <h:outputLabel for="montoIngresado2" value="Monto ingresado" />
+                    <p:inputNumber id="montoIngresado2" value="#{RealizarPagoBeanUI.montoIngresado}" minValue="0"
+                        decimalPlaces="2" style="width: 100%;">
+                        <p:ajax event="keyup" update="faltante2" process="@this" />
                     </p:inputNumber>
                 </div>
 
                 <div class="form-group">
-                    <h:outputLabel value="Monto restante"/>
-                    <h:outputText id="faltante2" value="#{RealizarPagoBeanUI.montoFaltante}"/>
+                    <h:outputLabel value="Monto restante" />
+                    <h:outputText id="faltante2" value="#{RealizarPagoBeanUI.montoFaltante}" />
                 </div>
 
-                <p:commandButton value="Pagar"
-                                 action="#{RealizarPagoBeanUI.realizarPagoInteractivoClase()}"
-                                 update="msgsPagoInteractivo2 faltante2"
-                                 styleClass="ui-button"
-                                 process="@this montoIngresado2"
-                                 style="background:#28a745; color:#fff;"/>
+                <p:commandButton value="Pagar" action="#{RealizarPagoBeanUI.realizarPagoInteractivoClase()}"
+                    update="msgsPagoInteractivo2 faltante2" styleClass="btn-registrar" process="@this montoIngresado2"
+                    style="width:100%;" />
             </h:panelGrid>
         </p:dialog>
 
-        <p:dialog id="dlgCambio2"
-                  header="Cambio Entregado"
-                  widgetVar="dlgCambio2"
-                  modal="true"
-                  resizable="false"
-                  closable="false"
-                  draggable="false"
-                  width="300">
+        <p:dialog id="dlgCambio2" header="Cambio Entregado" widgetVar="dlgCambio2" modal="true" resizable="false"
+            closable="false" draggable="false" width="300">
 
             <h:panelGrid columns="1" style="width:100%; text-align:center;">
-                <h:outputText value="Cambio:" style="font-weight:bold; font-size:18px;"/>
+                <h:outputText value="Cambio:" style="font-weight:bold; font-size:18px;" />
                 <h:outputText value="$#{RealizarPagoBeanUI.montoCambio}"
-                              style="font-size:22px; color:#28a745; margin:10px 0; display:block;">
-                    <f:convertNumber type="currency" currencySymbol="$" maxFractionDigits="2"/>
+                    style="font-size:22px; color:#28a745; margin:10px 0; display:block;">
+                    <f:convertNumber type="currency" currencySymbol="$" maxFractionDigits="2" />
                 </h:outputText>
 
-                <p:commandButton value="Continuar"
-                                 icon="pi pi-check"
-                                 actionListener="#{RealizarPagoBeanUI.limpiarCampos()}"
-                                 onclick="PF('dlgCambio2').hide();"
-                                 update="@form"
-                                 style="margin-top:10px; background:#28a745; color:#fff; width:100%;"/>
+                <p:commandButton value="Continuar" icon="pi pi-check"
+                    actionListener="#{RealizarPagoBeanUI.limpiarCampos()}" onclick="PF('dlgCambio2').hide();"
+                    update="@form" styleClass="btn-registrar" style="width:100%; margin-top:10px;" />
             </h:panelGrid>
         </p:dialog>
 
-        <p:dialog header="Caja"
-                  widgetVar="dlgCaja"
-                  modal="true"
-                  resizable="false"
-                  draggable="false"
-                  closable="true"
-                  width="380">
+        <p:dialog header="Caja" widgetVar="dlgCaja" modal="true" resizable="false" draggable="false" closable="true"
+            width="380">
 
             <h:form id="formCaja">
                 <div class="dialog-buttons">
-                    <p:commandButton value="Aceptar pago por adelantado"
-                                     icon="pi pi-check-circle"
-                                     onclick="PF('dlgBuscarClienteAdelanto').show(); PF('dlgCaja').hide(); return false;"
-                                     type="button"
-                                     style="background:#007bcb; color:#fff;"/>
+                    <p:commandButton value="Aceptar pago por adelantado" icon="pi pi-check-circle"
+                        onclick="PF('dlgBuscarClienteAdelanto').show(); PF('dlgCaja').hide(); return false;"
+                        type="button" styleClass="btn-registrar" />
 
-                    <p:commandButton value="Especificar con cuánto dinero inicia el corte"
-                                     icon="pi pi-clock"
-                                     actionListener="#{inicioCajaBeanUI.limpiar()}"
-                                     oncomplete="PF('dlgMontoApertura').show(); PF('dlgCaja').hide();"
-                                     process="@this"
-                                     update="@none"
-                                     style="background:#28a745; color:#fff;"/>
+                    <p:commandButton value="Especificar con cuánto dinero inicia el corte" icon="pi pi-clock"
+                        actionListener="#{inicioCajaBeanUI.limpiar()}"
+                        oncomplete="PF('dlgMontoApertura').show(); PF('dlgCaja').hide();" process="@this" update="@none"
+                        styleClass="btn-success" />
 
 
-                    <p:commandButton value="Tomar dinero de caja"
-                                     icon="pi pi-dollar"
-                                     actionListener="#{retirarDineroPagaBeanUI.limpiar()}"
-                                     oncomplete="PF('dlgMontoRetiro').show(); PF('dlgCaja').hide();"
-                                     process="@this"
-                                     update="@none"
-                                     style="background:#dc3545; color:#fff;"/>
+                    <p:commandButton value="Tomar dinero de caja" icon="pi pi-dollar"
+                        actionListener="#{retirarDineroPagaBeanUI.limpiar()}"
+                        oncomplete="PF('dlgMontoRetiro').show(); PF('dlgCaja').hide();" process="@this" update="@none"
+                        styleClass="btn-baja" />
                 </div>
             </h:form>
         </p:dialog>
 
-        <p:dialog header="Buscar Cliente" widgetVar="dlgBuscarClienteAdelanto"
-                  modal="true" resizable="false" closable="true" width="380">
+        <p:dialog header="Buscar Cliente" widgetVar="dlgBuscarClienteAdelanto" modal="true" resizable="false"
+            closable="true" width="380">
             <h:form id="formBuscarClienteAdelanto">
-                <p:messages id="msgsBuscarCliente" showDetail="true" closable="true"/>
+                <p:messages id="msgsBuscarCliente" showDetail="true" closable="true" />
                 <h:panelGrid columns="1" style="width:100%;">
 
-                    <h:outputLabel for="idClienteAdelanto" value="ID Cliente"/>
-                    <p:inputText id="idClienteAdelanto"
-                                 value="#{adelantarPagoBeanUI.idCliente}"
-                                 placeholder="Ej. CLI0001"
-                                 required="true"
-                                 requiredMessage="El ID del cliente es obligatorio."
-                                 style="width:100%;"/>
+                    <h:outputLabel for="idClienteAdelanto" value="ID Cliente" />
+                    <p:inputText id="idClienteAdelanto" value="#{adelantarPagoBeanUI.idCliente}"
+                        placeholder="Ej. CLI0001" required="true" requiredMessage="El ID del cliente es obligatorio."
+                        style="width:100%;" />
 
-                    <p:commandButton value="Buscar"
-                                     icon="pi pi-search"
-                                     actionListener="#{adelantarPagoBeanUI.buscarCliente}"
-                                     process="@form"
-                                     update="msgsBuscarCliente :formPrincipal:formMontoAdelanto"
-                                     style="margin-top:10px; background:#007bcb; color:#fff;"/>
+                    <p:commandButton value="Buscar" icon="pi pi-search"
+                        actionListener="#{adelantarPagoBeanUI.buscarCliente}" process="@form"
+                        update="msgsBuscarCliente :formPrincipal:formMontoAdelanto" styleClass="btn-registrar"
+                        style="width:100%; margin-top:10px;" />
                 </h:panelGrid>
             </h:form>
         </p:dialog>
 
-        <p:dialog header="Monto a Adelantar" widgetVar="dlgMontoAdelanto"
-                  modal="true" resizable="false" closable="true" width="380">
+        <p:dialog header="Monto a Adelantar" widgetVar="dlgMontoAdelanto" modal="true" resizable="false" closable="true"
+            width="380">
             <h:form id="formMontoAdelanto">
-                <p:messages id="msgsMontoAdelanto" showDetail="true" closable="true"/>
+                <p:messages id="msgsMontoAdelanto" showDetail="true" closable="true" />
                 <h:panelGrid columns="1" style="width:100%;">
-                    <h:outputLabel for="montoAdelantado" value="Monto"/>
-                    <p:inputNumber id="montoAdelantado"
-                                   value="#{adelantarPagoBeanUI.montoAdelantado}"
-                                   symbol="$"
-                                   minValue="1"
-                                   required="true" requiredMessage="El monto es obligatorio."
-                                   style="width: 100%;"/>
+                    <h:outputLabel for="montoAdelantado" value="Monto" />
+                    <p:inputNumber id="montoAdelantado" value="#{adelantarPagoBeanUI.montoAdelantado}" symbol="$"
+                        minValue="1" required="true" requiredMessage="El monto es obligatorio." style="width: 100%;" />
 
-                    <p:commandButton value="Registrar Adelanto"
-                                     icon="pi pi-check"
-                                     actionListener="#{adelantarPagoBeanUI.registrarAdelanto}"
-                                     process="@form"  update="msgsMontoAdelanto"
-                                     style="margin-top:10px; background:#28a745; color:#fff;"/>
+                    <p:commandButton value="Registrar Adelanto" icon="pi pi-check"
+                        actionListener="#{adelantarPagoBeanUI.registrarAdelanto}" process="@form"
+                        update="msgsMontoAdelanto" styleClass="btn-registrar" style="width:100%; margin-top:10px;" />
                 </h:panelGrid>
             </h:form>
         </p:dialog>
 
-        <p:dialog header="Confirmación" widgetVar="dlgConfirmacionAdelanto"
-                  modal="true" resizable="false" closable="true" width="360">
+        <p:dialog header="Confirmación" widgetVar="dlgConfirmacionAdelanto" modal="true" resizable="false"
+            closable="true" width="360">
             <h:form>
                 <h:outputText value="El pago por adelantado se ha registrado exitosamente."
-                              style="display:block; text-align:center; margin:15px 0; font-weight:bold;"/>
-                <p:commandButton value="Aceptar"
-                                 icon="pi pi-check-circle"
-                                 onclick="PF('dlgConfirmacionAdelanto').hide();"
-                                 type="button"
-                                 style="width:100%; background:#007bcb; color:#fff;"/>
+                    style="display:block; text-align:center; margin:15px 0; font-weight:bold;" />
+                <p:commandButton value="Aceptar" icon="pi pi-check-circle"
+                    onclick="PF('dlgConfirmacionAdelanto').hide();" type="button" styleClass="btn-registrar"
+                    style="width:100%;" />
             </h:form>
 
         </p:dialog>
 
-        <p:dialog header="Monto a Retirar" widgetVar="dlgMontoRetiro"
-                  modal="true" resizable="false" closable="true" width="380">
+        <p:dialog header="Monto a Retirar" widgetVar="dlgMontoRetiro" modal="true" resizable="false" closable="true"
+            width="380">
             <h:form id="formMontoRetirar">
-                <p:messages id="msgsMontoRetiro" showDetail="true" closable="true"/>
+                <p:messages id="msgsMontoRetiro" showDetail="true" closable="true" />
                 <h:panelGrid columns="1" style="width:100%;">
-                    <h:outputLabel for="montoRetirado" value="Monto"/>
-                    <p:inputNumber id="montoRetirado"
-                                   value="#{retirarDineroPagaBeanUI.montoRetirar}"
-                                   symbol="$"
-                                   minValue="1"
-                                   required="true" requiredMessage="El monto es obligatorio."
-                                   style="width: 100%;"/>
+                    <h:outputLabel for="montoRetirado" value="Monto" />
+                    <p:inputNumber id="montoRetirado" value="#{retirarDineroPagaBeanUI.montoRetirar}" symbol="$"
+                        minValue="1" required="true" requiredMessage="El monto es obligatorio." style="width: 100%;" />
 
-                    <h:outputLabel for="obsRetiro" value="Observaciones" style="margin-top:10px; display:block;"/>
-                    <p:inputTextarea id="obsRetiro"
-                                     value="#{retirarDineroPagaBeanUI.observaciones}"
-                                     rows="3"
-                                     placeholder="Motivo del retiro..."
-                                     style="width:100%; resize:none;"
-                                     maxlength="250"/>
+                    <h:outputLabel for="obsRetiro" value="Observaciones" style="margin-top:10px; display:block;" />
+                    <p:inputTextarea id="obsRetiro" value="#{retirarDineroPagaBeanUI.observaciones}" rows="3"
+                        placeholder="Motivo del retiro..." style="width:100%; resize:none;" maxlength="250" />
 
-                    <p:commandButton value="Registrar Retiro"
-                                     icon="pi pi-arrow-down"
-                                     actionListener="#{retirarDineroPagaBeanUI.registrarRetiro}"
-                                     process="@this montoRetirado obsRetiro"
-                                     update="msgsMontoRetiro :formPagos"
-                                     style="margin-top:10px; background:#dc3545; color:#fff;"/>
+                    <p:commandButton value="Registrar Retiro" icon="pi pi-arrow-down"
+                        actionListener="#{retirarDineroPagaBeanUI.registrarRetiro}"
+                        process="@this montoRetirado obsRetiro" update="msgsMontoRetiro :formPagos"
+                        styleClass="btn-baja" style="width:100%; margin-top:10px;" />
                 </h:panelGrid>
             </h:form>
         </p:dialog>
 
-        <p:dialog header="Confirmación" widgetVar="dlgConfirmacionRetiro"
-                  modal="true" resizable="false" closable="true" width="360">
+        <p:dialog header="Confirmación" widgetVar="dlgConfirmacionRetiro" modal="true" resizable="false" closable="true"
+            width="360">
             <h:outputText value="El retiro de caja se ha registrado exitosamente."
-                          style="display:block; text-align:center; margin:15px 0; font-weight:bold;"/>
-            <p:commandButton value="Aceptar"
-                             icon="pi pi-check-circle"
-                             onclick="PF('dlgConfirmacionRetiro').hide();"
-                             type="button"
-                             style="width:100%; background:#007bcb; color:#fff;"/>
+                style="display:block; text-align:center; margin:15px 0; font-weight:bold;" />
+            <p:commandButton value="Aceptar" icon="pi pi-check-circle" onclick="PF('dlgConfirmacionRetiro').hide();"
+                type="button" styleClass="btn-registrar" style="width:100%;" />
         </p:dialog>
 
-        <p:dialog header="Monto de Apertura de Caja"
-                  widgetVar="dlgMontoApertura"
-                  modal="true"
-                  resizable="false"
-                  closable="true"
-                  draggable="false"
-                  width="360">
+        <p:dialog header="Monto de Apertura de Caja" widgetVar="dlgMontoApertura" modal="true" resizable="false"
+            closable="true" draggable="false" width="360">
 
             <h:form id="formMontoApertura">
                 <h:panelGrid columns="1" style="width:100%;">
-                    <p:messages id="msgsMontoApertura" showDetail="true" closable="true"/>
+                    <p:messages id="msgsMontoApertura" showDetail="true" closable="true" />
 
                     <div class="form-group">
-                        <h:outputLabel for="montoApertura" value="Monto Inicial en Caja"/>
-                        <p:inputNumber id="montoApertura"
-                                       value="#{inicioCajaBeanUI.montoEnCaja}"
-                                       symbol="$"
-                                       symbolPosition="p"
-                                       minValue="0"
-                                       styleClass="form-control"
-                                       required="true"
-                                       requiredMessage="Debe ingresar el monto de apertura"/>
+                        <h:outputLabel for="montoApertura" value="Monto Inicial en Caja" />
+                        <p:inputNumber id="montoApertura" value="#{inicioCajaBeanUI.montoEnCaja}" symbol="$"
+                            symbolPosition="p" minValue="0" styleClass="form-control" required="true"
+                            requiredMessage="Debe ingresar el monto de apertura" />
                     </div>
 
-                    <p:commandButton value="Registrar Apertura"
-                                     icon="pi pi-check"
-                                     action="#{inicioCajaBeanUI.registrarAperturaCaja}"
-                                     update="msgsMontoApertura formPagos:tablaPagos"
-                                     process="@form"
-                                     style="background:#28a745; color:#fff;"/>
+                    <p:commandButton value="Registrar Apertura" icon="pi pi-check"
+                        action="#{inicioCajaBeanUI.registrarAperturaCaja}"
+                        update="msgsMontoApertura formPagos:tablaPagos" process="@form" styleClass="btn-registrar"
+                        style="width:100%;" />
                 </h:panelGrid>
             </h:form>
         </p:dialog>
@@ -1172,4 +1056,5 @@
     </h:form>
 
 </h:body>
+
 </html>
