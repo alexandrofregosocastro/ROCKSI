@@ -1,12 +1,10 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://xmlns.jcp.org/jsf/core">
 
 <h:head>
     <title>Clases - Rock On</title>
-    <meta charset="UTF-8"/>
+    <meta charset="UTF-8" />
 
     <style>
         body {
@@ -117,7 +115,7 @@
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
         }
 
-        /* BOTONES DE ACCIÓN */
+        /* BOTONES DE ACCIÓN ESTANDARIZADOS */
         .action-buttons {
             display: flex;
             gap: 10px;
@@ -125,27 +123,82 @@
             margin-bottom: 15px;
         }
 
-        .action-buttons .ui-button {
+        body .ui-button,
+        body .btn-registrar,
+        body .btn-modificar,
+        body .btn-baja,
+        body .btn-cancelar,
+        body .btn-custom,
+        body .btn-submit,
+        body .ui-button.ui-widget {
             border: none !important;
             border-radius: 20px !important;
+            font-family: "Poppins", Arial, sans-serif !important;
             font-weight: 600 !important;
-            padding: 6px 16px !important;
             font-size: 14px !important;
+            padding: 6px 16px !important;
+            text-shadow: none !important;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08) !important;
+            transition: all 0.2s ease-in-out !important;
+            cursor: pointer !important;
         }
 
-        .btn-registrar {
+        /* 1. Botones Estándar / Registrar / Modificar / Cancelar (Color Azul Estándar) */
+        body .btn-primary,
+        body .btn-registrar,
+        body .btn-warning,
+        body .btn-modificar,
+        body .btn-secondary,
+        body .btn-cancelar,
+        body .ui-button.btn-primary,
+        body .ui-button.btn-warning,
+        body .ui-button.btn-secondary {
             background: #007bcb !important;
-            color: #fff !important;
+            color: #ffffff !important;
         }
 
-        .btn-modificar {
-            background: #007bcb !important;
-            color: #fff !important;
+        body .btn-primary:hover,
+        body .btn-registrar:hover,
+        body .btn-warning:hover,
+        body .btn-modificar:hover,
+        body .btn-secondary:hover,
+        body .btn-cancelar:hover {
+            background: #005c96 !important;
+            color: #ffffff !important;
+            transform: translateY(-1px) !important;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12) !important;
         }
 
-        .btn-baja {
-            background: #007bcb !important;
-            color: #fff !important;
+        body .btn-primary:active,
+        body .btn-registrar:active,
+        body .btn-warning:active,
+        body .btn-modificar:active,
+        body .btn-secondary:active,
+        body .btn-cancelar:active {
+            transform: translateY(0) !important;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08) !important;
+        }
+
+        /* 2. Botón Destructivo / Peligro / Baja (Color Rojo Estándar) */
+        body .btn-danger,
+        body .btn-baja,
+        body .ui-button.btn-danger {
+            background: #dc3545 !important;
+            color: #ffffff !important;
+        }
+
+        body .btn-danger:hover,
+        body .btn-baja:hover {
+            background: #c82333 !important;
+            color: #ffffff !important;
+            transform: translateY(-1px) !important;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12) !important;
+        }
+
+        body .btn-danger:active,
+        body .btn-baja:active {
+            transform: translateY(0) !important;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08) !important;
         }
 
         /* TABLA DE CLASES */
@@ -369,48 +422,54 @@
             <h:form>
                 <!-- HOME -->
                 <h:commandLink action="home.xhtml?faces-redirect=true"
-                               actionListener="#{menuBeanUI.setActivePage('home')}"
-                               styleClass="#{menuBeanUI.activePage eq 'home' ? 'active' : ''}">
-                    <img src="resources-20250903T164359Z-1-001/resources/home.png" alt="Home Icon" class="menu-icon"/>
+                    actionListener="#{menuBeanUI.setActivePage('home')}"
+                    styleClass="#{menuBeanUI.activePage eq 'home' ? 'active' : ''}">
+                    <img src="resources-20250903T164359Z-1-001/resources/home.png" alt="Home Icon" class="menu-icon" />
                     <span>Home</span>
                 </h:commandLink>
 
                 <!-- CLIENTES -->
                 <h:commandLink action="clientes.xhtml?faces-redirect=true"
-                               actionListener="#{menuBeanUI.setActivePage('clientes')}"
-                               styleClass="#{menuBeanUI.activePage eq 'clientes' ? 'active' : ''}">
-                    <img src="resources-20250903T164359Z-1-001/resources/clientes.png" alt="Clientes Icon" class="menu-icon"/>
+                    actionListener="#{menuBeanUI.setActivePage('clientes')}"
+                    styleClass="#{menuBeanUI.activePage eq 'clientes' ? 'active' : ''}">
+                    <img src="resources-20250903T164359Z-1-001/resources/clientes.png" alt="Clientes Icon"
+                        class="menu-icon" />
                     <span>Clientes</span>
                 </h:commandLink>
 
                 <!-- TIENDA -->
                 <h:commandLink action="tienda.xhtml?faces-redirect=true"
-                               actionListener="#{menuBeanUI.setActivePage('tienda')}"
-                               styleClass="#{menuBeanUI.activePage eq 'tienda' ? 'active' : ''}">
-                    <img src="resources-20250903T164359Z-1-001/resources/tienda.png" alt="Tienda Icon" class="menu-icon"/>
+                    actionListener="#{menuBeanUI.setActivePage('tienda')}"
+                    styleClass="#{menuBeanUI.activePage eq 'tienda' ? 'active' : ''}">
+                    <img src="resources-20250903T164359Z-1-001/resources/tienda.png" alt="Tienda Icon"
+                        class="menu-icon" />
                     <span>Tienda</span>
                 </h:commandLink>
 
                 <!-- CLASES -->
                 <h:commandLink action="clases.xhtml?faces-redirect=true"
-                               actionListener="#{menuBeanUI.setActivePage('clases')}"
-                               styleClass="#{menuBeanUI.activePage eq 'clases' ? 'active' : ''}">
-                    <img src="resources-20250903T164359Z-1-001/resources/clases.png" alt="Clases Icon" class="menu-icon"/>
+                    actionListener="#{menuBeanUI.setActivePage('clases')}"
+                    styleClass="#{menuBeanUI.activePage eq 'clases' ? 'active' : ''}">
+                    <img src="resources-20250903T164359Z-1-001/resources/clases.png" alt="Clases Icon"
+                        class="menu-icon" />
                     <span>Clases</span>
                 </h:commandLink>
 
                 <!-- PAGOS -->
                 <h:commandLink action="pagos.xhtml?faces-redirect=true"
-                               actionListener="#{menuBeanUI.setActivePage('pagos')}"
-                               styleClass="#{menuBeanUI.activePage eq 'pagos' ? 'active' : ''}">
-                    <img src="resources-20250903T164359Z-1-001/resources/pagos.png" alt="Pagos Icon" class="menu-icon"/>
+                    actionListener="#{menuBeanUI.setActivePage('pagos')}"
+                    styleClass="#{menuBeanUI.activePage eq 'pagos' ? 'active' : ''}">
+                    <img src="resources-20250903T164359Z-1-001/resources/pagos.png" alt="Pagos Icon"
+                        class="menu-icon" />
                     <span>Pagos</span>
                 </h:commandLink>
                 <!--USUARUIS -->
                 <h:commandLink action="usuarios.xhtml?faces-redirect=true"
-                               actionListener="#{menuBeanUI.setActivePage('usuarios')}"
-                               styleClass="#{menuBeanUI.activePage eq 'usuarios' ? 'active' : ''}" rendered="#{loginBeanUI.isAdmin()}"> <!-- Muestra si es admin -->
-                    <img src="resources-20250903T164359Z-1-001/resources/clientes.png" alt="Usuarios Icon" class="menu-icon"/>
+                    actionListener="#{menuBeanUI.setActivePage('usuarios')}"
+                    styleClass="#{menuBeanUI.activePage eq 'usuarios' ? 'active' : ''}"
+                    rendered="#{loginBeanUI.isAdmin()}"> <!-- Muestra si es admin -->
+                    <img src="resources-20250903T164359Z-1-001/resources/clientes.png" alt="Usuarios Icon"
+                        class="menu-icon" />
                     <span>Usuarios</span>
                 </h:commandLink>
 
@@ -428,7 +487,7 @@
             </h:form>
 
             <div class="logo-bottom">
-                <img src="resources-20250903T164359Z-1-001/resources/rockon-icon.png" alt="Rock On Logo"/>
+                <img src="resources-20250903T164359Z-1-001/resources/rockon-icon.png" alt="Rock On Logo" />
             </div>
         </div>
     </div>
@@ -438,56 +497,40 @@
         <div class="card">
             <h:form id="formClases">
                 <h1>Clases</h1>
-                <p:growl id="msgsGrowl" showDetail="true" life="3000"/>
+                <p:growl id="msgsGrowl" showDetail="true" life="3000" />
 
                 <div class="action-buttons" style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
-                    <h:outputLabel for="txtFiltroClase" value="Buscar:"/>
-                    <p:inputText id="txtFiltroClase"
-                                 value="#{claseBeanUI.filtro}"
-                                 placeholder="Buscar por ID o nombre de clase"
-                                 styleClass="form-control"
-                                 style="width:220px;">
-                        <p:ajax event="input" listener="#{claseBeanUI.filtrar}" update="tablaClases" delay="300"/>
+                    <h:outputLabel for="txtFiltroClase" value="Buscar:" />
+                    <p:inputText id="txtFiltroClase" value="#{claseBeanUI.filtro}"
+                        placeholder="Buscar por ID o nombre de clase" styleClass="form-control" style="width:220px;">
+                        <p:ajax event="input" listener="#{claseBeanUI.filtrar}" update="tablaClases" delay="300" />
                     </p:inputText>
 
                     <!-- SUBMIT real (sin type="button") -->
-                    <p:commandButton value="Actualizar Tabla" icon="pi pi-refresh"
-                                     action="#{claseBeanUI.recargar}"
-                                     update="tablaClases"
-                                     styleClass="btn-registrar"/>
+                    <p:commandButton value="Actualizar Tabla" icon="pi pi-refresh" action="#{claseBeanUI.recargar}"
+                        update="tablaClases" styleClass="btn-registrar" />
 
                     <!-- Abren diálogos -->
                     <p:commandButton value="Alta de Clase" icon="pi pi-plus-circle"
-                                     onclick="PF('dlgAgregarClase').show();" styleClass="btn-registrar" type="button"/>
-                    <p:commandButton value="Modificar Clase" icon="pi pi-user-edit"
-                                     onclick="PF('dlgAskId').show();" styleClass="btn-modificar" type="button"/>
+                        onclick="PF('dlgAgregarClase').show();" styleClass="btn-registrar" type="button" />
+                    <p:commandButton value="Modificar Clase" icon="pi pi-user-edit" onclick="PF('dlgAskId').show();"
+                        styleClass="btn-modificar" type="button" />
                     <p:commandButton value="Baja de Clase" icon="pi pi-user-minus"
-                                     onclick="PF('dlgEliminarClase').show();" styleClass="btn-baja" type="button"/>
-                    <p:commandButton value="Asignar clase a cliente"
-                                     icon="pi pi-link"
-                                     actionListener="#{claseBeanUI.recargar}"
-                                     update=":formAsignarClase:asg_selectClase"
-                                     oncomplete="PF('dlgAsignarClase').show();"
-                                     styleClass="btn-registrar"/>
+                        onclick="PF('dlgEliminarClase').show();" styleClass="btn-baja" type="button" />
+                    <p:commandButton value="Asignar clase a cliente" icon="pi pi-link"
+                        actionListener="#{claseBeanUI.recargar}" update=":formAsignarClase:asg_selectClase"
+                        oncomplete="PF('dlgAsignarClase').show();" styleClass="btn-registrar" />
 
-                    <p:commandButton value="Quitar cliente de clase"
-                                     icon="pi pi-unlink"
-                                     actionListener="#{claseBeanUI.recargar}"
-                                     update=":formEliminarAsignacion:elim_selectClase"
-                                     oncomplete="PF('dlgEliminarAsignacion').show();"
-                                     styleClass="btn-baja"/>
+                    <p:commandButton value="Eliminar cliente de clase" icon="pi pi-unlink"
+                                     actionListener="#{eliminarAsignacionBeanUI.limpiar}"
+                                     update=":formEliminarAsignacion"
+                                     oncomplete="PF('dlgEliminarAsignacion').show();" styleClass="btn-baja" />
 
                 </div>
 
-                <p:dataTable id="tablaClases"
-                             value="#{claseBeanUI.listaClases}"
-                             var="cla"
-                             rowKey="#{cla.idClase}"
-                             paginator="true"
-                             rows="8"
-                             emptyMessage="No hay clases registradas"
-                             paginatorPosition="bottom"
-                             style="margin-top:20px;">
+                <p:dataTable id="tablaClases" value="#{claseBeanUI.listaClases}" var="cla" rowKey="#{cla.idClase}"
+                    paginator="true" rows="8" emptyMessage="No hay clases registradas" paginatorPosition="bottom"
+                    style="margin-top:20px;">
 
                     <!-- Botón para expandir fila -->
                     <p:column style="width:50px; text-align:center;">
@@ -514,27 +557,19 @@
                     </p:column> <!--Aqui se agrego lo que faltaba de diasImpartidos-->
 
                     <p:column headerText="Acciones" style="width:120px; text-align:center;">
-                    <p:commandButton icon="pi pi-pencil"
-                                     title="Modificar"
-                                     styleClass="btn-modificar"
-                                     style="margin-right:5px;"
-                                     actionListener="#{modificarClaBeanUI.cargarClaseDesdeTabla(cla)}"
-                                     process="@this"
-                                     update="formModificarClase"
-                                     oncomplete="PF('dlgModificarClase').show();"/>
+                        <p:commandButton icon="pi pi-pencil" title="Modificar" styleClass="btn-modificar"
+                            style="margin-right:5px;" actionListener="#{modificarClaBeanUI.cargarClaseDesdeTabla(cla)}"
+                            process="@this" update="formModificarClase" oncomplete="PF('dlgModificarClase').show();" />
 
-                    <p:commandButton icon="pi pi-trash"
-                                     title="Eliminar"
-                                     styleClass="btn-baja"
-                                     actionListener="#{bajaClaseBeanUI.prepararEliminacion(cla.idClase)}"
-                                     process="@this"
-                                     oncomplete="PF('dlgConfirmarEliminarClase').show();"
-                                     style="margin-left:5px;"/>
-                </p:column>
+                        <p:commandButton icon="pi pi-trash" title="Eliminar" styleClass="btn-baja"
+                            actionListener="#{bajaClaseBeanUI.prepararEliminacion(cla.idClase)}" process="@this"
+                            oncomplete="PF('dlgConfirmarEliminarClase').show();" style="margin-left:5px;" />
+                    </p:column>
 
                     <!-- Subtabla expandible -->
                     <p:rowExpansion>
-                        <p:dataTable value="#{cla.clientes}" var="cli" style="margin-left:20px" emptyMessage="Sin clientes asignados">
+                        <p:dataTable value="#{cla.clientes}" var="cli" style="margin-left:20px"
+                            emptyMessage="Sin clientes asignados">
                             <p:column headerText="ID Cliente">
                                 <h:outputText value="#{cli.idCliente}" />
                             </p:column>
@@ -556,341 +591,258 @@
     <!-- dialogs -->
 
     <!-- alta de clase -->
-    <p:dialog header="Nueva clase"
-              widgetVar="dlgAgregarClase"
-              modal="true"
-              resizable="false"
-              closable="true"
-              draggable="false"
-              width="420">
+    <p:dialog header="Nueva clase" widgetVar="dlgAgregarClase" modal="true" resizable="false" closable="true"
+        draggable="false" width="420">
         <h:form id="formAltaClase">
 
             <div class="form-group">
-                <h:outputLabel for="alta_nombre" value="Nombre"/>
-                <p:inputText id="alta_nombre"
-                             value="#{altaClaBeanUI.nombre}"
-                             required="true"
-                             requiredMessage="El nombre es obligatorio"
-                             styleClass="form-control"
-                             placeholder="Ej. Escalado"/>
+                <h:outputLabel for="alta_nombre" value="Nombre" />
+                <p:inputText id="alta_nombre" value="#{altaClaBeanUI.nombre}" required="true"
+                    requiredMessage="El nombre es obligatorio" styleClass="form-control" placeholder="Ej. Escalado" />
             </div>
 
             <div class="form-group">
-                <h:outputLabel for="alta_horaI" value="Hora de inicio"/>
-                <p:datePicker id="alta_horaI"
-                              value="#{altaClaBeanUI.horaInicioDate}"
-                              timeOnly="true"
-                              pattern="HH:mm"
-                              hourFormat="24"
-                              required="true"
-                              requiredMessage="Selecciona la hora de inicio"
-                              styleClass="form-control"/>
+                <h:outputLabel for="alta_horaI" value="Hora de inicio" />
+                <p:datePicker id="alta_horaI" value="#{altaClaBeanUI.horaInicioDate}" timeOnly="true" pattern="HH:mm"
+                    hourFormat="24" required="true" requiredMessage="Selecciona la hora de inicio"
+                    styleClass="form-control" />
             </div>
 
             <div class="form-group">
-                <h:outputLabel for="alta_horaF" value="Hora final"/>
-                <p:datePicker id="alta_horaF"
-                              value="#{altaClaBeanUI.horaFinalDate}"
-                              timeOnly="true"
-                              pattern="HH:mm"
-                              hourFormat="24"
-                              required="true"
-                              requiredMessage="Selecciona la hora final"
-                              styleClass="form-control"/>
+                <h:outputLabel for="alta_horaF" value="Hora final" />
+                <p:datePicker id="alta_horaF" value="#{altaClaBeanUI.horaFinalDate}" timeOnly="true" pattern="HH:mm"
+                    hourFormat="24" required="true" requiredMessage="Selecciona la hora final"
+                    styleClass="form-control" />
             </div>
 
             <div class="form-group">
-                <h:outputLabel for="alta_cupo" value="Cupo máximo"/>
-                <p:inputText id="alta_cupo"
-                             value="#{altaClaBeanUI.cupoMaximo}"
-                             required="true"
-                             requiredMessage="El cupo es obligatorio"
-                             styleClass="form-control"
-                             placeholder="1">
-                    <f:validateLongRange minimum="1" maximum="50"/>
+                <h:outputLabel for="alta_cupo" value="Cupo máximo" />
+                <p:inputText id="alta_cupo" value="#{altaClaBeanUI.cupoMaximo}" required="true"
+                    requiredMessage="El cupo es obligatorio" styleClass="form-control" placeholder="1">
+                    <f:validateLongRange minimum="1" maximum="50" />
                 </p:inputText>
             </div>
 
             <div class="form-group">
-                <h:outputLabel for="alta_maestro" value="Maestro"/>
-                <p:inputText id="alta_maestro"
-                             value="#{altaClaBeanUI.maestro}"
-                             required="true"
-                             requiredMessage="El maestro es obligatorio"
-                             styleClass="form-control"
-                             placeholder="Maestro"/>
+                <h:outputLabel for="alta_maestro" value="Maestro" />
+                <p:inputText id="alta_maestro" value="#{altaClaBeanUI.maestro}" required="true"
+                    requiredMessage="El maestro es obligatorio" styleClass="form-control" placeholder="Maestro" />
             </div>
 
             <div class="form-group">
-                <h:outputLabel for="alta_dias" value="Días en que se imparte (separados por comas)"/>
-                <p:inputText id="alta_dias"
-                             value="#{altaClaBeanUI.dias}"
-                             required="true"
-                             requiredMessage="Los días son obligatorios"
-                             styleClass="form-control"
-                             placeholder="Ej. Lunes, Miercoles, Viernes"/>
+                <h:outputLabel for="alta_dias" value="Días en que se imparte (separados por comas)" />
+                <p:inputText id="alta_dias" value="#{altaClaBeanUI.dias}" required="true"
+                    requiredMessage="Los días son obligatorios" styleClass="form-control"
+                    placeholder="Ej. Lunes, Miercoles, Viernes" />
             </div>
 
-            <p:commandButton value="Registrar"
-                             icon="pi pi-plus-circle"
-                             action="#{altaClaBeanUI.altaClase}"
-                             process="@form"
-                             update="@form formClases:tablaClases :formClases:msgsGrowl"
-                             styleClass="btn-registrar"/>
+            <p:commandButton value="Registrar" icon="pi pi-plus-circle" action="#{altaClaBeanUI.altaClase}"
+                process="@form" update="@form formClases:tablaClases :formClases:msgsGrowl"
+                styleClass="btn-registrar" />
         </h:form>
     </p:dialog>
 
 
     <!-- ingresar id de clase a mdoificar -->
-    <p:dialog header="Buscar clase a modificar"
-              widgetVar="dlgAskId"
-              modal="true"
-              resizable="false"
-              closable="true"
-              draggable="false"
-              width="380">
+    <p:dialog header="Buscar clase a modificar" widgetVar="dlgAskId" modal="true" resizable="false" closable="true"
+        draggable="false" width="380">
         <h:form id="formAskId">
-            <p:messages id="msgsAsk" showDetail="true" closable="true"/>
+            <p:messages id="msgsAsk" showDetail="true" closable="true" />
 
             <div class="form-group">
-                <h:outputLabel for="searchId" value="ID Clase"/>
-                <p:inputText id="searchId"
-                             value="#{modificarClaBeanUI.busquedaId}"
-                             placeholder="Ej. CLA1001"
-                             required="true"
-                             requiredMessage="El ID es obligatorio"
-                             styleClass="form-control"/>
+                <h:outputLabel for="searchId" value="ID Clase" />
+                <p:inputText id="searchId" value="#{modificarClaBeanUI.busquedaId}" placeholder="Ej. CLA1001"
+                    required="true" requiredMessage="El ID es obligatorio" styleClass="form-control" />
             </div>
 
-            <p:commandButton value="Buscar"
-                             icon="pi pi-search"
-                             action="#{modificarClaBeanUI.cargarClasePorId}"
-                             process="@form"
-                             update=":formAskId:msgsAsk :formModificarClase"
-                             oncomplete="if (args &amp;&amp; args.found) { PF('dlgAskId').hide(); PF('dlgModificarClase').show(); }"/>
+            <p:commandButton value="Buscar" icon="pi pi-search" action="#{modificarClaBeanUI.cargarClasePorId}"
+                process="@form" update=":formAskId:msgsAsk :formModificarClase" styleClass="btn-registrar"
+                oncomplete="if (args &amp;&amp; args.found) { PF('dlgAskId').hide(); PF('dlgModificarClase').show(); }" />
         </h:form>
     </p:dialog>
 
 
     <!-- modificacion de clase -->
-    <p:dialog header="Modificar clase"
-              widgetVar="dlgModificarClase"
-              modal="true"
-              resizable="false"
-              closable="true"
-              draggable="false"
-              width="420">
+    <p:dialog header="Modificar clase" widgetVar="dlgModificarClase" modal="true" resizable="false" closable="true"
+        draggable="false" width="420">
         <h:form id="formModificarClase">
 
             <div class="form-group">
-                <h:outputLabel for="mod_nombre" value="Nombre"/>
-                <p:inputText id="mod_nombre"
-                             value="#{modificarClaBeanUI.nombre}"
-                             required="true"
-                             requiredMessage="El nombre es obligatorio"
-                             styleClass="form-control"/>
+                <h:outputLabel for="mod_nombre" value="Nombre" />
+                <p:inputText id="mod_nombre" value="#{modificarClaBeanUI.nombre}" required="true"
+                    requiredMessage="El nombre es obligatorio" styleClass="form-control" />
             </div>
 
             <div class="form-group">
-                <h:outputLabel for="alta_horaI" value="Hora de inicio"/>
-                <p:datePicker id="horaInicio"
-                              value="#{modificarClaBeanUI.horaInicioDate}"
-                              pattern="HH:mm"
-                              timeOnly="true"
-                              hourFormat="24"
-                              showIcon="true"
-                              converterMessage="Hora inválida. Usa formato HH:mm."/>
+                <h:outputLabel for="alta_horaI" value="Hora de inicio" />
+                <p:datePicker id="horaInicio" value="#{modificarClaBeanUI.horaInicioDate}" pattern="HH:mm"
+                    timeOnly="true" hourFormat="24" showIcon="true"
+                    converterMessage="Hora inválida. Usa formato HH:mm." />
             </div>
 
             <div class="form-group">
-                <h:outputLabel for="alta_horaF" value="Hora final"/>
-                <p:datePicker id="horaFinal"
-                              value="#{modificarClaBeanUI.horaFinalDate}"
-                              pattern="HH:mm"
-                              timeOnly="true"
-                              hourFormat="24"
-                              showIcon="true"
-                              converterMessage="Hora inválida. Usa formato HH:mm."/>
+                <h:outputLabel for="alta_horaF" value="Hora final" />
+                <p:datePicker id="horaFinal" value="#{modificarClaBeanUI.horaFinalDate}" pattern="HH:mm" timeOnly="true"
+                    hourFormat="24" showIcon="true" converterMessage="Hora inválida. Usa formato HH:mm." />
             </div>
 
             <div class="form-group">
-                <h:outputLabel for="mod_cupo" value="Cupo máximo"/>
-                <p:inputText id="mod_cupo"
-                             value="#{modificarClaBeanUI.cupoMaximo}"
-                             required="true"
-                             requiredMessage="El cupo es obligatorio"
-                             styleClass="form-control">
-                    <f:validateLongRange minimum="1" maximum="200"/>
+                <h:outputLabel for="mod_cupo" value="Cupo máximo" />
+                <p:inputText id="mod_cupo" value="#{modificarClaBeanUI.cupoMaximo}" required="true"
+                    requiredMessage="El cupo es obligatorio" styleClass="form-control">
+                    <f:validateLongRange minimum="1" maximum="200" />
                 </p:inputText>
             </div>
 
             <div class="form-group">
-                <h:outputLabel for="mod_maestro" value="Maestro"/>
-                <p:inputText id="mod_maestro"
-                             value="#{modificarClaBeanUI.maestro}"
-                             required="true"
-                             requiredMessage="El maestro es obligatorio"
-                             styleClass="form-control"/>
+                <h:outputLabel for="mod_maestro" value="Maestro" />
+                <p:inputText id="mod_maestro" value="#{modificarClaBeanUI.maestro}" required="true"
+                    requiredMessage="El maestro es obligatorio" styleClass="form-control" />
             </div>
 
             <div class="form-group">
-                <h:outputLabel for="mod_diasImpartida" value="Días en que se imparte (separados por comas)"/>
-                <p:inputText id="mod_diasImpartida"
-                             value="#{modificarClaBeanUI.diasImpartidos}"
-                             required="true"
-                             requiredMessage="Dias impatidos de la materia es obligatorio"
-                             placeholder="Ej. Lunes, Miercoles, Viernes"
-                             styleClass="form-control"/>
+                <h:outputLabel for="mod_diasImpartida" value="Días en que se imparte (separados por comas)" />
+                <p:inputText id="mod_diasImpartida" value="#{modificarClaBeanUI.diasImpartidos}" required="true"
+                    requiredMessage="Dias impatidos de la materia es obligatorio"
+                    placeholder="Ej. Lunes, Miercoles, Viernes" styleClass="form-control" />
             </div>
 
-            <p:commandButton value="Guardar cambios"
-                             icon="pi pi-check"
-                             onclick="PF('dlgConfirmar').show(); return false;"
-                             process="@form"
-                             styleClass="btn-modificar"/>
+            <p:commandButton value="Guardar cambios" icon="pi pi-check"
+                onclick="PF('dlgConfirmar').show(); return false;" process="@form" styleClass="btn-modificar" />
 
 
-        <p:confirmDialog id="confirmDialog"
-                         widgetVar="dlgConfirmar"
-                         header="Confirmar Modificación"
-                         message="¿Seguro que deseas modificar la clase?"
-                         icon="pi pi-exclamation-triangle"
-                         closable="false" modal="true">
+            <p:confirmDialog id="confirmDialog" widgetVar="dlgConfirmar" header="Confirmar Modificación"
+                message="¿Seguro que deseas modificar la clase?" icon="pi pi-exclamation-triangle" closable="false"
+                modal="true">
 
-            <p:commandButton value="Sí, Modificar"
-                             icon="pi pi-check"
-                             action="#{modificarClaBeanUI.modificarClase()}"
-                             process="@form"
-                             update=":formClases:msgsGrowl :formClases:tablaClases"
-                             oncomplete="PF('dlgConfirmar').hide(); if (!args.validationFailed) { PF('dlgModificarClase').hide(); }"
-                             style="background:#007bff !important; color:#fff !important; border:none !important;"/>
+                <p:commandButton value="Sí, Modificar" icon="pi pi-check"
+                    action="#{modificarClaBeanUI.modificarClase()}" process="@form"
+                    update=":formClases:msgsGrowl :formClases:tablaClases"
+                    oncomplete="PF('dlgConfirmar').hide(); if (!args.validationFailed) { PF('dlgModificarClase').hide(); }"
+                    styleClass="btn-registrar" />
 
-            <p:commandButton value="Cancelar"
-                             icon="pi pi-times"
-                             onclick="PF('dlgConfirmar').hide(); PF('dlgModificarClase').hide(); return false;"
-                             type="button"
-                             style="background:#007bff !important; color:#fff !important; border:none !important;"/>
-        </p:confirmDialog>
+                <p:commandButton value="Cancelar" icon="pi pi-times"
+                    onclick="PF('dlgConfirmar').hide(); PF('dlgModificarClase').hide(); return false;" type="button"
+                    styleClass="btn-cancelar" />
+            </p:confirmDialog>
         </h:form>
     </p:dialog>
     <!-- baja de clases -->
-    <p:dialog header="Eliminar Clase"
-              widgetVar="dlgEliminarClase"
-              modal="true" resizable="false" closable="true" draggable="false" width="380">
+    <p:dialog header="Eliminar Clase" widgetVar="dlgEliminarClase" modal="true" resizable="false" closable="true"
+        draggable="false" width="380">
         <h:form id="formEliminarClase">
-            <p:messages id="msgsEliminarClase" showDetail="true" closable="true"/>
+            <p:messages id="msgsEliminarClase" showDetail="true" closable="true" />
 
             <div class="form-group">
-                <h:outputLabel for="elim_idClase" value="ID de la clase"/>
-                <p:inputText id="elim_idClase"
-                             value="#{bajaClaseBeanUI.idClase}"
-                             required="true"
-                             requiredMessage="El ID es obligatorio"
-                             styleClass="form-control"/>
+                <h:outputLabel for="elim_idClase" value="ID de la clase" />
+                <p:inputText id="elim_idClase" value="#{bajaClaseBeanUI.idClase}" required="true"
+                    requiredMessage="El ID es obligatorio" styleClass="form-control" />
             </div>
 
             <!-- solo abre confirmacion en caso de que se haya validado que se ingreso un id -->
-            <p:commandButton value="Eliminar"
-                             icon="pi pi-times-circle"
-                             process="@form"
-                             update="msgsEliminarClase"
-                             oncomplete="if (!args.validationFailed) { PF('dlgEliminarClase').hide(); PF('dlgConfirmarEliminarClase').show(); }"
-                             styleClass="btn-baja"/>
+            <p:commandButton value="Eliminar" icon="pi pi-times-circle" process="@form" update="msgsEliminarClase"
+                oncomplete="if (!args.validationFailed) { PF('dlgEliminarClase').hide(); PF('dlgConfirmarEliminarClase').show(); }"
+                styleClass="btn-baja" />
         </h:form>
     </p:dialog>
 
 
     <!-- Confirmacion de eliminaciomn -->
-    <p:dialog header="Confirmar eliminación"
-              widgetVar="dlgConfirmarEliminarClase"
-              modal="true" resizable="false" closable="false" draggable="false" width="380">
+    <p:dialog header="Confirmar eliminación" widgetVar="dlgConfirmarEliminarClase" modal="true" resizable="false"
+        closable="false" draggable="false" width="380">
         <h:form id="formConfirmarEliminar">
             <div style="margin-bottom:16px;">¿Seguro que deseas eliminar esta clase?</div>
 
-            <p:commandButton value="Cancelar"
-                             icon="pi pi-times"
-                             type="button"
-                             onclick="PF('dlgConfirmarEliminarClase').hide(); PF('dlgEliminarClase').show();"/>
+            <p:commandButton value="Cancelar" icon="pi pi-times" type="button"
+                onclick="PF('dlgConfirmarEliminarClase').hide(); PF('dlgEliminarClase').show();"
+                styleClass="btn-cancelar" />
 
-            <p:commandButton value="Eliminar"
-                             icon="pi pi-check"
-                             action="#{bajaClaseBeanUI.eliminarClase}"
-                             process="@this"
-                             update=":formEliminarClase:msgsEliminarClase :formClases:tablaClases :formClases:msgsGrowl"
-                             oncomplete="PF('dlgConfirmarEliminarClase').hide();"
-                             styleClass="btn-confirmar"/>
+            <p:commandButton value="Eliminar" icon="pi pi-check" action="#{bajaClaseBeanUI.eliminarClase}"
+                process="@this"
+                update=":formEliminarClase:msgsEliminarClase :formClases:tablaClases :formClases:msgsGrowl"
+                oncomplete="PF('dlgConfirmarEliminarClase').hide();" styleClass="btn-baja" />
         </h:form>
     </p:dialog>
 
     <!-- asignar clase -->
-    <p:dialog header="Asignar clase a cliente" widgetVar="dlgAsignarClase" modal="true" resizable="false" closable="true" draggable="false" width="420">
+    <p:dialog header="Asignar clase a cliente" widgetVar="dlgAsignarClase" modal="true" resizable="false"
+        closable="true" draggable="false" width="420">
         <h:form id="formAsignarClase">
-            <p:messages id="msgsAsignar" showDetail="true" closable="true"/>
+            <p:messages id="msgsAsignar" showDetail="true" closable="true" />
             <div class="form-group">
-                <h:outputLabel for="asg_idCliente" value="ID Cliente"/>
-                <p:inputText id="asg_idCliente" value="#{asignarClaseBeanUI.idCliente}"
-                             required="true" requiredMessage="El ID Cliente es obligatorio" styleClass="form-control"/>
-            </div>
-            <div class="form-group">
-                <h:outputLabel for="asg_selectClase" value="Clase"/>
-                <p:selectOneMenu id="asg_selectClase" value="#{asignarClaseBeanUI.idClase}"
-                                 required="true" requiredMessage="Seleccione una clase" styleClass="form-control">
-                    <f:selectItem itemLabel="-- Seleccione --" itemValue="" />
-                    <f:selectItems value="#{claseBeanUI.listaClases}" var="c"
-                                   itemValue="#{c.idClase}" itemLabel="#{c.nombre}"/>
+                <h:outputLabel for="asg_idCliente" value="Cliente" />
+                <p:selectOneMenu id="asg_idCliente" value="#{asignarClaseBeanUI.idCliente}"
+                                 required="true" requiredMessage="Debe seleccionar un cliente"
+                                 styleClass="form-control" filter="true" filterMatchMode="contains">
+                    <f:selectItem itemLabel="-- Seleccione un cliente --" itemValue="" />
+                    <f:selectItems value="#{clienteBeanUI.listaClientes}" var="cli"
+                                   itemValue="#{cli.idCliente}"
+                                   itemLabel="#{cli.idCliente} - #{cli.nombreCompleto}"/>
                 </p:selectOneMenu>
             </div>
-            <p:commandButton value="Asignar" icon="pi pi-check"
-                             action="#{asignarClaseBeanUI.asignarClase}"
-                             process="@form"
-                             update="msgsAsignar formClases:tablaClases"
-                             styleClass="btn-registrar"/>
+            <div class="form-group">
+                <h:outputLabel for="asg_selectClase" value="Clase" />
+                <p:selectOneMenu id="asg_selectClase" value="#{asignarClaseBeanUI.idClase}" required="true"
+                    requiredMessage="Seleccione una clase" styleClass="form-control">
+                    <f:selectItem itemLabel="-- Seleccione --" itemValue="" />
+                    <f:selectItems value="#{claseBeanUI.listaClases}" var="c" itemValue="#{c.idClase}"
+                        itemLabel="#{c.nombre}" />
+                </p:selectOneMenu>
+            </div>
+            <p:commandButton value="Asignar" icon="pi pi-check" action="#{asignarClaseBeanUI.asignarClase}"
+                process="@form" update="msgsAsignar formClases:tablaClases" styleClass="btn-registrar" />
         </h:form>
     </p:dialog>
 
     <!-- Dialogo para eliminar asignación -->
-    <p:dialog header="Quitar cliente de clase"
-              widgetVar="dlgEliminarAsignacion"
-              modal="true"
-              resizable="false"
-              closable="true"
-              draggable="false"
-              width="420">
+    <p:dialog header="Quitar cliente de clase" widgetVar="dlgEliminarAsignacion" modal="true" resizable="false"
+        closable="true" draggable="false" width="420">
 
         <h:form id="formEliminarAsignacion">
-            <p:messages id="msgsEliminarAsignacion" showDetail="true" closable="true"/>
 
             <div class="form-group">
-                <h:outputLabel for="elim_idCliente" value="ID Cliente"/>
-                <p:inputText id="elim_idCliente"
-                             value="#{eliminarAsignacionBeanUI.idCliente}"
-                             required="true"
-                             requiredMessage="El ID del cliente es obligatorio"
-                             styleClass="form-control"/>
+                <h:outputLabel for="elim_idCliente" value="Cliente" />
+                <p:selectOneMenu id="elim_idCliente"
+                                 value="#{eliminarAsignacionBeanUI.idCliente}"
+                                 required="true"
+                                 requiredMessage="Debe seleccionar un cliente"
+                                 styleClass="form-control"
+                                 filter="true" filterMatchMode="contains">
+                    <p:ajax event="change"
+                            listener="#{eliminarAsignacionBeanUI.cargarClasesDelCliente}"
+                            update="elim_selectClase"
+                            process="@this"/>
+                    <f:selectItem itemLabel="-- Seleccione un cliente --" itemValue="" />
+                    <f:selectItems value="#{clienteBeanUI.listaClientes}" var="cli"
+                                   itemValue="#{cli.idCliente}"
+                                   itemLabel="#{cli.idCliente} - #{cli.nombreCompleto}"
+                                   itemDisabled="#{empty cli.clases}"/>
+                </p:selectOneMenu>
             </div>
 
             <div class="form-group">
-                <h:outputLabel for="elim_selectClase" value="Clase"/>
+                <h:outputLabel for="elim_selectClase" value="Clase" />
                 <p:selectOneMenu id="elim_selectClase"
                                  value="#{eliminarAsignacionBeanUI.idClase}"
                                  required="true"
                                  requiredMessage="Seleccione una clase"
                                  styleClass="form-control">
-                    <f:selectItem itemLabel="-- Seleccione --" itemValue=""/>
-                    <f:selectItems value="#{claseBeanUI.listaClases}" var="c"
-                                   itemValue="#{c.idClase}" itemLabel="#{c.nombre}"/>
+                    <f:selectItem itemLabel="-- Seleccione una clase --" itemValue="" />
+                    <f:selectItems value="#{eliminarAsignacionBeanUI.clasesDelCliente}" var="c"
+                                   itemValue="#{c.idClase}"
+                                   itemLabel="#{c.idClase} - #{c.nombre}"/>
                 </p:selectOneMenu>
             </div>
 
-            <p:commandButton value="Quitar asignación"
-                             icon="pi pi-trash"
-                             action="#{eliminarAsignacionBeanUI.eliminarAsignacion}"
-                             process="@form"
-                             update="msgsEliminarAsignacion :formClases:tablaClases"
-                             styleClass="btn-baja"/>
+            <p:commandButton value="Quitar asignación" icon="pi pi-trash"
+                action="#{eliminarAsignacionBeanUI.eliminarAsignacion}" process="@form"
+                update="@form :formClases:tablaClases :formClases:msgsGrowl"
+                             oncomplete="if (!args.validationFailed) { PF('dlgEliminarAsignacion').hide(); }"
+                             styleClass="btn-baja" />
         </h:form>
     </p:dialog>
 
 
 </h:body>
+
 </html>

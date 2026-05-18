@@ -1,12 +1,10 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:p="http://primefaces.org/ui">
 
 <h:head>
     <title>Rock On - Dashboard</title>
-    <meta charset="UTF-8"/>
+    <meta charset="UTF-8" />
     <style>
         body {
             margin: 0;
@@ -15,83 +13,231 @@
         }
 
         /*  BARRA LATERAL  */
-        .sidebar { width: 220px; height: 100vh; background: #007bcb; color: white; position: fixed; display: flex; flex-direction: column; align-items: center; justify-content: space-between; }
-        .sidebar .menu { width: 100%; padding-top: 30px; }
-        .sidebar a, .sidebar h\:commandLink { display: flex; align-items: center; gap: 10px; color: white !important; text-decoration: none !important; padding: 10px 20px; font-size: 15px; transition: background 0.3s, transform 0.2s; margin-bottom: 10px; }
-        .sidebar a:hover, .sidebar h\:commandLink:hover, .sidebar .active { background: #0061a6 !important; border-radius: 6px; }
-        .menu-icon { width: 22px; height: 22px; filter: brightness(0) invert(1); transition: transform 0.2s ease; }
-        .sidebar h\:commandLink:hover .menu-icon { transform: scale(1.15); }
-        .sidebar .logo-bottom { padding: 25px 0; }
-        .sidebar .logo-bottom img { width: 130px; border-radius: 50%; }
+        .sidebar {
+            width: 220px;
+            height: 100vh;
+            background: #007bcb;
+            color: white;
+            position: fixed;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .sidebar .menu {
+            width: 100%;
+            padding-top: 30px;
+        }
+
+        .sidebar a,
+        .sidebar h\:commandLink {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: white !important;
+            text-decoration: none !important;
+            padding: 10px 20px;
+            font-size: 15px;
+            transition: background 0.3s, transform 0.2s;
+            margin-bottom: 10px;
+        }
+
+        .sidebar a:hover,
+        .sidebar h\:commandLink:hover,
+        .sidebar .active {
+            background: #0061a6 !important;
+            border-radius: 6px;
+        }
+
+        .menu-icon {
+            width: 22px;
+            height: 22px;
+            filter: brightness(0) invert(1);
+            transition: transform 0.2s ease;
+        }
+
+        .sidebar h\:commandLink:hover .menu-icon {
+            transform: scale(1.15);
+        }
+
+        .sidebar .logo-bottom {
+            padding: 25px 0;
+        }
+
+        .sidebar .logo-bottom img {
+            width: 130px;
+            border-radius: 50%;
+        }
 
         /*  CONTENIDO PRINCIPAL  */
-        .main-content { margin-left: 220px; padding: 10px 20px; }
-        .header { display: flex; align-items: center; padding-bottom: 10px; border-bottom: 3px solid #007bcb; margin-bottom: 20px; background-color: #f8f9fb; }
-        .header img { height: 60px; }
+        .main-content {
+            margin-left: 220px;
+            padding: 10px 20px;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #007bcb;
+            margin-bottom: 20px;
+            background-color: #f8f9fb;
+        }
+
+        .header img {
+            height: 60px;
+        }
 
         /* TARJETAS  */
         .card {
             background: white;
             border-radius: 12px;
             padding: 20px 30px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
             margin-bottom: 30px;
         }
-        .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .card h2 { margin: 0; font-size: 20px; color: #111; font-weight: 700; }
 
-        /* BOTONES  */
-        .action-buttons { display: flex; gap: 10px; }
-        .btn-custom {
-            background: #007bcb !important; border: none !important; color: white !important;
-            font-weight: normal !important; border-radius: 5px !important; padding: 6px 15px !important;
-            font-size: 14px !important; box-shadow: none !important; text-shadow: none !important;
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
         }
-        .btn-custom:hover { background: #005fa3 !important; }
+
+        .card h2 {
+            margin: 0;
+            font-size: 20px;
+            color: #111;
+            font-weight: 700;
+        }
+
+        /* BOTONES DE ACCIÓN ESTANDARIZADOS */
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-custom {
+            border: none !important;
+            border-radius: 20px !important;
+            font-family: "Poppins", Arial, sans-serif !important;
+            font-weight: 600 !important;
+            font-size: 14px !important;
+            padding: 8px 20px !important;
+            text-shadow: none !important;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08) !important;
+            transition: all 0.2s ease-in-out !important;
+            cursor: pointer !important;
+            background: #007bcb !important;
+            color: #ffffff !important;
+        }
+
+        .btn-custom:hover {
+            background: #005c96 !important;
+            transform: translateY(-1px) !important;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12) !important;
+        }
+
+        .btn-custom:active {
+            transform: translateY(0) !important;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08) !important;
+        }
 
         /*  ESTILOS PARA LA TABLA  */
-        .clean-table.ui-datatable { border: none !important; background: #ffffff !important; }
-        .clean-table .ui-datatable-tablewrapper { overflow: visible !important; }
+        .clean-table.ui-datatable {
+            border: none !important;
+            background: #ffffff !important;
+        }
+
+        .clean-table .ui-datatable-tablewrapper {
+            overflow: visible !important;
+        }
 
         .clean-table thead th.ui-state-default {
-            background: #ffffff !important; border: none !important;
-            border-bottom: 1px solid #eaeaea !important; color: #000 !important;
-            font-weight: 700 !important; text-transform: none !important;
-            padding: 15px 10px !important; text-align: left !important;
+            background: #ffffff !important;
+            border: none !important;
+            border-bottom: 1px solid #eaeaea !important;
+            color: #000 !important;
+            font-weight: 700 !important;
+            text-transform: none !important;
+            padding: 15px 10px !important;
+            text-align: left !important;
             box-shadow: none !important;
         }
-        .clean-table thead th.ui-state-active, .clean-table thead th.ui-state-hover {
-            background: #ffffff !important; box-shadow: none !important;
+
+        .clean-table thead th.ui-state-active,
+        .clean-table thead th.ui-state-hover {
+            background: #ffffff !important;
+            box-shadow: none !important;
         }
 
         .clean-table .ui-datatable-data tr.ui-widget-content,
         .clean-table .ui-datatable-data tr.ui-datatable-even,
         .clean-table .ui-datatable-data tr.ui-datatable-odd {
-            background: #ffffff !important; border: none !important;
+            background: #ffffff !important;
+            border: none !important;
         }
 
         .clean-table tbody td {
-            border: none !important; border-bottom: 1px solid #f4f4f4 !important;
-            padding: 18px 10px !important; color: #333 !important; font-size: 14px !important;
+            border: none !important;
+            border-bottom: 1px solid #f4f4f4 !important;
+            padding: 18px 10px !important;
+            color: #333 !important;
+            font-size: 14px !important;
         }
 
         .clean-table .ui-datatable-data tr:hover,
         .clean-table .ui-datatable-data tr.ui-state-hover {
-            background-color: #fafafa !important; box-shadow: none !important;
-            font-weight: normal !important; color: #333 !important;
+            background-color: #fafafa !important;
+            box-shadow: none !important;
+            font-weight: normal !important;
+            color: #333 !important;
         }
 
-        .status-active { color: #28a745 !important; font-weight: 500 !important; }
-        .negative-credit { color: #dc3545 !important; font-weight: 500 !important; }
-        .positive-credit { color: #333 !important; }
+        .status-active {
+            color: #28a745 !important;
+            font-weight: 500 !important;
+        }
+
+        .negative-credit {
+            color: #dc3545 !important;
+            font-weight: 500 !important;
+        }
+
+        .positive-credit {
+            color: #333 !important;
+        }
 
         /* Tabla HTML Estática */
-        .html-table { width: 100%; border-collapse: collapse; margin-top: 10px; background: white; }
-        .html-table th { text-align: left; padding: 15px 10px; border-bottom: 1px solid #eaeaea; font-weight: 700; color: #000; background: white; }
-        .html-table td { padding: 15px 10px; border-bottom: 1px solid #f4f4f4; color: #333; font-size: 14px; background: white; }
+        .html-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            background: white;
+        }
+
+        .html-table th {
+            text-align: left;
+            padding: 15px 10px;
+            border-bottom: 1px solid #eaeaea;
+            font-weight: 700;
+            color: #000;
+            background: white;
+        }
+
+        .html-table td {
+            padding: 15px 10px;
+            border-bottom: 1px solid #f4f4f4;
+            color: #333;
+            font-size: 14px;
+            background: white;
+        }
 
         /*  ESTILOS INPUT FOCUS (Azul) */
-        .ui-inputfield:focus, .ui-inputtext:focus, .ui-dialog .ui-inputtext:focus {
+        .ui-inputfield:focus,
+        .ui-inputtext:focus,
+        .ui-dialog .ui-inputtext:focus {
             outline: 0 none !important;
             border-color: #007bcb !important;
             box-shadow: 0 0 0 0.15rem rgba(0, 123, 203, 0.25) !important;
@@ -155,43 +301,49 @@
         <div class="menu">
             <h:form>
                 <h:commandLink action="home.xhtml?faces-redirect=true"
-                               actionListener="#{menuBeanUI.setActivePage('home')}"
-                               styleClass="#{menuBeanUI.activePage eq 'home' ? 'active' : ''}">
-                    <img src="resources-20250903T164359Z-1-001/resources/home.png" alt="Home Icon" class="menu-icon"/>
+                    actionListener="#{menuBeanUI.setActivePage('home')}"
+                    styleClass="#{menuBeanUI.activePage eq 'home' ? 'active' : ''}">
+                    <img src="resources-20250903T164359Z-1-001/resources/home.png" alt="Home Icon" class="menu-icon" />
                     <span>Home</span>
                 </h:commandLink>
 
                 <h:commandLink action="clientes.xhtml?faces-redirect=true"
-                               actionListener="#{menuBeanUI.setActivePage('clientes')}"
-                               styleClass="#{menuBeanUI.activePage eq 'clientes' ? 'active' : ''}">
-                    <img src="resources-20250903T164359Z-1-001/resources/clientes.png" alt="Clientes Icon" class="menu-icon"/>
+                    actionListener="#{menuBeanUI.setActivePage('clientes')}"
+                    styleClass="#{menuBeanUI.activePage eq 'clientes' ? 'active' : ''}">
+                    <img src="resources-20250903T164359Z-1-001/resources/clientes.png" alt="Clientes Icon"
+                        class="menu-icon" />
                     <span>Clientes</span>
                 </h:commandLink>
 
                 <h:commandLink action="tienda.xhtml?faces-redirect=true"
-                               actionListener="#{menuBeanUI.setActivePage('tienda')}"
-                               styleClass="#{menuBeanUI.activePage eq 'tienda' ? 'active' : ''}">
-                    <img src="resources-20250903T164359Z-1-001/resources/tienda.png" alt="Tienda Icon" class="menu-icon"/>
+                    actionListener="#{menuBeanUI.setActivePage('tienda')}"
+                    styleClass="#{menuBeanUI.activePage eq 'tienda' ? 'active' : ''}">
+                    <img src="resources-20250903T164359Z-1-001/resources/tienda.png" alt="Tienda Icon"
+                        class="menu-icon" />
                     <span>Tienda</span>
                 </h:commandLink>
 
                 <h:commandLink action="clases.xhtml?faces-redirect=true"
-                               actionListener="#{menuBeanUI.setActivePage('clases')}"
-                               styleClass="#{menuBeanUI.activePage eq 'clases' ? 'active' : ''}">
-                    <img src="resources-20250903T164359Z-1-001/resources/clases.png" alt="Clases Icon" class="menu-icon"/>
+                    actionListener="#{menuBeanUI.setActivePage('clases')}"
+                    styleClass="#{menuBeanUI.activePage eq 'clases' ? 'active' : ''}">
+                    <img src="resources-20250903T164359Z-1-001/resources/clases.png" alt="Clases Icon"
+                        class="menu-icon" />
                     <span>Clases</span>
                 </h:commandLink>
 
                 <h:commandLink action="pagos.xhtml?faces-redirect=true"
-                               actionListener="#{menuBeanUI.setActivePage('pagos')}"
-                               styleClass="#{menuBeanUI.activePage eq 'pagos' ? 'active' : ''}">
-                    <img src="resources-20250903T164359Z-1-001/resources/pagos.png" alt="Pagos Icon" class="menu-icon"/>
+                    actionListener="#{menuBeanUI.setActivePage('pagos')}"
+                    styleClass="#{menuBeanUI.activePage eq 'pagos' ? 'active' : ''}">
+                    <img src="resources-20250903T164359Z-1-001/resources/pagos.png" alt="Pagos Icon"
+                        class="menu-icon" />
                     <span>Pagos</span>
                 </h:commandLink>
                 <h:commandLink action="usuarios.xhtml?faces-redirect=true"
-                               actionListener="#{menuBeanUI.setActivePage('usuarios')}"
-                               styleClass="#{menuBeanUI.activePage eq 'usuarios' ? 'active' : ''}" rendered="#{loginBeanUI.isAdmin()}"> <!-- Muestra si es admin -->
-                    <img src="resources-20250903T164359Z-1-001/resources/clientes.png" alt="Usuarios Icon" class="menu-icon"/>
+                    actionListener="#{menuBeanUI.setActivePage('usuarios')}"
+                    styleClass="#{menuBeanUI.activePage eq 'usuarios' ? 'active' : ''}"
+                    rendered="#{loginBeanUI.isAdmin()}"> <!-- Muestra si es admin -->
+                    <img src="resources-20250903T164359Z-1-001/resources/clientes.png" alt="Usuarios Icon"
+                        class="menu-icon" />
                     <span>Usuarios</span>
                 </h:commandLink>
             </h:form>
@@ -207,38 +359,33 @@
             </h:form>
 
             <div class="logo-bottom">
-                <img src="resources-20250903T164359Z-1-001/resources/rockon-icon.png" alt="Rock On Logo"/>
+                <img src="resources-20250903T164359Z-1-001/resources/rockon-icon.png" alt="Rock On Logo" />
             </div>
         </div>
     </div>
 
     <div class="main-content">
         <div class="header">
-            <img src="resources-20250903T164359Z-1-001/resources/Rock_on_text_logo.png" alt="Rock On Title"/>
+            <img src="resources-20250903T164359Z-1-001/resources/Rock_on_text_logo.png" alt="Rock On Title" />
         </div>
 
         <h:form id="formDashboard">
-            <p:growl id="msgs" showDetail="true" life="3000"/>
+            <p:growl id="msgs" showDetail="true" life="3000" />
 
             <div class="card">
                 <div class="card-header">
                     <h2>Clientes Ingresados</h2>
                     <div class="action-buttons">
-                        <p:commandButton value="Registrar Ingreso"
-                                         onclick="PF('dlgIngreso').show();"
-                                         type="button"
-                                         styleClass="btn-custom"/>
+                        <p:commandButton value="Registrar Ingreso" onclick="PF('dlgIngreso').show();" type="button"
+                            styleClass="btn-custom" />
 
-                        <p:commandButton value="Iniciar Día"
-                                         actionListener="#{homeBeanUI.iniciarDia}"
-                                         update="msgs"
-                                         styleClass="btn-custom"/>
+                        <p:commandButton value="Iniciar Día" actionListener="#{homeBeanUI.iniciarDia}" update="msgs"
+                            styleClass="btn-custom" />
                     </div>
                 </div>
 
                 <p:dataTable id="tablaIngresos" value="#{homeBeanUI.listaIngresos}" var="cli"
-                             emptyMessage="No hay ingresos registrados en esta sesión."
-                             styleClass="clean-table">
+                    emptyMessage="No hay ingresos registrados en esta sesión." styleClass="clean-table">
 
                     <p:column headerText="ID" width="15%">
                         <h:outputText value="#{cli.idCliente}" />
@@ -253,7 +400,8 @@
                     </p:column>
 
                     <p:column headerText="Crédito">
-                        <h:outputText value="#{cli.credito}" styleClass="#{cli.credito lt 0 ? 'negative-credit' : 'positive-credit'}">
+                        <h:outputText value="#{cli.credito}"
+                            styleClass="#{cli.credito lt 0 ? 'negative-credit' : 'positive-credit'}">
                             <f:convertNumber type="currency" currencySymbol="$" />
                         </h:outputText>
                     </p:column>
@@ -263,15 +411,14 @@
             <p:dialog header="Registrar Acceso" widgetVar="dlgIngreso" modal="true" resizable="false" width="350">
                 <h:panelGrid columns="1" style="width:100%; gap:15px; padding-top: 10px;">
                     <div>
-                        <p:outputLabel value="ID del Cliente" for="inputId" style="font-weight: 600; color: #555;"/>
-                        <p:inputText id="inputId" value="#{homeBeanUI.idBusqueda}" style="width:100%; margin-top: 5px;" placeholder="Ej. CLI1001"/>
+                        <p:outputLabel value="ID del Cliente" for="inputId" style="font-weight: 600; color: #555;" />
+                        <p:inputText id="inputId" value="#{homeBeanUI.idBusqueda}" style="width:100%; margin-top: 5px;"
+                            placeholder="Ej. CLI1001" />
                     </div>
 
-                    <p:commandButton value="Registrar"
-                                     actionListener="#{homeBeanUI.registrarEntrada}"
-                                     update="formDashboard:tablaIngresos formDashboard:msgs inputId"
-                                     oncomplete="PF('dlgIngreso').hide();"
-                                     styleClass="btn-custom" style="width:100%;"/>
+                    <p:commandButton value="Registrar" actionListener="#{homeBeanUI.registrarEntrada}"
+                        update="formDashboard:tablaIngresos formDashboard:msgs inputId"
+                        oncomplete="PF('dlgIngreso').hide();" styleClass="btn-custom" style="width:100%;" />
                 </h:panelGrid>
             </p:dialog>
 
@@ -280,4 +427,5 @@
     </div>
 
 </h:body>
+
 </html>
