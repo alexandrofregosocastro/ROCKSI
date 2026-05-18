@@ -521,9 +521,10 @@
                         actionListener="#{claseBeanUI.recargar}" update=":formAsignarClase:asg_selectClase"
                         oncomplete="PF('dlgAsignarClase').show();" styleClass="btn-registrar" />
 
-                    <p:commandButton value="Quitar cliente de clase" icon="pi pi-unlink"
-                        actionListener="#{claseBeanUI.recargar}" update=":formEliminarAsignacion:elim_selectClase"
-                        oncomplete="PF('dlgEliminarAsignacion').show();" styleClass="btn-baja" />
+                    <p:commandButton value="Eliminar cliente de clase" icon="pi pi-unlink"
+                                     actionListener="#{eliminarAsignacionBeanUI.limpiar}"
+                                     update=":formEliminarAsignacion"
+                                     oncomplete="PF('dlgEliminarAsignacion').show();" styleClass="btn-baja" />
 
                 </div>
 
@@ -769,9 +770,15 @@
         <h:form id="formAsignarClase">
             <p:messages id="msgsAsignar" showDetail="true" closable="true" />
             <div class="form-group">
-                <h:outputLabel for="asg_idCliente" value="ID Cliente" />
-                <p:inputText id="asg_idCliente" value="#{asignarClaseBeanUI.idCliente}" required="true"
-                    requiredMessage="El ID Cliente es obligatorio" styleClass="form-control" />
+                <h:outputLabel for="asg_idCliente" value="Cliente" />
+                <p:selectOneMenu id="asg_idCliente" value="#{asignarClaseBeanUI.idCliente}"
+                                 required="true" requiredMessage="Debe seleccionar un cliente"
+                                 styleClass="form-control" filter="true" filterMatchMode="contains">
+                    <f:selectItem itemLabel="-- Seleccione un cliente --" itemValue="" />
+                    <f:selectItems value="#{clienteBeanUI.listaClientes}" var="cli"
+                                   itemValue="#{cli.idCliente}"
+                                   itemLabel="#{cli.idCliente} - #{cli.nombreCompleto}"/>
+                </p:selectOneMenu>
             </div>
             <div class="form-group">
                 <h:outputLabel for="asg_selectClase" value="Clase" />
@@ -792,27 +799,46 @@
         closable="true" draggable="false" width="420">
 
         <h:form id="formEliminarAsignacion">
-            <p:messages id="msgsEliminarAsignacion" showDetail="true" closable="true" />
 
             <div class="form-group">
-                <h:outputLabel for="elim_idCliente" value="ID Cliente" />
-                <p:inputText id="elim_idCliente" value="#{eliminarAsignacionBeanUI.idCliente}" required="true"
-                    requiredMessage="El ID del cliente es obligatorio" styleClass="form-control" />
+                <h:outputLabel for="elim_idCliente" value="Cliente" />
+                <p:selectOneMenu id="elim_idCliente"
+                                 value="#{eliminarAsignacionBeanUI.idCliente}"
+                                 required="true"
+                                 requiredMessage="Debe seleccionar un cliente"
+                                 styleClass="form-control"
+                                 filter="true" filterMatchMode="contains">
+                    <p:ajax event="change"
+                            listener="#{eliminarAsignacionBeanUI.cargarClasesDelCliente}"
+                            update="elim_selectClase"
+                            process="@this"/>
+                    <f:selectItem itemLabel="-- Seleccione un cliente --" itemValue="" />
+                    <f:selectItems value="#{clienteBeanUI.listaClientes}" var="cli"
+                                   itemValue="#{cli.idCliente}"
+                                   itemLabel="#{cli.idCliente} - #{cli.nombreCompleto}"
+                                   itemDisabled="#{empty cli.clases}"/>
+                </p:selectOneMenu>
             </div>
 
             <div class="form-group">
                 <h:outputLabel for="elim_selectClase" value="Clase" />
-                <p:selectOneMenu id="elim_selectClase" value="#{eliminarAsignacionBeanUI.idClase}" required="true"
-                    requiredMessage="Seleccione una clase" styleClass="form-control">
-                    <f:selectItem itemLabel="-- Seleccione --" itemValue="" />
-                    <f:selectItems value="#{claseBeanUI.listaClases}" var="c" itemValue="#{c.idClase}"
-                        itemLabel="#{c.nombre}" />
+                <p:selectOneMenu id="elim_selectClase"
+                                 value="#{eliminarAsignacionBeanUI.idClase}"
+                                 required="true"
+                                 requiredMessage="Seleccione una clase"
+                                 styleClass="form-control">
+                    <f:selectItem itemLabel="-- Seleccione una clase --" itemValue="" />
+                    <f:selectItems value="#{eliminarAsignacionBeanUI.clasesDelCliente}" var="c"
+                                   itemValue="#{c.idClase}"
+                                   itemLabel="#{c.idClase} - #{c.nombre}"/>
                 </p:selectOneMenu>
             </div>
 
             <p:commandButton value="Quitar asignación" icon="pi pi-trash"
                 action="#{eliminarAsignacionBeanUI.eliminarAsignacion}" process="@form"
-                update="msgsEliminarAsignacion :formClases:tablaClases" styleClass="btn-baja" />
+                update="@form :formClases:tablaClases :formClases:msgsGrowl"
+                             oncomplete="if (!args.validationFailed) { PF('dlgEliminarAsignacion').hide(); }"
+                             styleClass="btn-baja" />
         </h:form>
     </p:dialog>
 
