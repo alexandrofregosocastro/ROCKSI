@@ -2,7 +2,7 @@ package mx.desarollo.entity;
 
 import java.io.Serializable;
 
-public class ItemCarrito implements Serializable {
+public class ItemArticulos implements Serializable {
     private String id;
     private String nombre;
     private Double precio;

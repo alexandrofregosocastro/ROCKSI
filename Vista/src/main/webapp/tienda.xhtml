@@ -321,7 +321,7 @@
             z-index: 1000 !important;
         }
 
-        /* === NUEVAS TABLAS (Productos / Carrito) === */
+        /* === NUEVAS TABLAS (Productos / Lista de artículos a cobrar) === */
         .tienda-container {
             display: flex;
             gap: 30px;
@@ -637,23 +637,23 @@
                             </p:column>
 
                             <p:column headerText="Agregar" width="80" style="text-align: center;">
-                                <p:commandButton icon="pi pi-cart-plus"
-                                                 actionListener="#{tiendaBeanUI.agregarAlCarrito(pro)}"
+                                <p:commandButton icon="pi pi-plus"
+                                                 actionListener="#{tiendaBeanUI.agregarAListaArticulos(pro)}"
                                                  update=":formProductos:tablaCarrito :formProductos:tablaProductosMini :formProductos:totalBox :formProductos:msgs"
-                                                 style="background:#28a745 !important; border:none; border-radius:50%; width:2.5rem; height:2.5rem;"
-                                                 title="Agregar al Carrito"/>
+                                                 style="background:#007bcb !important; border:none; border-radius:50%; width:2.5rem; height:2.5rem;"
+                                                 title="Agregar a la lista de artículos a cobrar"/>
                             </p:column>
                         </p:dataTable>
                     </div>
 
                     <div class="tienda-box">
-                        <h2>Carrito</h2>
+                        <h2>Lista de artículos a cobrar</h2>
 
                         <p:dataTable id="tablaCarrito"
-                                     value="#{tiendaBeanUI.carrito}"
+                                     value="#{tiendaBeanUI.listaArticulos}"
                                      var="item"
                                      paginator="false"
-                                     emptyMessage="Tu carrito está vacío">
+                                     emptyMessage="Tu lista de artículos a cobrar está vacía">
 
                             <p:column headerText="Nombre">
                                 <h:outputText value="#{item.nombre}" />
@@ -678,10 +678,10 @@
                                                      style="background:#007bff !important; border:none; border-radius:4px; width:2rem; height:2rem; padding:0;"/>
 
                                     <p:commandButton icon="pi pi-trash"
-                                                     actionListener="#{tiendaBeanUI.eliminarDelCarrito(item)}"
+                                                     actionListener="#{tiendaBeanUI.eliminarDeListaArticulos(item)}"
                                                      update=":formProductos:tablaCarrito :formProductos:tablaProductosMini :formProductos:totalBox"
                                                      style="background:#dc3545 !important; border:none; border-radius:4px; width:2rem; height:2rem; padding:0; margin-left: 5px;"
-                                                     title="Quitar del carrito"/>
+                                                     title="Quitar de la lista de artículos a cobrar"/>
                                 </div>
                             </p:column>
                         </p:dataTable>
@@ -695,7 +695,7 @@
 
                         <p:commandButton value="Cobrar"
                                          icon="pi pi-check"
-                                         actionListener="#{tiendaBeanUI.validarCarrito}"
+                                         actionListener="#{tiendaBeanUI.validarListaArticulos()}"
                                          oncomplete="if (!args.validationFailed) { PF('dlgMetodoPago1').show(); }"
                                          update="tablaCarrito totalBox msgs"
                                          styleClass="btn-cobrar" />
@@ -1118,7 +1118,7 @@
                                      value="Pagar"
                                      process="@this"
                                      update="msgsTarjeta1"
-                                     actionListener="#{tiendaBeanUI.realizarPagoTarjetaCarrito()}"
+                                     actionListener="#{tiendaBeanUI.realizarPagoTarjetaListaArticulos()}"
                                      style="background:#007bff !important; color:#fff !important; border:none !important;"/>
 
                     <p:commandButton value="Cancelar"
@@ -1185,7 +1185,7 @@
                 </div>
 
                 <p:commandButton value="Pagar"
-                                 action="#{tiendaBeanUI.realizarPagoInteractivoCarrito()}"
+                                 action="#{tiendaBeanUI.realizarPagoInteractivoListaArticulos()}"
                                  update="msgsPagoInteractivo1 faltante1"
                                  styleClass="ui-button"
                                  process="@this montoIngresado1"

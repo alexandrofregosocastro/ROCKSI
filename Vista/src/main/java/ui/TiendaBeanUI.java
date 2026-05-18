@@ -26,9 +26,9 @@ public class TiendaBeanUI implements Serializable {
     @Inject
     private LoginBeanUI loginBeanUI;
 
-    private List<ItemCarrito> carrito;
+    private List<ItemArticulos> listaArticulosACobrar;
     private double total;
-    private ItemCarrito itemSeleccionado;
+    private ItemArticulos itemSeleccionado;
 
     // Variables globales
     private Double montoTotal = 0.0;
@@ -63,11 +63,11 @@ public class TiendaBeanUI implements Serializable {
     private final ProductoHelper productoHelper = new ProductoHelper();
 
     public TiendaBeanUI() {
-        carrito = new ArrayList<>();
+        listaArticulosACobrar = new ArrayList<>();
         total = 0.0;
     }
 
-    public void agregarAlCarritoDesdeProductos(SelectEvent<Producto> event) {
+    public void agregarAListaArticulosDesdeProductos(SelectEvent<Producto> event) {
         Producto producto = event.getObject();
 
         if (producto == null) {
@@ -85,21 +85,21 @@ public class TiendaBeanUI implements Serializable {
         // Reducir stock
         producto.setStock(producto.getStock() - 1);
 
-        // Buscar si ya está en el carrito
-        Optional<ItemCarrito> existente = carrito.stream()
+        // Buscar si el articulo ya está en la lista de artículos a cobrar
+        Optional<ItemArticulos> existente = listaArticulosACobrar.stream()
                 .filter(i -> i.getId().equals(producto.getIdItem()))
                 .findFirst();
 
         if (existente.isPresent()) {
-            ItemCarrito item = existente.get();
+            ItemArticulos item = existente.get();
             item.setCantidad(item.getCantidad() + 1);
         } else {
-            ItemCarrito nuevo = new ItemCarrito();
+            ItemArticulos nuevo = new ItemArticulos();
             nuevo.setId(producto.getIdItem());
             nuevo.setNombre(producto.getNombre());
             nuevo.setPrecio(producto.getPrecio());
             nuevo.setCantidad(1);
-            carrito.add(nuevo);
+            listaArticulosACobrar.add(nuevo);
         }
 
         // Actualizar wl total
@@ -113,24 +113,24 @@ public class TiendaBeanUI implements Serializable {
 
         // Mensaje de agregado
         FacesContext.getCurrentInstance().addMessage(null,
-                new FacesMessage(FacesMessage.SEVERITY_INFO, "Agregado", "Producto agregado al carrito."));
+                new FacesMessage(FacesMessage.SEVERITY_INFO, "Agregado", "Producto agregado a la Lista de artículos a cobrar."));
     }
 
     public void calcularTotal() {
-        total = carrito.stream()
+        total = listaArticulosACobrar.stream()
                 .mapToDouble(i -> i.getPrecio() * i.getCantidad())
                 .sum();
     }
 
     public void cobrar() {
-        if (carrito.isEmpty()) {
+        if (listaArticulosACobrar.isEmpty()) {
             FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_WARN, "Atención", "El carrito está vacío."));
+                    new FacesMessage(FacesMessage.SEVERITY_WARN, "Atención", "No tienes ningun artículo en la lista."));
             return;
         }
 
         if(pagoRealizado) {
-            carrito.clear();
+            listaArticulosACobrar.clear();
             total = 0.0;
 
             FacesContext.getCurrentInstance().addMessage(null,
@@ -144,7 +144,7 @@ public class TiendaBeanUI implements Serializable {
     public void devolverProductoAlInventario() {
         if (itemSeleccionado == null) {
             FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_WARN, "Advertencia", "No se seleccionó un producto del carrito."));
+                    new FacesMessage(FacesMessage.SEVERITY_WARN, "Advertencia", "No se seleccionó un producto de la lista de artículos a cobrar."));
             return;
         }
 
@@ -159,11 +159,11 @@ public class TiendaBeanUI implements Serializable {
         //Aumentar stock en la tabla de productos
         producto.setStock(producto.getStock() + 1);
 
-        // Reducir o eliminar del carrito
+        // Reducir o eliminar de la Lista de artículos a cobrar
         if (itemSeleccionado.getCantidad() > 1) {
             itemSeleccionado.setCantidad(itemSeleccionado.getCantidad() - 1);
         } else {
-            carrito.remove(itemSeleccionado);
+            listaArticulosACobrar.remove(itemSeleccionado);
         }
 
         calcularTotal();
@@ -235,21 +235,21 @@ public class TiendaBeanUI implements Serializable {
     }*/
 
     /**
-     * Metodo para realizar un pago en efectivo de carrito
+     * Metodo para realizar un pago en efectivo de la Lista de artículos a cobrar
      * @Throws Si algun dato es null o hay un error al realizar el pago
      * @Params ninguno
      * @return void
      */
-    public void realizarPagoInteractivoCarrito() {
+    public void realizarPagoInteractivoListaArticulos() {
         FacesContext fc = FacesContext.getCurrentInstance();
         try {
             // Valida recepcionista
             /*if (usuarioRecepcionista == null)
                 throw new Exception("Debe validar un recepcionista antes de realizar el pago.");*/
 
-            // Valida productos en el carrito
-            if (carrito == null || carrito.isEmpty()) {
-                throw new Exception("No hay productos en el carrito para pagar.");
+            // Valida productos en la Lista de artículos a cobrar
+            if (listaArticulosACobrar == null || listaArticulosACobrar.isEmpty()) {
+                throw new Exception("No hay productos en la lista de artículos a cobrar.");
             }
 
             // Valida monto ingresado
@@ -295,7 +295,7 @@ public class TiendaBeanUI implements Serializable {
                 // Gratis
             }
 
-            for (ItemCarrito item : carrito) {
+            for (ItemArticulos item : listaArticulosACobrar) {
                 Paga pagaItem = new Paga();
                 pagaItem.setIdUsuariorecep(loginBeanUI.getIdUsuario());// Toma el id del Usuario que haya iniciado sesion
                 pagaItem.setFecha(LocalDate.now());
@@ -326,7 +326,7 @@ public class TiendaBeanUI implements Serializable {
             montoIngresado = 0.0;
             montoFaltante = 0.0;
             limpiarCampos();
-            carrito.clear();
+            listaArticulosACobrar.clear();
             calcularTotal();
 
         } catch (Exception e) {
@@ -336,12 +336,12 @@ public class TiendaBeanUI implements Serializable {
     }
 
     /**
-     * Metodo para realizar un pago del carrito con tarjeta
+     * Metodo para realizar un pago de la Lista de artículos a cobrar con tarjeta
      * @Throws Si algun dato es null o hay un error al realizar el pago
      * @Params ninguno
      * @return void
      */
-    public void realizarPagoTarjetaCarrito() {
+    public void realizarPagoTarjetaListaArticulos() {
         FacesContext fc = FacesContext.getCurrentInstance();
         try {
             // Valida recepcionista
@@ -359,9 +359,9 @@ public class TiendaBeanUI implements Serializable {
             }
             cliente = clienteExistente;
 
-            // Valida productos en el carrito
-            if (carrito.isEmpty()) {
-                throw new Exception("No hay productos en el carrito para pagar.");
+            // Valida productos en la Lista de artículos a cobrar
+            if (listaArticulosACobrar.isEmpty()) {
+                throw new Exception("No hay productos en la lista de artículos a cobrar.");
             }
 
             // Calcula el total
@@ -379,7 +379,7 @@ public class TiendaBeanUI implements Serializable {
                 // Gratis
             }
 
-            for (ItemCarrito item : carrito) {
+            for (ItemArticulos item : listaArticulosACobrar) {
                 Paga pagaItem = new Paga();
                 pagaItem.setIdUsuariorecep(loginBeanUI.getIdUsuario());// Toma el id del Usuario que haya iniciado sesion
                 pagaItem.setFecha(LocalDate.now());
@@ -408,7 +408,7 @@ public class TiendaBeanUI implements Serializable {
             PrimeFaces.current().ajax().update("formProductos");
 
             limpiarCampos();
-            carrito.clear();
+            listaArticulosACobrar.clear();
             calcularTotal();
 
         } catch (Exception e) {
@@ -418,7 +418,7 @@ public class TiendaBeanUI implements Serializable {
     }
 
     /**
-     * Metodo para realizar un pago por pagar del carrito
+     * Metodo para realizar un pago por pagar de la Lista de artículos a cobrar
      * @Throws Si algun dato es null o hay un error al realizar el pago
      * @Params ninguno
      * @return void
@@ -441,9 +441,9 @@ public class TiendaBeanUI implements Serializable {
             }
             cliente = clienteExistente;
 
-            // Valida productos en el carrito
-            if (carrito.isEmpty()) {
-                throw new Exception("No hay productos en el carrito para pagar.");
+            // Valida productos en la Lista de artículos a cobrar
+            if (listaArticulosACobrar.isEmpty()) {
+                throw new Exception("No hay productos en la lista de artículos a cobrar.");
             }
 
             // Calcula el total
@@ -461,7 +461,7 @@ public class TiendaBeanUI implements Serializable {
                 // Gratis
             }
 
-            for (ItemCarrito item : carrito) {
+            for (ItemArticulos item : listaArticulosACobrar) {
                 Paga pagaItem = new Paga();
                 pagaItem.setIdUsuariorecep(loginBeanUI.getIdUsuario()); // Toma el id del Usuario que haya iniciado sesion
                 pagaItem.setFecha(LocalDate.now());
@@ -490,7 +490,7 @@ public class TiendaBeanUI implements Serializable {
             PrimeFaces.current().ajax().update("formProductos");
 
             limpiarCampos();
-            carrito.clear();
+            listaArticulosACobrar.clear();
             calcularTotal();
 
         } catch (Exception e) {
@@ -646,7 +646,7 @@ public class TiendaBeanUI implements Serializable {
      */
     private void obtenerTotal() {
 
-        // Obtiene el subtotal del carrito
+        // Obtiene el subtotal de la Lista de artículos a cobrar
         calcularTotal(); // Aseguro que el total este actualizado
 
         // Establesco el monto base a pagar
@@ -689,18 +689,18 @@ public class TiendaBeanUI implements Serializable {
         }
     }
 
-    public void validarCarrito() { //Esta funcion evita que se pueda entrar a cobrar sin productos en el carrito.
+    public void validarListaArticulos() { //Esta funcion evita que se pueda entrar a cobrar sin productos en la lista de artículos a cobrar.
         FacesContext fc = FacesContext.getCurrentInstance();
-        if (carrito == null || carrito.isEmpty()) {
+        if (listaArticulosACobrar == null || listaArticulosACobrar.isEmpty()) {
             fc.validationFailed(); // Esto le avisa a primefaces que la validación fallo
-            fc.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Carrito vacío", "Agrega al menos un producto antes de cobrar."));
+            fc.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Lista de artículos vacía", "Agrega al menos un artículo a la lista antes de cobrar."));
         }
     }
 
     /**
-     * Metodo para Agrega un producto nuevo al carrito
+     * Metodo para Agrega un producto nuevo a la Lista de artículos a cobrar
      */
-    public void agregarAlCarrito(Producto producto) {
+    public void agregarAListaArticulos(Producto producto) {
         if (producto == null) {
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_WARN, "Advertencia", "Producto no válido."));
@@ -716,21 +716,21 @@ public class TiendaBeanUI implements Serializable {
         // Descontamos 1 del stock real
         producto.setStock(producto.getStock() - 1);
 
-        // Buscamos si ya existe en el carrito
-        Optional<ItemCarrito> existente = carrito.stream()
+        // Buscamos si ya existe en la lista de artículos a cobrar
+        Optional<ItemArticulos> existente = listaArticulosACobrar.stream()
                 .filter(i -> i.getId().equals(producto.getIdItem()))
                 .findFirst();
 
         if (existente.isPresent()) {
-            ItemCarrito item = existente.get();
+            ItemArticulos item = existente.get();
             item.setCantidad(item.getCantidad() + 1);
         } else {
-            ItemCarrito nuevo = new ItemCarrito();
+            ItemArticulos nuevo = new ItemArticulos();
             nuevo.setId(producto.getIdItem());
             nuevo.setNombre(producto.getNombre());
             nuevo.setPrecio(producto.getPrecio());
             nuevo.setCantidad(1);
-            carrito.add(nuevo);
+            listaArticulosACobrar.add(nuevo);
         }
 
         calcularTotal();
@@ -738,7 +738,7 @@ public class TiendaBeanUI implements Serializable {
         try {
             productoHelper.modificarProducto(producto);
             FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_INFO, "Agregado", "Producto agregado al carrito."));
+                    new FacesMessage(FacesMessage.SEVERITY_INFO, "Agregado", "Producto agregado a la lista de artículos a cobrar."));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -747,11 +747,11 @@ public class TiendaBeanUI implements Serializable {
     /**
      * Metodo para aunmentar la cantidad de un mismo producto
      */
-    public void aumentarCantidad(ItemCarrito itemCarrito) {
-        if (itemCarrito == null) return;
+    public void aumentarCantidad(ItemArticulos itemArticulos) {
+        if (itemArticulos == null) return;
 
         // Necesitamos traernos el producto de la BD para verificar si todavía queda stock
-        Producto producto = productoHelper.obtenerProducto(itemCarrito.getId());
+        Producto producto = productoHelper.obtenerProducto(itemArticulos.getId());
 
         if (producto == null || producto.getStock() <= 0) {
             FacesContext.getCurrentInstance().addMessage(null,
@@ -759,8 +759,8 @@ public class TiendaBeanUI implements Serializable {
             return;
         }
 
-        // Subimos en el carrito, bajamos en la BD
-        itemCarrito.setCantidad(itemCarrito.getCantidad() + 1);
+        // Subimos en la lista de artículos a cobrar, bajamos en la BD
+        itemArticulos.setCantidad(itemArticulos.getCantidad() + 1);
         producto.setStock(producto.getStock() - 1);
 
         calcularTotal();
@@ -775,14 +775,14 @@ public class TiendaBeanUI implements Serializable {
     /**
      * Metodo para disminuir la cantidad de un mismo producto
      */
-    public void disminuirCantidad(ItemCarrito itemCarrito) {
-        if (itemCarrito == null) return;
+    public void disminuirCantidad(ItemArticulos itemArticulos) {
+        if (itemArticulos == null) return;
 
-        if (itemCarrito.getCantidad() > 1) {
-            // Si tiene mas de 1, restamos en carrito y devolvemos 1 a la BD
-            itemCarrito.setCantidad(itemCarrito.getCantidad() - 1);
+        if (itemArticulos.getCantidad() > 1) {
+            // Si tiene mas de 1, restamos en la lista de artículos a cobrar y devolvemos 1 a la BD
+            itemArticulos.setCantidad(itemArticulos.getCantidad() - 1);
 
-            Producto producto = productoHelper.obtenerProducto(itemCarrito.getId());
+            Producto producto = productoHelper.obtenerProducto(itemArticulos.getId());
             if (producto != null) {
                 producto.setStock(producto.getStock() + 1);
                 try {
@@ -793,21 +793,21 @@ public class TiendaBeanUI implements Serializable {
             }
             calcularTotal();
         } else {
-            // Si solo tiene 1 y le da al menos, eliminamos el item del carrito
-            eliminarDelCarrito(itemCarrito);
+            // Si solo tiene 1 y le da al menos, eliminamos el item de la lista de artículos a cobrar
+            eliminarDeListaArticulos(itemArticulos);
         }
     }
 
     /**
      * Metodo Para elimianar un producto, sin importar cantidad
      */
-    public void eliminarDelCarrito(ItemCarrito itemCarrito) {
-        if (itemCarrito == null) return;
+    public void eliminarDeListaArticulos(ItemArticulos itemArticulos) {
+        if (itemArticulos == null) return;
 
-        // Devolvemos TODA la cantidad que tenía en el carrito de regreso a la BD
-        Producto producto = productoHelper.obtenerProducto(itemCarrito.getId());
+        // Devolvemos TODA la cantidad que tenía en la lista de artículos a cobrar de regreso a la BD
+        Producto producto = productoHelper.obtenerProducto(itemArticulos.getId());
         if (producto != null) {
-            producto.setStock(producto.getStock() + itemCarrito.getCantidad());
+            producto.setStock(producto.getStock() + itemArticulos.getCantidad());
             try {
                 productoHelper.modificarProducto(producto);
             } catch (Exception e) {
@@ -816,22 +816,22 @@ public class TiendaBeanUI implements Serializable {
         }
 
         // Eliminamos de la lista temporal y recalculamos totales
-        carrito.remove(itemCarrito);
+        listaArticulosACobrar.remove(itemArticulos);
         calcularTotal();
 
         FacesContext.getCurrentInstance().addMessage(null,
-                new FacesMessage(FacesMessage.SEVERITY_INFO, "Eliminado", "Se retiró el producto del carrito."));
+                new FacesMessage(FacesMessage.SEVERITY_INFO, "Eliminado", "Se retiró el producto de la lista de artículos a cobrar."));
     }
 
     // Getters y setters
-    public List<ItemCarrito> getCarrito() { return carrito; }
-    public void setCarrito(List<ItemCarrito> carrito) { this.carrito = carrito; }
+    public List<ItemArticulos> getListaArticulos() { return listaArticulosACobrar; }
+    public void setListaArticulos(List<ItemArticulos> listaArticulosACobrar) { this.listaArticulosACobrar = listaArticulosACobrar; }
 
     public double getTotal() { return total; }
     public void setTotal(double total) { this.total = total; }
 
-    public ItemCarrito getItemSeleccionado() { return itemSeleccionado; }
-    public void setItemSeleccionado(ItemCarrito itemSeleccionado) { this.itemSeleccionado = itemSeleccionado;}
+    public ItemArticulos getItemSeleccionado() { return itemSeleccionado; }
+    public void setItemSeleccionado(ItemArticulos itemSeleccionado) { this.itemSeleccionado = itemSeleccionado;}
 
     public Cliente getCliente() { return cliente; }
     public void setCliente(Cliente cliente) { this.cliente = cliente; }
