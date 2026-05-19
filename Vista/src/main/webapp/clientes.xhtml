@@ -528,11 +528,6 @@
                     <p:commandButton value="Registrar Cliente" icon="pi pi-user-plus"
                         onclick="PF('dlgAgregarCliente').show();" styleClass="btn-registrar" />
 
-                    <p:commandButton value="Modificar Cliente" icon="pi pi-user-edit" onclick="PF('dlgAskId').show();"
-                        styleClass="btn-modificar" />
-
-                    <p:commandButton value="Baja de Cliente" icon="pi pi-user-minus" styleClass="btn-baja" type="button"
-                        onclick="PF('dlgEliminarCliente').show();" />
                 </div>
 
                 <!--Titulo y configuracion del modal modal Alta de Cliente-->
@@ -583,7 +578,7 @@
                     </div>
 
                     <!-- Botón para registrar cliente -->
-                    <div class="boton-registrar">
+                    <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-top: 15px; width: 100%;">
                         <p:commandButton id="registrarBtn" value="Registrar al cliente"
                             action="#{altaCliBeanUI.altaCliente}"
                             process="@this nombreAlta apellidoAlta sexoAlta telefonoAlta segundoTelefonoAlta"
@@ -591,26 +586,7 @@
                     </div>
                 </p:dialog>
 
-                <!-- pedir ID del cliente a modificar -->
-                <p:dialog header="Buscar cliente a modificar" widgetVar="dlgAskId" modal="true" resizable="false"
-                    closable="true" draggable="false" width="360">
-                    <h:panelGrid columns="1" style="width:100%;">
-                        <p:messages id="msgsAsk" showDetail="true" closable="true" />
 
-                        <div class="form-group">
-                            <h:outputLabel for="searchId" value="ID Cliente" />
-                            <p:inputText id="searchId" value="#{modificarCliBeanUI.busquedaId}"
-                                placeholder="Ej. CLI1001" styleClass="form-control" required="true"
-                                requiredMessage="El ID es obligatorio" />
-                        </div>
-
-                        <p:commandButton value="Buscar" icon="pi pi-search"
-                            action="#{modificarCliBeanUI.cargarClientePorId}" process="@this searchId"
-                            oncomplete="if (args &amp;&amp; args.found) { PF('dlgAskId').hide(); PF('dlgModificarCliente').loadContents(); }"
-                            styleClass="btn-registrar" />
-
-                    </h:panelGrid>
-                </p:dialog>
 
                 <!-- dialog de modificar cliente que solo se muestra en caso de que se haya encontrado el cliente por id -->
                 <p:dialog id="dlgModificar" header="Modificar cliente" widgetVar="dlgModificarCliente" modal="true"
@@ -661,24 +637,7 @@
                         oncomplete="if (!args.validationFailed) { PF('dlgModificarCliente').hide(); }" />
                 </p:dialog>
 
-                <!-- dialog para bajas de cliente -->
 
-                <p:dialog header="Eliminar Cliente" widgetVar="dlgEliminarCliente" modal="true" resizable="false"
-                    closable="true" draggable="false" width="360">
-                    <!-- Mensajes del backend -->
-                    <p:messages id="msgsEliminar" showDetail="true" closable="true" />
-
-                    <div class="form-group">
-                        <h:outputLabel for="idClienteEliminar" value="ID del Cliente" />
-                        <p:inputText id="idClienteEliminar" value="#{bajaClienteBeanUI.idCliente}"
-                            placeholder="ID del cliente a eliminar" class="form-control" required="true"
-                            requiredMessage="El campo ID es obligatorio" />
-                    </div>
-
-                    <!-- Botón que abre el modal de confirmación -->
-                    <p:commandButton id="abrirConfirmarClienteBtn" value="Eliminar Cliente" icon="pi pi-times-circle"
-                        styleClass="btn-baja" onclick="PF('dlgConfirmarTabla').show(); return false;" />
-                </p:dialog>
 
                 <!-- dialog de confirmacion de eliminacion -->
                 <p:dialog widgetVar="dlgConfirmarTabla" header="Confirmar eliminación" modal="true" resizable="false"
@@ -687,16 +646,18 @@
                     <h:outputText value="¿Seguro que deseas eliminar este cliente?"
                         style="display:block; margin-bottom:15px;" />
 
-                    <!-- Boton si ejecuta la acción real -->
-                    <p:commandButton value="Sí, eliminar" icon="pi pi-check"
-                        action="#{bajaClienteBeanUI.eliminarCliente}" process="@this"
-                        update=":formClientes:msgsEliminar :formClientes:tablaClientes :formClientes:msgsGrowl"
-                        oncomplete="PF('dlgConfirmarTabla').hide();" styleClass="btn-baja" />
+                    <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-top: 15px; width: 100%;">
+                        <!-- Boton si ejecuta la acción real -->
+                        <p:commandButton value="Sí, eliminar" icon="pi pi-check"
+                            action="#{bajaClienteBeanUI.eliminarCliente}" process="@this"
+                            update=":formClientes:msgsEliminar :formClientes:tablaClientes :formClientes:msgsGrowl"
+                            oncomplete="PF('dlgConfirmarTabla').hide();" styleClass="btn-baja" />
 
-                    <!-- Boton cancelar cierra el diálogo -->
-                    <p:commandButton value="Cancelar" icon="pi pi-times"
-                        onclick="PF('dlgConfirmarTabla').hide(); return false;" type="button"
-                        styleClass="btn-cancelar" />
+                        <!-- Boton cancelar cierra el diálogo -->
+                        <p:commandButton value="Cancelar" icon="pi pi-times"
+                            onclick="PF('dlgConfirmarTabla').hide(); return false;" type="button"
+                            styleClass="btn-cancelar" />
+                    </div>
                 </p:dialog>
 
                 <!-- Tabla de clientes -->

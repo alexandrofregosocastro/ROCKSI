@@ -635,10 +635,11 @@
                     requiredMessage="Los días son obligatorios" styleClass="form-control"
                     placeholder="Ej. Lunes, Miercoles, Viernes" />
             </div>
-
-            <p:commandButton value="Registrar" icon="pi pi-plus-circle" action="#{altaClaBeanUI.altaClase}"
+            <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-top: 15px; width: 100%;">
+                <p:commandButton value="Registrar" icon="pi pi-plus-circle" action="#{altaClaBeanUI.altaClase}"
                 process="@form" update="@form formClases:tablaClases :formClases:msgsGrowl"
                 styleClass="btn-registrar" />
+            </div>
         </h:form>
     </p:dialog>
 
@@ -654,10 +655,11 @@
                 <p:inputText id="searchId" value="#{modificarClaBeanUI.busquedaId}" placeholder="Ej. CLA1001"
                     required="true" requiredMessage="El ID es obligatorio" styleClass="form-control" />
             </div>
-
-            <p:commandButton value="Buscar" icon="pi pi-search" action="#{modificarClaBeanUI.cargarClasePorId}"
+            <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-top: 15px; width: 100%;">
+                <p:commandButton value="Buscar" icon="pi pi-search" action="#{modificarClaBeanUI.cargarClasePorId}"
                 process="@form" update=":formAskId:msgsAsk :formModificarClase" styleClass="btn-registrar"
                 oncomplete="if (args &amp;&amp; args.found) { PF('dlgAskId').hide(); PF('dlgModificarClase').show(); }" />
+            </div>
         </h:form>
     </p:dialog>
 
@@ -740,9 +742,11 @@
             </div>
 
             <!-- solo abre confirmacion en caso de que se haya validado que se ingreso un id -->
-            <p:commandButton value="Eliminar" icon="pi pi-times-circle" process="@form" update="msgsEliminarClase"
+            <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-top: 15px; width: 100%;">
+                <p:commandButton value="Eliminar" icon="pi pi-times-circle" process="@form" update="msgsEliminarClase"
                 oncomplete="if (!args.validationFailed) { PF('dlgEliminarClase').hide(); PF('dlgConfirmarEliminarClase').show(); }"
                 styleClass="btn-baja" />
+            </div>
         </h:form>
     </p:dialog>
 
@@ -756,11 +760,12 @@
             <p:commandButton value="Cancelar" icon="pi pi-times" type="button"
                 onclick="PF('dlgConfirmarEliminarClase').hide(); PF('dlgEliminarClase').show();"
                 styleClass="btn-cancelar" />
-
-            <p:commandButton value="Eliminar" icon="pi pi-check" action="#{bajaClaseBeanUI.eliminarClase}"
+            <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-top: 15px; width: 100%;">
+                <p:commandButton value="Eliminar" icon="pi pi-check" action="#{bajaClaseBeanUI.eliminarClase}"
                 process="@this"
                 update=":formEliminarClase:msgsEliminarClase :formClases:tablaClases :formClases:msgsGrowl"
                 oncomplete="PF('dlgConfirmarEliminarClase').hide();" styleClass="btn-baja" />
+            </div>
         </h:form>
     </p:dialog>
 
@@ -789,8 +794,10 @@
                         itemLabel="#{c.nombre}" />
                 </p:selectOneMenu>
             </div>
-            <p:commandButton value="Asignar" icon="pi pi-check" action="#{asignarClaseBeanUI.asignarClase}"
+            <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-top: 15px; width: 100%;">
+                <p:commandButton value="Asignar" icon="pi pi-check" action="#{asignarClaseBeanUI.asignarClase}"
                 process="@form" update="msgsAsignar formClases:tablaClases" styleClass="btn-registrar" />
+            </div>
         </h:form>
     </p:dialog>
 
@@ -833,12 +840,13 @@
                                    itemLabel="#{c.idClase} - #{c.nombre}"/>
                 </p:selectOneMenu>
             </div>
-
-            <p:commandButton value="Quitar asignación" icon="pi pi-trash"
+            <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-top: 15px; width: 100%;">
+                <p:commandButton value="Quitar asignación" icon="pi pi-trash"
                 action="#{eliminarAsignacionBeanUI.eliminarAsignacion}" process="@form"
                 update="@form :formClases:tablaClases :formClases:msgsGrowl"
                              oncomplete="if (!args.validationFailed) { PF('dlgEliminarAsignacion').hide(); }"
                              styleClass="btn-baja" />
+            </div>
         </h:form>
     </p:dialog>
 

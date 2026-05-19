@@ -541,10 +541,11 @@
 
                 <p:commandButton value="Generar Reporte Diario" icon="pi pi-file-pdf"
                     action="#{reporteBeanUI.descargarReporteDiario}" ajax="false" styleClass="btn-registrar" />
-
+            <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-top: 15px; width: 100%;">
                 <p:commandButton value="Generar Reporte Mensual" icon="pi pi-file-pdf"
                     action="#{reporteMensualBeanUI.descargarReporteMensual}" ajax="false" styleClass="btn-registrar" />
-            </h:form>
+            </div>
+        </h:form>
         </div>
     </div>
     <h:form id="formPrincipal">
@@ -572,7 +573,7 @@
                 <div class="form-group">
                     <h:outputLabel for="descuento1" value="Descuento (opcional)" style="font-weight:bold;" />
                     <p:inputNumber id="descuento1" value="#{RealizarPagoBeanUI.descuento}" minValue="0"
-                        decimalPlaces="2" placeholder="$200" style="width: 100%;">
+                        decimalPlaces="2" placeholder="$200" >
                     </p:inputNumber>
                 </div>
 
@@ -600,7 +601,7 @@
                             } else {
                                 PF('dlgPagoTarjeta1').show();
                             }
-                        }" styleClass="btn-info" style="width:100%;">
+                        }" styleClass="btn-info" >
                     <f:param name="proximo" value="dlgPagoTarjeta1" />
                 </p:commandButton>
 
@@ -639,7 +640,7 @@
 
                 <p:commandButton value="No, Pagar Completo" icon="pi pi-times" type="button"
                     onclick="PF('dlgAplicarCredito1').hide(); PF('#{RealizarPagoBeanUI.siguienteDialogo}').show();"
-                    styleClass="btn-baja" style="width:100%;" />
+                    styleClass="btn-baja"  />
 
             </h:panelGrid>
         </p:dialog>
@@ -647,12 +648,12 @@
         <p:dialog header="Pago con Tarjeta" widgetVar="dlgPagoTarjeta1" modal="true" resizable="false" closable="false"
             draggable="false" width="420">
 
-            <h:panelGrid id="panelPagoTarjeta1" columns="1" style="width:100%;">
+            <h:panelGrid id="panelPagoTarjeta1" columns="1" >
                 <p:messages id="msgsTarjeta1" showDetail="true" closable="true" />
 
                 <h:outputText value="Información del Cliente:" style="font-weight:bold; margin-bottom:10px;" />
 
-                <h:panelGrid columns="2" columnClasses="label,value" style="width:100%;">
+                <h:panelGrid columns="2" columnClasses="label,value" >
                     <h:outputText value="ID Cliente:" style="color:#000000;" />
                     <h:outputText value="#{RealizarPagoBeanUI.cliente.idCliente}" style="color:#000000;" />
 
@@ -705,13 +706,13 @@
         <p:dialog header="Realizar Pago en Efectivo" widgetVar="dlgPagoInteractivo1" modal="true" resizable="false"
             closable="true" draggable="false" width="400">
 
-            <h:panelGrid id="panelPagoInteractivo1" columns="1" style="width:100%;">
+            <h:panelGrid id="panelPagoInteractivo1" columns="1" >
                 <p:messages id="msgsPagoInteractivo1" showDetail="true" closable="true" />
 
                 <div class="form-group">
                     <h:outputLabel for="montoIngresado1" value="Monto ingresado" />
                     <p:inputNumber id="montoIngresado1" value="#{RealizarPagoBeanUI.montoIngresado}" minValue="0"
-                        decimalPlaces="2" style="width: 100%;">
+                        decimalPlaces="2" >
                         <p:ajax event="keyup" update="faltante1" process="@this" />
                     </p:inputNumber>
                 </div>
@@ -723,7 +724,7 @@
 
                 <p:commandButton value="Pagar" action="#{RealizarPagoBeanUI.realizarPagoInteractivoMembresia()}"
                     update="msgsPagoInteractivo1 faltante1" styleClass="btn-registrar" process="@this montoIngresado1"
-                    style="width:100%;" />
+                     />
             </h:panelGrid>
         </p:dialog>
 
@@ -761,7 +762,7 @@
                 <div class="form-group">
                     <h:outputLabel for="descuento2" value="Descuento (opcional)" style="font-weight:bold;" />
                     <p:inputNumber id="descuento2" value="#{RealizarPagoBeanUI.descuento}" minValue="0"
-                        decimalPlaces="2" placeholder="$200" style="width: 100%;">
+                        decimalPlaces="2" placeholder="$200" >
                     </p:inputNumber>
                 </div>
 
@@ -789,7 +790,7 @@
                             } else {
                                 PF('dlgPagoTarjeta2').show();
                             }
-                        }" styleClass="btn-info" style="width:100%;">
+                        }" styleClass="btn-info" >
                     <f:param name="proximo" value="dlgPagoTarjeta2" />
                 </p:commandButton>
 
@@ -828,7 +829,7 @@
 
                 <p:commandButton value="No, Pagar Completo" icon="pi pi-times" type="button"
                     onclick="PF('dlgAplicarCredito2').hide(); PF('#{RealizarPagoBeanUI.siguienteDialogo}').show();"
-                    styleClass="btn-baja" style="width:100%;" />
+                    styleClass="btn-baja"  />
 
             </h:panelGrid>
         </p:dialog>
@@ -836,12 +837,12 @@
         <p:dialog header="Pago con Tarjeta" widgetVar="dlgPagoTarjeta2" modal="true" resizable="false" closable="false"
             draggable="false" width="420">
 
-            <h:panelGrid id="panelPagoTarjeta2" columns="1" style="width:100%;">
+            <h:panelGrid id="panelPagoTarjeta2" columns="1" >
                 <p:messages id="msgsTarjeta2" showDetail="true" closable="true" />
 
                 <h:outputText value="Información del Cliente:" style="font-weight:bold; margin-bottom:10px;" />
 
-                <h:panelGrid columns="2" columnClasses="label,value" style="width:100%;">
+                <h:panelGrid columns="2" columnClasses="label,value" >
                     <h:outputText value="ID Cliente:" style="color:#000000;" />
                     <h:outputText value="#{RealizarPagoBeanUI.cliente.idCliente}" style="color:#000000;" />
 
@@ -893,13 +894,13 @@
         <p:dialog header="Realizar Pago en Efectivo" widgetVar="dlgPagoInteractivo2" modal="true" resizable="false"
             closable="true" draggable="false" width="400">
 
-            <h:panelGrid id="panelPagoInteractivo2" columns="1" style="width:100%;">
+            <h:panelGrid id="panelPagoInteractivo2" columns="1" >
                 <p:messages id="msgsPagoInteractivo2" showDetail="true" closable="true" />
 
                 <div class="form-group">
                     <h:outputLabel for="montoIngresado2" value="Monto ingresado" />
                     <p:inputNumber id="montoIngresado2" value="#{RealizarPagoBeanUI.montoIngresado}" minValue="0"
-                        decimalPlaces="2" style="width: 100%;">
+                        decimalPlaces="2" >
                         <p:ajax event="keyup" update="faltante2" process="@this" />
                     </p:inputNumber>
                 </div>
@@ -911,7 +912,7 @@
 
                 <p:commandButton value="Pagar" action="#{RealizarPagoBeanUI.realizarPagoInteractivoClase()}"
                     update="msgsPagoInteractivo2 faltante2" styleClass="btn-registrar" process="@this montoIngresado2"
-                    style="width:100%;" />
+                     />
             </h:panelGrid>
         </p:dialog>
 
@@ -958,12 +959,12 @@
             closable="true" width="380">
             <h:form id="formBuscarClienteAdelanto">
                 <p:messages id="msgsBuscarCliente" showDetail="true" closable="true" />
-                <h:panelGrid columns="1" style="width:100%;">
+                <h:panelGrid columns="1" >
 
                     <h:outputLabel for="idClienteAdelanto" value="ID Cliente" />
                     <p:inputText id="idClienteAdelanto" value="#{adelantarPagoBeanUI.idCliente}"
                         placeholder="Ej. CLI0001" required="true" requiredMessage="El ID del cliente es obligatorio."
-                        style="width:100%;" />
+                         />
 
                     <p:commandButton value="Buscar" icon="pi pi-search"
                         actionListener="#{adelantarPagoBeanUI.buscarCliente}" process="@form"
@@ -977,10 +978,10 @@
             width="380">
             <h:form id="formMontoAdelanto">
                 <p:messages id="msgsMontoAdelanto" showDetail="true" closable="true" />
-                <h:panelGrid columns="1" style="width:100%;">
+                <h:panelGrid columns="1" >
                     <h:outputLabel for="montoAdelantado" value="Monto" />
                     <p:inputNumber id="montoAdelantado" value="#{adelantarPagoBeanUI.montoAdelantado}" symbol="$"
-                        minValue="1" required="true" requiredMessage="El monto es obligatorio." style="width: 100%;" />
+                        minValue="1" required="true" requiredMessage="El monto es obligatorio."  />
 
                     <p:commandButton value="Registrar Adelanto" icon="pi pi-check"
                         actionListener="#{adelantarPagoBeanUI.registrarAdelanto}" process="@form"
@@ -994,10 +995,12 @@
             <h:form>
                 <h:outputText value="El pago por adelantado se ha registrado exitosamente."
                     style="display:block; text-align:center; margin:15px 0; font-weight:bold;" />
+            <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-top: 15px; width: 100%;">
                 <p:commandButton value="Aceptar" icon="pi pi-check-circle"
                     onclick="PF('dlgConfirmacionAdelanto').hide();" type="button" styleClass="btn-registrar"
-                    style="width:100%;" />
-            </h:form>
+                     />
+            </div>
+        </h:form>
 
         </p:dialog>
 
@@ -1005,10 +1008,10 @@
             width="380">
             <h:form id="formMontoRetirar">
                 <p:messages id="msgsMontoRetiro" showDetail="true" closable="true" />
-                <h:panelGrid columns="1" style="width:100%;">
+                <h:panelGrid columns="1" >
                     <h:outputLabel for="montoRetirado" value="Monto" />
                     <p:inputNumber id="montoRetirado" value="#{retirarDineroPagaBeanUI.montoRetirar}" symbol="$"
-                        minValue="1" required="true" requiredMessage="El monto es obligatorio." style="width: 100%;" />
+                        minValue="1" required="true" requiredMessage="El monto es obligatorio."  />
 
                     <h:outputLabel for="obsRetiro" value="Observaciones" style="margin-top:10px; display:block;" />
                     <p:inputTextarea id="obsRetiro" value="#{retirarDineroPagaBeanUI.observaciones}" rows="3"
@@ -1027,14 +1030,14 @@
             <h:outputText value="El retiro de caja se ha registrado exitosamente."
                 style="display:block; text-align:center; margin:15px 0; font-weight:bold;" />
             <p:commandButton value="Aceptar" icon="pi pi-check-circle" onclick="PF('dlgConfirmacionRetiro').hide();"
-                type="button" styleClass="btn-registrar" style="width:100%;" />
+                type="button" styleClass="btn-registrar"  />
         </p:dialog>
 
         <p:dialog header="Monto de Apertura de Caja" widgetVar="dlgMontoApertura" modal="true" resizable="false"
             closable="true" draggable="false" width="360">
 
             <h:form id="formMontoApertura">
-                <h:panelGrid columns="1" style="width:100%;">
+                <h:panelGrid columns="1" >
                     <p:messages id="msgsMontoApertura" showDetail="true" closable="true" />
 
                     <div class="form-group">
@@ -1047,7 +1050,7 @@
                     <p:commandButton value="Registrar Apertura" icon="pi pi-check"
                         action="#{inicioCajaBeanUI.registrarAperturaCaja}"
                         update="msgsMontoApertura formPagos:tablaPagos" process="@form" styleClass="btn-registrar"
-                        style="width:100%;" />
+                         />
                 </h:panelGrid>
             </h:form>
         </p:dialog>

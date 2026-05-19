@@ -568,10 +568,9 @@
             </div>
 
             <!-- Boton registrar usuario recepcionista -->
-            <div class="boton-registrar">
+            <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-top: 15px; width: 100%;">
                 <p:commandButton value="Registrar" actionListener="#{altaUsuarioRBeanUI.altaUsuarioRecepcionista()}"
-                    update=":globalMsgs :formRecep:tablaRecep :formNuevoRecep:msgsNuevoRecep" styleClass="btn-registrar"
-                    style="width:100%;" />
+                    update=":globalMsgs :formRecep:tablaRecep :formNuevoRecep:msgsNuevoRecep" styleClass="btn-registrar" />
             </div>
         </h:form>
     </p:dialog>
@@ -588,9 +587,11 @@
                     requiredMessage="Ingrese un ID" />
             </div>
 
-            <p:commandButton value="Buscar" icon="pi pi-search"
-                actionListener="#{modificarUsuarioRBeanUI.buscarUsuario}" update="msgsAsk :formModificar"
-                styleClass="btn-registrar" style="width:100%;" />
+            <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-top: 15px; width: 100%;">
+                <p:commandButton value="Buscar" icon="pi pi-search"
+                    actionListener="#{modificarUsuarioRBeanUI.buscarUsuario}" update="msgsAsk :formModificar"
+                    styleClass="btn-registrar" />
+            </div>
         </h:form>
     </p:dialog>
 
@@ -619,15 +620,15 @@
                         requiredMessage="La contraseña es obligatoria" onkeyup="validarFormRecep();" />
                 </div>
 
-                <div style="display:flex; gap:10px; margin-top: 15px;">
+                <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-top: 15px; width: 100%;">
                     <p:commandButton id="btnGuardarRecep" widgetVar="btnGuardarRecepWV" value="Guardar Cambios"
                         icon="pi pi-save" actionListener="#{modificarUsuarioRBeanUI.modificarUsuarioR}"
                         update="msgsModificar :globalMsgs :formRecep:tablaRecep"
                         oncomplete="if (args &amp;&amp; !args.validationFailed) { PF('dlgModificar').hide(); }"
-                        styleClass="btn-registrar btn-disabled" style="width:50%;" />
+                        styleClass="btn-registrar btn-disabled"  />
 
                     <p:commandButton value="Cancelar" icon="pi pi-times" type="button"
-                        onclick="PF('dlgModificar').hide();" styleClass="btn-cancelar" style="width:50%;" />
+                        onclick="PF('dlgModificar').hide();" styleClass="btn-cancelar"  />
                 </div>
             </h:panelGroup>
         </h:form>
@@ -642,11 +643,12 @@
                 <h:outputLabel value="ID Usuario" />
                 <p:inputText value="#{bajaUsuarioRBeanUI.idUsuario}" placeholder="Ej. UR1001" required="true" />
             </div>
-
-            <p:commandButton value="Eliminar" icon="pi pi-trash" process="@form"
+            <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-top: 15px; width: 100%;">
+                <p:commandButton value="Eliminar" icon="pi pi-trash" process="@form"
                 update="msgsEliminar :formRecep:tablaRecep"
                 oncomplete="if (args &amp;&amp; !args.validationFailed) { PF('dlgCapturaID').hide(); PF('dlgConfirmEliminar').show(); }"
-                styleClass="btn-baja" style="width:100%;" />
+                styleClass="btn-baja"  />
+            </div>
         </h:form>
     </p:dialog>
 
@@ -659,14 +661,14 @@
                 <h:outputText value="¿Seguro que deseas eliminar este usuario?"
                     style="font-weight:bold; display:block; margin-bottom:15px;" />
 
-                <div style="display:flex; gap:10px;">
+                <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-top: 15px; width: 100%;">
                     <p:commandButton value="Sí, Eliminar" actionListener="#{bajaUsuarioRBeanUI.bajaUsuario}"
                         update=":globalMsgs :formRecep:tablaRecep" oncomplete="PF('dlgConfirmEliminar').hide();"
-                        styleClass="btn-baja" style="width:100%; flex:1;" />
+                        styleClass="btn-baja" />
 
                     <p:commandButton value="Cancelar"
                         onclick="PF('dlgConfirmEliminar').hide(); PF('dlgCapturaID').show();" type="button"
-                        styleClass="btn-cancelar" style="width:100%; flex:1;" />
+                        styleClass="btn-cancelar" />
                 </div>
             </div>
         </h:form>
@@ -704,10 +706,9 @@
             </div>
 
             <!-- Boton registrar usuario admin -->
-            <div class="boton-registrar">
+            <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-top: 15px; width: 100%;">
                 <p:commandButton value="Registrar" actionListener="#{altaUsuarioABeanUI.altaUsuarioAdministrador()}"
-                    update=":globalMsgs :formAdmin:tablaAdmin :formNuevoAdmin:msgsNuevo" styleClass="btn-registrar"
-                    style="width:100%;" />
+                    update=":globalMsgs :formAdmin:tablaAdmin :formNuevoAdmin:msgsNuevo" styleClass="btn-registrar" />
             </div>
         </h:form>
     </p:dialog>
@@ -724,9 +725,11 @@
                     requiredMessage="Ingrese un ID" />
             </div>
 
-            <p:commandButton value="Buscar" icon="pi pi-search"
-                actionListener="#{modificarUsuarioABeanUI.buscarUsuario}" update="msgsAskAdmin :formModificarAdmin"
-                styleClass="btn-registrar" style="width:100%;" />
+            <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-top: 15px; width: 100%;">
+                <p:commandButton value="Buscar" icon="pi pi-search"
+                    actionListener="#{modificarUsuarioABeanUI.buscarUsuario}" update="msgsAskAdmin :formModificarAdmin"
+                    styleClass="btn-registrar" />
+            </div>
         </h:form>
     </p:dialog>
 
@@ -755,7 +758,7 @@
                         requiredMessage="La contraseña es obligatoria" onkeyup="validarFormAdmin();" />
                 </div>
 
-                <div style="display:flex; gap:10px; margin-top: 15px;">
+                <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-top: 15px; width: 100%;">
                     <p:commandButton id="btnGuardarAdmin" widgetVar="btnGuardarAdminWV" value="Guardar Cambios"
                         icon="pi pi-save" actionListener="#{modificarUsuarioABeanUI.modificarUsuarioA}"
                         update="msgsModificarAdmin :globalMsgs :formAdmin:tablaAdmin"
@@ -780,11 +783,12 @@
                 <h:outputLabel value="ID Administrador" />
                 <p:inputText value="#{bajaUsuarioABeanUI.idUsuario}" placeholder="Ej. UA1000" required="true" />
             </div>
-
-            <p:commandButton value="Eliminar" icon="pi pi-trash" process="@form"
+            <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-top: 15px; width: 100%;">
+                <p:commandButton value="Eliminar" icon="pi pi-trash" process="@form"
                 update="msgsEliminarAdmin :formAdmin:tablaAdmin"
                 oncomplete="if (args &amp;&amp; !args.validationFailed) { PF('dlgCapturaIDAdmin').hide(); PF('dlgConfirmEliminarAdmin').show(); }"
-                styleClass="btn-baja" style="width:100%;" />
+                styleClass="btn-baja"  />
+            </div>
         </h:form>
     </p:dialog>
 
@@ -797,15 +801,15 @@
                 <h:outputText value="¿Seguro que deseas eliminar este administrador?"
                     style="font-weight:bold; display:block; margin-bottom:15px;" />
 
-                <div style="display:flex; gap:10px;">
+                <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-top: 15px; width: 100%;">
                     <p:commandButton value="Sí, Eliminar" actionListener="#{bajaUsuarioABeanUI.bajaUsuario}"
                         update=":globalMsgs :formAdmin:tablaAdmin"
                         oncomplete="PF('dlgConfirmEliminarAdmin').hide(); PF('dlgCapturaIDAdmin').hide();"
-                        styleClass="btn-baja" style="width:100%; flex:1;" />
+                        styleClass="btn-baja" />
 
                     <p:commandButton value="Cancelar"
                         onclick="PF('dlgConfirmEliminarAdmin').hide(); PF('dlgCapturaIDAdmin').show();" type="button"
-                        styleClass="btn-cancelar" style="width:100%; flex:1;" />
+                        styleClass="btn-cancelar" />
                 </div>
             </div>
         </h:form>

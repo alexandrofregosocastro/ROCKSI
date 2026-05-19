@@ -795,7 +795,7 @@
                            minValue="1" decimalPlaces="0"
                            required="true"
                            requiredMessage="El campo Stock es obligatorio"
-                           style="width: 100%;">
+                           >
             </p:inputNumber>
         </div>
 
@@ -807,7 +807,7 @@
                            minValue="0.01" decimalPlaces="2"
                            required="true"
                            requiredMessage="El campo Precio es obligatorio"
-                           style="width: 100%;">
+                           >
             </p:inputNumber>
         </div>
 
@@ -818,7 +818,7 @@
                          placeholder="Ej. cocacola, nestle"
                          required="true"
                          requiredMessage="El campo Proveedor es obligatorio"/>
-        </div> <div class="boton-registrar">
+        </div> <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-top: 15px; width: 100%;">
         <p:commandButton id="registrarProductoBtn"
                          value="Registrar el producto"
                          icon="pi pi-plus-circle"
@@ -859,7 +859,7 @@
               width="420" rendered="#{loginBeanUI.isAdmin()}"> <h:form id="formModificarProd">
         <p:messages id="msgsModificar" showDetail="true" closable="true" />
 
-        <h:panelGrid columns="1" cellpadding="5" style="width:100%;">
+        <h:panelGrid columns="1" cellpadding="5" >
 
             <h:outputLabel for="nombre" value="Nombre"/>
             <p:inputText id="nombre" value="#{modificarProdBeanUI.nombre}"
@@ -919,13 +919,14 @@
                              required="true"
                              requiredMessage="El campo ID es obligatorio"/>
             </div>
-
-            <p:commandButton id="abrirConfirmarProductoBtn" value="Eliminar Producto"
+            <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-top: 15px; width: 100%;">
+                <p:commandButton id="abrirConfirmarProductoBtn" value="Eliminar Producto"
                              icon="pi pi-times-circle"
                              styleClass="btn-baja"
                              actionListener="#{bajaProductoBeanUI.prepararEliminacion(bajaProductoBeanUI.idProducto)}"
                              process="@this idEliminarProducto"
                              oncomplete="PF('dlgConfirmarProductoTabla').show(); PF('dlgEliminarProducto').hide();"/>
+            </div>
         </h:form>
     </p:dialog>
 
@@ -976,7 +977,7 @@
                                    minValue="0"
                                    decimalPlaces="2"
                                    placeholder="$200"
-                                   style="width: 100%;">
+                                   >
                     </p:inputNumber>
                 </div>
 
@@ -1086,12 +1087,12 @@
                   draggable="false"
                   width="420">
 
-            <h:panelGrid id="panelPagoTarjeta1" columns="1" style="width:100%;">
+            <h:panelGrid id="panelPagoTarjeta1" columns="1" >
                 <p:messages id="msgsTarjeta1" showDetail="true" closable="true"/>
 
                 <h:outputText value="Información del Cliente:" style="font-weight:bold; margin-bottom:10px;"/>
 
-                <h:panelGrid columns="2" columnClasses="label,value" style="width:100%;">
+                <h:panelGrid columns="2" columnClasses="label,value" >
                     <h:outputText value="ID Cliente:" style="color:#000000;"/>
                     <h:outputText value="#{tiendaBeanUI.cliente.idCliente}" style="color:#000000;"/>
 
@@ -1165,7 +1166,7 @@
                   draggable="false"
                   width="400">
 
-            <h:panelGrid id="panelPagoInteractivo1" columns="1" style="width:100%;">
+            <h:panelGrid id="panelPagoInteractivo1" columns="1" >
                 <p:messages id="msgsPagoInteractivo1" showDetail="true" closable="true"/>
 
                 <div class="form-group">
@@ -1174,7 +1175,7 @@
                                    value="#{tiendaBeanUI.montoIngresado}"
                                    minValue="0"
                                    decimalPlaces="2"
-                                   style="width: 100%;">
+                                   >
                         <p:ajax event="keyup" update="faltante1" process="@this"/>
                     </p:inputNumber>
                 </div>
@@ -1226,12 +1227,12 @@
                   draggable="false"
                   width="420">
 
-            <h:panelGrid id="panelPagoPorPagarM" columns="1" style="width:100%;">
+            <h:panelGrid id="panelPagoPorPagarM" columns="1" >
                 <p:messages id="msgsPorPagarM" showDetail="true" closable="true"/>
 
                 <h:outputText value="Información del Cliente:" style="font-weight:bold; margin-bottom:10px;"/>
 
-                <h:panelGrid columns="2" columnClasses="label,value" style="width:100%;">
+                <h:panelGrid columns="2" columnClasses="label,value" >
                     <h:outputText value="ID Cliente:" style="color:#000000;"/>
                     <h:outputText value="#{tiendaBeanUI.cliente.idCliente}" style="color:#000000;"/>
 
