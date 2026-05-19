@@ -23,7 +23,7 @@ public class ClaseDAO extends AbstractDAO<Clase> {
             contadorInicializado = true;
         }
     }
-
+//
     public List<Clase> findAllWithClientes() {
         return execute(em -> {
             //Limpia contexto antes de ejecutar la query
