@@ -816,13 +816,14 @@
     </p:dialog>
 
     <script type="text/javascript">
+        //<![CDATA[
         function validarFormRecep() {
             var nombre = document.getElementById('formModificar:nombreRecep').value.trim();
             var correo = document.getElementById('formModificar:correoRecep').value.trim();
             var pass = document.getElementById('formModificar:passRecep').value.trim();
 
             // Los 3 campos deben tener texto para que se active
-            if (nombre.length > 0 & amp;& amp; correo.length > 0 & amp;& amp; pass.length > 0) {
+            if (nombre.length > 0 && correo.length > 0 && pass.length > 0) {
                 PF('btnGuardarRecepWV').jq.removeClass('btn-disabled');
             } else {
                 PF('btnGuardarRecepWV').jq.addClass('btn-disabled');
@@ -835,12 +836,13 @@
             var pass = document.getElementById('formModificarAdmin:passAdmin').value.trim();
 
             // Los 3 campos deben tener texto para que se active
-            if (nombre.length > 0 & amp;& amp; correo.length > 0 & amp;& amp; pass.length > 0) {
+            if (nombre.length > 0 && correo.length > 0 && pass.length > 0) {
                 PF('btnGuardarAdminWV').jq.removeClass('btn-disabled');
             } else {
                 PF('btnGuardarAdminWV').jq.addClass('btn-disabled');
             }
         }
+        //]]>
     </script>
 
 </h:body>
